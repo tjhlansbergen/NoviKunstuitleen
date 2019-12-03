@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NoviKunstuitleen.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<NoviUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
