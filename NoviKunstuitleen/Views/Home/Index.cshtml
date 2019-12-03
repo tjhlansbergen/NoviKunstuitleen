@@ -1,7 +1,15 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welkom";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welkom kunstliefhebber!</h1>
-</div>
+    <div class="text-center">
+        <br />
+        <h1 class="display-4">Welkom kunstliefhebber!</h1>
+
+        <p class="login-controls">
+            <a asp-area="Identity" asp-page="/Account/Login">Log in</a>
+            óf
+            <a asp-area="Identity" asp-page="/Account/Register">Registreer</a>
+        </p>
+
+    </div>

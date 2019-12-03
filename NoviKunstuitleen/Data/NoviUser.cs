@@ -9,11 +9,12 @@ namespace NoviKunstuitleen.Data
 
     public enum NoviUserType
     {
-        Student, Teacher
+        Student, Docent
     };
     public class NoviUser : IdentityUser
     {
         public string NoviNumber { get; set; }
         public NoviUserType Type { get; set; }
     }
+
 }

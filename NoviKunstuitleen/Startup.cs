@@ -12,6 +12,7 @@ using NoviKunstuitleen.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NoviKunstuitleen.Areas.Identity;
 
 namespace NoviKunstuitleen
 {
@@ -31,7 +32,8 @@ namespace NoviKunstuitleen
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<NoviUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddClaimsPrincipalFactory<NoviUserClaimsPrincipalFactory>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

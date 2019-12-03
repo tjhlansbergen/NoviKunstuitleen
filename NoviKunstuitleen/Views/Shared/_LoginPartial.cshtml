@@ -3,25 +3,28 @@
 @inject SignInManager<NoviUser> SignInManager
 @inject UserManager<NoviUser> UserManager
 
-<ul class="navbar-nav">
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Welkom @User.Identity.Name</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Uitloggen</button>
-        </form>
-    </li>
+
+
+    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <ul>
+            <li>Gebruiker: @User.Identity.Name</li>
+            <li>Ingelogd als: <b>@(User.FindFirst("NoviUserType").Value)</b></li>
+            <li><button type="submit" class="link-btn">Uitloggen</button></li>
+        </ul>
+        
+    </form>
+
+    <!-- MANAGE PROFILE: -->
+    <!-- <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">()</a> -->
+
+
+
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Registreer</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Log in</a>
-    </li>
+    <p></p>
 }
-</ul>
+
