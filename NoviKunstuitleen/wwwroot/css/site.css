@@ -1,83 +1,104 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿
+/* ELEMENTS */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-/* Provide sufficient contrast against white background */
-a {
-    color: crimson;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.login-controls {
-    font-size: 24px;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    position: relative;
+    min-height: 100%;
 }
 
 ul {
     list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+a {
+    color: crimson;
+}
+
+/* CLASSES */
+
+@media screen and (min-width: 900px) {
+    /* breed */
+
+    .headerimage {
+        float: left;
+    }
+
+    .userinfo {
+        float: right;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .semicontent {
+        width: 50%;
+        float: left;
+    }
+
+    .semipaint {
+        width: 50%;
+        height: 100vh;
+        float: right;
+        left: 0px;
+        top: 0px;
+        background-image: url("../img/login.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+}
+
+@media screen and (max-width: 900px) {
+    /* smal */
+
+    .userinfo {        
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .semicontent {
+        width: 100%;
+        height: 65vh;
+    }
+    
+    .semipaint {
+        width: 100%;
+        height: 35vh;
+        left: 0px;
+        top: 0px;
+        background-image: url("../img/login.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: crimson;
+    border-color: firebrick;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: firebrick;
+    border-color: black;
+}
+
 
 .header {
-    text-align: center;
     overflow: hidden;
-    padding: 10px;
-}
-
-.header-left {
-    float: left;
-}
-
-.header-right {
-    float: right;
-    text-align: left;
-    font-size: 12px;
+    padding: 20px;
 }
 
 .link-btn {
@@ -87,12 +108,14 @@ ul {
     padding: 0px;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  text-align: center;
-  line-height: 60px;
-  color: darkslategrey;
+.form {
+    padding: 10%;
+}
+
+footer {
+    text-align: center;
+    width: 100%;
+    line-height: 25px;
+    color: darkslategrey;
+    padding: 20px;
 }

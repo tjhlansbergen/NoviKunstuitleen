@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using NoviKunstuitleen.Data
+@inject SignInManager<NoviUser> SignInManager
+@inject UserManager<NoviUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <header class="header box-shadow">
+
+        <div class="headerimage">
+            <a asp-area="" asp-controller="Home" asp-action="Index"><img src="~/img/header.png" alt="Novi Hogeschool"></a>
+        </div>
+
+        <div class="userinfo">
+
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <ul>
+                    <li>Gebruiker: @User.Identity.Name</li>
+                    <li>Ingelogd als: <b>@(User.FindFirst("NoviUserType").Value)</b></li>
+                    <li><button type="submit" class="link-btn">Uitloggen</button></li>
+                </ul>
+
+            </form>
+
+            <!-- MANAGE PROFILE: -->
+            <!-- <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">()</a> -->
+
+        </div>
+
+    </header>
+
+}
+
+

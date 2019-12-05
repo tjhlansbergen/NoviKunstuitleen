@@ -48,7 +48,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Email adres")]
             public string Email { get; set; }
 
             [Required]
@@ -67,7 +67,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             public string Number { get; set; }
 
             [Required]
-            [Display(Name = "Ik ben een:")]
+            [Display(Name = "Ik ben een")]
             public NoviUserType Type { get; set; }
         }
 

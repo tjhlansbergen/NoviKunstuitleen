@@ -4,16 +4,22 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="row">
-    <div class="col-md-4">
+<div class="semipaint">
+    <!-- lege div met achtergrond -->
+</div>
+
+<div class="semicontent">
+    <div class="form">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Maak een nieuw account:</h4>
             <hr />
             <div class="form-group">
                 <label asp-for="Input.Type"></label>
                 <br />
+                &nbsp;&nbsp;
                 <input asp-for="Input.Type" type="radio" value="@NoviUserType.Student" /> Novi Student
-                <input asp-for="Input.Type" type="radio" value="@NoviUserType.Teacher" /> Novi Docent
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input asp-for="Input.Type" type="radio" value="@NoviUserType.Docent" /> Novi Docent
                 <span asp-validation-for="Input.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -21,7 +27,6 @@
                 <input asp-for="Input.Number" class="form-control" />
                 <span asp-validation-for="Input.Number" class="text-danger"></span>
             </div>
-            <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
@@ -41,7 +46,6 @@
             <button type="submit" class="btn btn-primary">Registreer</button>
         </form>
     </div>
-    
 </div>
 
 @section Scripts {

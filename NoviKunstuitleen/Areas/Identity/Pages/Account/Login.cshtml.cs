@@ -48,6 +48,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Email adres")]
             public string Email { get; set; }
 
             [Required]
@@ -55,8 +56,9 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Gebruikersnaam onthouden?")]
             public bool RememberMe { get; set; }
+            
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -85,6 +87,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -101,7 +104,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Mislukte inlogpoging");
                     return Page();
                 }
             }
