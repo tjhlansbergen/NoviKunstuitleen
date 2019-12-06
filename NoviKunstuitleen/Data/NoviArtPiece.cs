@@ -11,7 +11,11 @@ namespace NoviKunstuitleen.Data
     /// </summary>
     public class NoviArtPiece
     {
+        // identifier als primary key in de database
+        public int Id { get; set; }
+
         // naam van het kunstobject
-        public string Title;
+        public string Title { get; set; }
+
     }
 }

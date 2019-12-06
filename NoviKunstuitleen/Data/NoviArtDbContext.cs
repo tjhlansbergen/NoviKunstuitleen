@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NoviKunstuitleen.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<NoviUser>
+    public class NoviArtDbContext : IdentityDbContext<NoviUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public NoviArtDbContext(DbContextOptions<NoviArtDbContext> options)
             : base(options)
         {
         }
+
+        public DbSet<NoviArtPiece> NoviArtCollection { get; set; }
     }
 }

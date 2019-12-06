@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@model NoviKunstuitleen.Models.IndexViewModel
+
+@using Microsoft.AspNetCore.Identity
 @using NoviKunstuitleen.Data
 @inject SignInManager<NoviUser> SignInManager
 @inject UserManager<NoviUser> UserManager
@@ -7,18 +9,26 @@
     ViewData["Title"] = "Collectie";
 }
 
-<div class="fullcontent">
+    <div class="fullcontent">
 
-    @if (SignInManager.IsSignedIn(User) && User.FindFirst("NoviUserType").Value == "Docent")
-    {
+        @if (SignInManager.IsSignedIn(User) && User.FindFirst("NoviUserType").Value == "Docent")
+        {
 
-        <a class="largelink" asp-area="" asp-controller="Home" asp-action="NewArtPiece">PLAATS NIEUW KUNSTOBJECT</a>
-    }
+            <a class="largelink" asp-area="" asp-controller="Home" asp-action="NewArtPiece">PLAATS NIEUW KUNSTOBJECT</a>
+        }
 
-    <h3>
-        ...Collectie...
-    </h3>
-</div>
+        <h3>Uitgelicht</h3>
+
+        <hr />
+
+        <ul>
+            @foreach (var artpiece in Model.Pieces)
+            {
+                <li>artpiece.Title</li>
+            }
+        </ul>
+
+    </div>
 
 <footer class="footer">
     &copy; 2019 - Tako Lansbergen

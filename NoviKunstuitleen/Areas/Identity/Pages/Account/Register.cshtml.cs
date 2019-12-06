@@ -42,6 +42,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        // verwijderen?
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
@@ -74,6 +75,8 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+
+            // verwijderen?
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 

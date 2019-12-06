@@ -10,8 +10,8 @@ using NoviKunstuitleen.Data;
 namespace NoviKunstuitleen.Data.Migrations
 {
     [DbContext(typeof(NoviArtDbContext))]
-    [Migration("20191203090640_NoviUser")]
-    partial class NoviUser
+    [Migration("20191206124634_AppCollection")]
+    partial class AppCollection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,6 +154,21 @@ namespace NoviKunstuitleen.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("NoviKunstuitleen.Data.NoviArtPiece", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NoviArtCollection");
                 });
 
             modelBuilder.Entity("NoviKunstuitleen.Data.NoviUser", b =>
