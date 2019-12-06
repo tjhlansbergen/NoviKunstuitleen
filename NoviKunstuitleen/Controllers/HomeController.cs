@@ -10,7 +10,6 @@ using NoviKunstuitleen.Models;
 
 namespace NoviKunstuitleen.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -29,6 +28,12 @@ namespace NoviKunstuitleen.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult NewArtPiece()
+        {
+
+            return View();
         }
     }
 }

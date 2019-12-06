@@ -7,10 +7,19 @@ using System.Threading.Tasks;
 namespace NoviKunstuitleen.Data
 {
 
+    /// <summary>
+    /// Enumeratie voor de verschillende typen gebruiker
+    /// </summary>
     public enum NoviUserType
     {
-        Student, Docent
+        Student, Docent, Admin
     };
+
+    
+    /// <summary>
+    /// Aangepast implementatie van ASP IdentityUser met de extra velden voor het Novi nummer en gebruikerstype
+    /// nb. de generieke velden zoals naam, email en wachtwoord komen uit de superklasse IdentityUser
+    /// </summary>
     public class NoviUser : IdentityUser
     {
         public string NoviNumber { get; set; }

@@ -1,8 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Welkom";
+﻿@using Microsoft.AspNetCore.Identity
+@using NoviKunstuitleen.Data
+@inject SignInManager<NoviUser> SignInManager
+@inject UserManager<NoviUser> UserManager
+
+@{
+    ViewData["Title"] = "Collectie";
 }
 
-<div>
+<div class="fullcontent">
+
+    @if (SignInManager.IsSignedIn(User) && User.FindFirst("NoviUserType").Value == "Docent")
+    {
+
+        <a class="largelink" asp-area="" asp-controller="Home" asp-action="NewArtPiece">PLAATS NIEUW KUNSTOBJECT</a>
+    }
+
     <h3>
         ...Collectie...
     </h3>

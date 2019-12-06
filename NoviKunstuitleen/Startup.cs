@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NoviKunstuitleen.Areas.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace NoviKunstuitleen
 {
@@ -36,6 +38,15 @@ namespace NoviKunstuitleen
                 .AddClaimsPrincipalFactory<NoviUserClaimsPrincipalFactory>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // forceer verplicht inloggen voor alle controllers
+            services.AddControllers(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

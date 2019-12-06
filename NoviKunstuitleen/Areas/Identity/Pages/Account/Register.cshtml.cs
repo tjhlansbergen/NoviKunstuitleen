@@ -46,12 +46,12 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Dit veld is verplicht")]
             [EmailAddress]
             [Display(Name = "Email adres")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Dit veld is verplicht")]
             [StringLength(100, ErrorMessage = "Het {0} moet minstens {2} maximaal {1} tekens lang zijn.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Wachtwoord")]
@@ -62,11 +62,11 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overeen")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Dit veld is verplicht")]
             [Display(Name = "Novi student/docent nummer")]
             public string Number { get; set; }
 
-            [Required]
+            [Required(ErrorMessage ="Dit veld is verplicht")]
             [Display(Name = "Ik ben een")]
             public NoviUserType Type { get; set; }
         }

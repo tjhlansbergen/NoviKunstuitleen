@@ -37,6 +37,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // verwijderen?
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
@@ -73,6 +74,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+            // verwijderen?
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
