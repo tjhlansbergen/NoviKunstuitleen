@@ -1,0 +1,70 @@
+﻿@model NoviKunstuitleen.Data.NoviArtPiece
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="create">
+    <h4>Voeg nieuw kunstobject toe:</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddArtPiece">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" placeholder="Naam of titel van het werk" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Artist" class="control-label"></label>
+                    <input asp-for="Artist" class="form-control" placeholder="Naam van de maker van het werk" />
+                    <span asp-validation-for="Artist" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lender" class="control-label"></label>
+                    <input asp-for="Lender" class="form-control" placeholder="Uw naam" />
+                    <span asp-validation-for="Lender" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" placeholder="Als heel bedrag in Novi-coins" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Dimensions" class="control-label"></label>
+                    <input asp-for="Dimensions" class="form-control" placeholder="Bijvoorbeeld: 90x60cm" />
+                    <span asp-validation-for="Dimensions" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Frame" class="control-label"></label>
+                    <input asp-for="Frame" class="form-control" placeholder="Bijvoorbeeld: 'Aluminium' of 'Barok'" />
+                    <span asp-validation-for="Frame" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" type="text" placeholder="Geef een korte omschrijving van het kunstobject"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Annuleer</a>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

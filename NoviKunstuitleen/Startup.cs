@@ -54,6 +54,14 @@ namespace NoviKunstuitleen
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
+
+            // definieer rollen op basis van gebruikerstype
+            services.AddAuthorization(options =>
+            {
+                // voeg rol toe op basis van Claim-naam (en niet het veld Type van NoviUser)
+                options.AddPolicy("DocentOnly", policy => policy.RequireClaim("NoviUserType", NoviUserType.Docent.ToString()));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("NoviUserType", NoviUserType.Docent.ToString()));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

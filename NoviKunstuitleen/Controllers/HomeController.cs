@@ -33,15 +33,26 @@ namespace NoviKunstuitleen.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult NewArtPiece()
+        [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent
+        public IActionResult Create()
         {
-            _logger.LogInformation("User created a new ArtPiece");
+            return View();
+        }
 
-            var piece = new NoviArtPiece();
-            piece.Title = "Victory Boogy Woogie";
+        [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent
+        public IActionResult AddArtPiece(NoviArtPiece piece)
+        {
+            // voeg beschikbaarheidsinfo toe aan item
+            piece.AvailableFrom = DateTime.UtcNow;
+
+            // Voeg resultaat toe aan de database
             _dbcontext.Add<NoviArtPiece>(piece);
             _dbcontext.SaveChanges();
 
+            // Maak entry in log
+            _logger.LogInformation("User created a new artpiece with id: {0}", piece.Id);
+
+            // en keer terug naar de collectie-pagina
             return View("Index", new IndexViewModel(_dbcontext.NoviArtCollection.ToList()));
         }
     }

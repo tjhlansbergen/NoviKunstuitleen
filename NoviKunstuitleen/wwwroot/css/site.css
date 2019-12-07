@@ -84,12 +84,23 @@ footer {
         background-repeat: no-repeat;
         background-size: cover;
     }
+
+    .headerback {
+        height: auto;
+        width: auto;
+        max-width: 300px;
+        max-height: 300px;
+    }
+    
+}
+
+.create {
+    padding: 20px;
 }
 
 .fullcontent {
     padding: 20px;
 }
-
 
 .box-shadow {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);

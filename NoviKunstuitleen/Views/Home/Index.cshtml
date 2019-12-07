@@ -9,26 +9,32 @@
     ViewData["Title"] = "Collectie";
 }
 
-    <div class="fullcontent">
+<div class="fullcontent">
 
-        @if (SignInManager.IsSignedIn(User) && User.FindFirst("NoviUserType").Value == "Docent")
+    @if (SignInManager.IsSignedIn(User) && User.FindFirst("NoviUserType").Value == "Docent")
+    {
+
+        <a class="largelink" asp-area="" asp-controller="Home" asp-action="Create">PLAATS NIEUW KUNSTOBJECT</a>
+    }
+
+    <h3>Uitgelicht</h3>
+
+    <hr />
+
+    <ul>
+        @foreach (var artpiece in Model.Pieces)
         {
-
-            <a class="largelink" asp-area="" asp-controller="Home" asp-action="NewArtPiece">PLAATS NIEUW KUNSTOBJECT</a>
+        <li>
+            <ul>
+                <li>Titel: @artpiece.Title</li>
+                <li>Aangeboden door: @artpiece.Lender</li>
+                <li>Prijs: @artpiece.Price</li>
+            </ul>
+        </li>
         }
+    </ul>
 
-        <h3>Uitgelicht</h3>
-
-        <hr />
-
-        <ul>
-            @foreach (var artpiece in Model.Pieces)
-            {
-                <li>@artpiece.Title</li>
-            }
-        </ul>
-
-    </div>
+</div>
 
 <footer class="footer">
     &copy; 2019 - Tako Lansbergen
