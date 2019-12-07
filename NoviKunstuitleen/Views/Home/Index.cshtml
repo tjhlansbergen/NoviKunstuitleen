@@ -11,7 +11,7 @@
 
 <div class="fullcontent">
 
-    @if (SignInManager.IsSignedIn(User) && User.FindFirst("NoviUserType").Value == "Docent")
+    @if (SignInManager.IsSignedIn(User) && User.FindFirst("Type").Value == "Docent")
     {
 
         <a class="largelink" asp-area="" asp-controller="Home" asp-action="Create">PLAATS NIEUW KUNSTOBJECT</a>

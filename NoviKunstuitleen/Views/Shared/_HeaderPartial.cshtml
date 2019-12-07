@@ -17,7 +17,7 @@
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <ul>
                     <li>Gebruiker: @User.Identity.Name</li>
-                    <li>Ingelogd als: <b>@(User.FindFirst("NoviUserType").Value)</b></li>
+                    <li>Ingelogd als: <b>@User.FindFirst("Type").Value</b></li>
                     <li><button type="submit" class="link-btn">Uitloggen</button></li>
                 </ul>
 

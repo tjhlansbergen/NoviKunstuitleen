@@ -22,6 +22,7 @@ namespace NoviKunstuitleen.Data
     /// </summary>
     public class NoviUser : IdentityUser
     {
+        public string DisplayName { get; set; }
         public string NoviNumber { get; set; }
         public NoviUserType Type { get; set; }
     }

@@ -42,8 +42,9 @@ namespace NoviKunstuitleen.Controllers
         [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent
         public IActionResult AddArtPiece(NoviArtPiece piece)
         {
-            // voeg beschikbaarheidsinfo toe aan item
+            // voeg beschikbaarheidsinfo, en aanbieder toe aan item
             piece.AvailableFrom = DateTime.UtcNow;
+            piece.Lender = User.FindFirst("DisplayName").Value;
 
             // Voeg resultaat toe aan de database
             _dbcontext.Add<NoviArtPiece>(piece);

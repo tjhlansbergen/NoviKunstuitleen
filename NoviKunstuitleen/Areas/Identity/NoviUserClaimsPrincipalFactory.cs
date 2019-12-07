@@ -22,7 +22,8 @@ namespace NoviKunstuitleen.Areas.Identity
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(NoviUser user)
         {
             var identity = await base.GenerateClaimsAsync(user);
-            identity.AddClaim(new Claim("NoviUserType", user.Type.ToString()));
+            identity.AddClaim(new Claim("Type", user.Type.ToString()));
+            identity.AddClaim(new Claim("DisplayName", user.DisplayName));
             return identity;
         }
     }

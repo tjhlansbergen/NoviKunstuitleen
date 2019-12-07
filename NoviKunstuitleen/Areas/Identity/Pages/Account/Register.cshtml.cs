@@ -64,6 +64,10 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required(ErrorMessage = "Dit veld is verplicht")]
+            [Display(Name = "Weergavenaam")]
+            public string DisplayName { get; set; }
+
+            [Required(ErrorMessage = "Dit veld is verplicht")]
             [Display(Name = "Novi student/docent nummer")]
             public string Number { get; set; }
 
@@ -86,7 +90,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new NoviUser { UserName = Input.Email, Email = Input.Email, NoviNumber = Input.Number, Type = Input.Type };
+                var user = new NoviUser { UserName = Input.Email, Email = Input.Email, NoviNumber = Input.Number, Type = Input.Type, DisplayName = Input.DisplayName };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
