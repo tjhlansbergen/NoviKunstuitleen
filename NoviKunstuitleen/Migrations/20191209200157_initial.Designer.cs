@@ -9,8 +9,8 @@ using NoviKunstuitleen.Data;
 namespace NoviKunstuitleen.Migrations
 {
     [DbContext(typeof(NoviArtDbContext))]
-    [Migration("20191207135003_user-display-name")]
-    partial class userdisplayname
+    [Migration("20191209200157_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -172,12 +172,10 @@ namespace NoviKunstuitleen.Migrations
                     b.Property<string>("Frame")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ImageContent")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Lender")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Price")

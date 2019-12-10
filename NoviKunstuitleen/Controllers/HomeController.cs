@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NoviKunstuitleen.Data;
 using NoviKunstuitleen.Models;
+using NoviKunstuitleen.StaticHelpers;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -46,6 +48,30 @@ namespace NoviKunstuitleen.Controllers
             piece.AvailableFrom = DateTime.UtcNow;
             piece.Lender = User.FindFirst("DisplayName").Value;
 
+            // upload de afbeelding
+            using (var memoryStream = new MemoryStream())
+            {
+                // lees bestand in
+                piece.Image.CopyTo(memoryStream);
+
+                // verifieer bestand
+                if (!FileHelper.IsValidFile(piece.Image.FileName, memoryStream))
+                {
+                    // TODO ModelState? + testen!
+                    ModelState.AddModelError("Image", "Ongeldige foto, het bestand mag maximaal 2mb groot zijn, en moet van het type 'gif', 'png' of 'jpg' zijn!");
+                }
+
+                // controleer of er zich geen problemen hebben voorgedaan, 
+                if (!ModelState.IsValid)
+                {
+                    return View("Create", piece);
+                }
+
+                // alles ok voeg afbeelding toe aan item
+                piece.ImageContent = memoryStream.ToArray();
+
+            }
+
             // Voeg resultaat toe aan de database
             _dbcontext.Add<NoviArtPiece>(piece);
             _dbcontext.SaveChanges();
@@ -55,6 +81,6 @@ namespace NoviKunstuitleen.Controllers
 
             // en keer terug naar de collectie-pagina
             return View("Index", new IndexViewModel(_dbcontext.NoviArtCollection.ToList()));
-        }
+        }        
     }
 }

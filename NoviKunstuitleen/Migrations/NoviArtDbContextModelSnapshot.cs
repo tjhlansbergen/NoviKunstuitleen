@@ -170,12 +170,10 @@ namespace NoviKunstuitleen.Migrations
                     b.Property<string>("Frame")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ImageContent")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Lender")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Price")

@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-NoviKunstuitleen-6CF1AF3B-9888-4FB8-B6B3-73733157B6DF</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20191209195725_intial.cs" />
+    <Compile Remove="Migrations\20191209195725_intial.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />

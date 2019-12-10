@@ -40,6 +40,7 @@ namespace NoviKunstuitleen.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    DisplayName = table.Column<string>(nullable: true),
                     NoviNumber = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false)
                 },
@@ -55,13 +56,14 @@ namespace NoviKunstuitleen.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Lender = table.Column<string>(nullable: false),
+                    Artist = table.Column<string>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Dimensions = table.Column<string>(nullable: true),
                     Frame = table.Column<string>(nullable: true),
-                    Image = table.Column<string>(nullable: false),
-                    AvailableFrom = table.Column<DateTime>(nullable: false)
+                    Description = table.Column<string>(nullable: true),
+                    AvailableFrom = table.Column<DateTime>(nullable: false),
+                    Lender = table.Column<string>(nullable: true),
+                    ImageContent = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
