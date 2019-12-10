@@ -40,7 +40,7 @@ namespace NoviKunstuitleen
 
             
 
-            services.AddDefaultIdentity<NoviUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<NoviUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<NoviArtDbContext>()
                 .AddClaimsPrincipalFactory<NoviUserClaimsPrincipalFactory>();
             services.AddControllersWithViews();

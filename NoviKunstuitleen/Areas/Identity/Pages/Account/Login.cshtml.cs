@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NoviKunstuitleen.Data;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Areas.Identity.Pages.Account
 {
+
+    /// <summary>
+    /// Automatisch gegenereerde klasse (dmv scaffolding) voor het inloggen van een gebruiker
+    /// Bron: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-3.0
+    /// </summary>
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly UserManager<NoviUser> _userManager;
         private readonly SignInManager<NoviUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
 
         public LoginModel(SignInManager<NoviUser> signInManager, 
             ILogger<LoginModel> logger,
@@ -30,7 +31,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
             _logger = logger;
         }
 
@@ -38,7 +39,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
         public InputModel Input { get; set; }
 
         // verwijderen?
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        //public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -57,8 +58,7 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
 
-            [Display(Name = "Gebruikersnaam onthouden?")]
-            public bool RememberMe { get; set; }
+            //public bool RememberMe { get; set; }
             
         }
 
@@ -71,11 +71,10 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
 
             returnUrl = returnUrl ?? Url.Content("~/");
 
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             // verwijderen?
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            // ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
         }
@@ -86,35 +85,34 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, isPersistent: false, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
+                /*
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
+                */
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Dit account is vergrendeld");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Mislukte inlogpoging");
+                    ModelState.AddModelError(string.Empty, "Inlogpoging mislukt");
                     return Page();
                 }
             }
-
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 
+        /*
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
             if (!ModelState.IsValid)
@@ -143,5 +141,6 @@ namespace NoviKunstuitleen.Areas.Identity.Pages.Account
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();
         }
+        */
     }
 }
