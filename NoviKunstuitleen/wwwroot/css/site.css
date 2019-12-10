@@ -91,7 +91,10 @@ footer {
         max-width: 300px;
         max-height: 300px;
     }
-    
+
+    .imagepreviewbox {
+        display: none;
+    }
 }
 
 .create {
@@ -145,4 +148,14 @@ footer {
     margin-top: 10px;
     margin-bottom: 10px;
     display: inline-block;
+}
+
+.imagepreview {
+    display: block;
+    max-width: 550px;
+    max-height: 550px;
+    width: auto;
+    height: auto;
+    border: 1px dotted grey;
+    margin-top: 8px;
 }
