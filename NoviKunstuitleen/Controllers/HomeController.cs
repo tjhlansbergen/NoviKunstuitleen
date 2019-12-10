@@ -57,7 +57,7 @@ namespace NoviKunstuitleen.Controllers
                 // verifieer bestand
                 if (!FileHelper.IsValidFile(piece.Image.FileName, memoryStream))
                 {
-                    // TODO ModelState? + testen!
+                    // Toon foutmelding indien afbeelding niet valide
                     ModelState.AddModelError("Image", "Ongeldige foto, het bestand mag maximaal 2mb groot zijn, en moet van het type 'gif', 'png' of 'jpg' zijn!");
                 }
 
@@ -69,6 +69,8 @@ namespace NoviKunstuitleen.Controllers
 
                 // alles ok voeg afbeelding toe aan item
                 piece.ImageContent = memoryStream.ToArray();
+
+                // TODO file extension opslaan
 
             }
 

@@ -40,6 +40,7 @@ namespace NoviKunstuitleen.Data
         public IFormFile Image { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [StringLength(140, ErrorMessage = "Maximaal 140 karakters")]
         [Display(Name = "Omschrijving:")]
         public string Description { get; set; }
 

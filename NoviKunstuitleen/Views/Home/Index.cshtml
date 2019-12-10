@@ -11,28 +11,61 @@
 
 <div class="fullcontent">
 
+    <!-- NIEUW OBJECT, alleen tonen voor docenten -->
     @if (SignInManager.IsSignedIn(User) && User.FindFirst("Type").Value == "Docent")
     {
-
-        <a class="largelink" asp-area="" asp-controller="Home" asp-action="Create">PLAATS NIEUW KUNSTOBJECT</a>
+    <a class="largelink" asp-area="" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
     }
 
-    <h3>Uitgelicht</h3>
+    <!-- UITGELICHT -->
+    <div class="highlighted">
+        <h3 class="highlighted">Uitgelicht</h3>
+        <div>
+            <div class="highlightedcontent">
+                <ul>
+                    <li><b>@Model.HighlightedPiece.Artist - @Model.HighlightedPiece.Title</b></li>
+                    <li>Afmetingen: @Model.HighlightedPiece.Dimensions</li>
+                    <li>Lijst: @Model.HighlightedPiece.Frame</li>
+                    <li>&nbsp;</li>
+                    <li>@Model.HighlightedPiece.Description</li>
+                    <li>&nbsp;</li>
+                    <li>Aangeboden door: @Model.HighlightedPiece.Lender</li>
+                    <li>Prijs: @Model.HighlightedPiece.Price</li>
+                    <li class="texthighlight">&check; Beschikbaar!</li>
 
-    <hr />
+                </ul>
+            </div>
+            @if (Model.HighlightedPiece.ImageContent != null)
+            {
+                string img64 = Convert.ToBase64String(Model.HighlightedPiece.ImageContent);
+                string img64Url = string.Format("data:image/jpg;base64,{0}", img64);    // TODO mediatype uit DB halen
+                <img class="imagehighlight" src="@img64Url" />
+            }
+            else
+            {
+                <img class="imagehighlight" src="~/img/noimage.png" />
+            }
 
-    <ul>
-        @foreach (var artpiece in Model.Pieces)
-        {
-        <li>
-            <ul>
-                <li>Titel: @artpiece.Title</li>
-                <li>Aangeboden door: @artpiece.Lender</li>
-                <li>Prijs: @artpiece.Price</li>
-            </ul>
-        </li>
-        }
-    </ul>
+        </div>
+    </div>
+
+
+
+    <!-- COLLECTIE -->
+    <div>
+        <ul>
+            @foreach (var artpiece in Model.Pieces)
+            {
+                <li>
+                    <ul>
+                        <li><b>Titel: @artpiece.Title</b></li>
+                        <li>Aangeboden door: @artpiece.Lender</li>
+                        <li>Prijs: @artpiece.Price</li>
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
 
 </div>
 

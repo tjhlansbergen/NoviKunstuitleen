@@ -60,12 +60,34 @@ footer {
         background-size: cover;
     }
 
+    .highlighted {
+        background-color: blanchedalmond;
+        max-width: 1200px;
+        max-height: 600px;
+    }
+
+    .highlightedcontent {
+        float: left;
+        width: 50%;
+        padding-left: 40px;
+        padding-right: 10px;
+        padding-bottom: 40px;
+    }
+
+    .imagehighlight {
+        display: inline;
+        padding-left: 10px;
+        padding-right: 40px;
+        padding-bottom: 40px;
+        max-height: 500px;
+        max-width: 50%;
+    }
 }
 
 @media screen and (max-width: 900px) {
     /* smal */
 
-    .userinfo {        
+    .userinfo {
         text-align: left;
         font-size: 14px;
     }
@@ -74,7 +96,7 @@ footer {
         width: 100%;
         height: 65vh;
     }
-    
+
     .semipaint {
         width: 100%;
         height: 35vh;
@@ -94,6 +116,25 @@ footer {
 
     .imagepreviewbox {
         display: none;
+    }
+
+    .highlighted {
+        background-color: blanchedalmond;
+    }
+
+    .highlightedcontent {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+    }
+
+    .imagehighlight {
+        display: inline;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        max-width: 100%;
+        max-height: 600px;
     }
 }
 
@@ -115,11 +156,11 @@ footer {
     border-color: firebrick;
 }
 
-.btn-primary:hover {
-    color: #fff;
-    background-color: firebrick;
-    border-color: black;
-}
+    .btn-primary:hover {
+        color: #fff;
+        background-color: firebrick;
+        border-color: black;
+    }
 
 
 .header {
@@ -139,16 +180,23 @@ footer {
 }
 
 .largelink {
-    font-size: 24px;
-    color: crimson;
+    font-size: 1.75rem;
+    color: white;
     text-decoration: none;
-    border: 2px solid crimson;
     padding-right: 6px;
     padding-left: 6px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     display: inline-block;
+    background-color: darkslateblue;
+    border: 2px solid darkslateblue;
 }
+
+    .largelink:hover {
+        color: white;
+        text-decoration: none;
+        border: 2px solid black;
+    }
 
 .imagepreview {
     display: block;
@@ -158,4 +206,15 @@ footer {
     height: auto;
     border: 1px dotted grey;
     margin-top: 8px;
+}
+
+h3.highlighted {
+    font-weight: bold;
+    color: darkslateblue;
+    padding: 20px;
+}
+
+.texthighlight {
+    color: limegreen;
+    font-weight: bold;
 }
