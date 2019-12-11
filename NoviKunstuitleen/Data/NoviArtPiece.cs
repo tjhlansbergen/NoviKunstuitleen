@@ -35,7 +35,7 @@ namespace NoviKunstuitleen.Data
         public string Frame { get; set; }
 
         [Required]
-        [NotMapped]
+        [NotMapped]     // uitsluiten van ORM
         [Display(Name = "Foto:")]
         public IFormFile Image { get; set; }
 
@@ -50,6 +50,7 @@ namespace NoviKunstuitleen.Data
         public DateTime AvailableFrom { get; set; }
         public string Lender { get; set; }
         public byte[] ImageContent { get; set; }
-
+        public string ImageType { get; set; }
+        
     }
 }

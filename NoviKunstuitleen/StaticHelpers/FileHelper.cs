@@ -12,7 +12,7 @@ namespace NoviKunstuitleen.StaticHelpers
     {
         // toegestande bestandsextensies:
         private static readonly string[] _permittedExtensions = { ".gif", ".png", ".jpg", ".jpeg" };
-        private static readonly long _permittedFileSize = 2097152;
+
 
         // filesignatures om bestands-extensie met de inhoud te kunnen vergelijken (https://www.filesignatures.net/):
         private static readonly Dictionary<string, List<byte[]>> _fileSignature = new Dictionary<string, List<byte[]>>
@@ -23,18 +23,23 @@ namespace NoviKunstuitleen.StaticHelpers
             { ".jpg", new List<byte[]> { new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 }, new byte[] { 0xFF, 0xD8, 0xFF, 0xE1 }, new byte[] { 0xFF, 0xD8, 0xFF, 0xE8 } } }
         };
 
-        // statische functie om bestand te verifieren
-        // retourneert:
-        //  true voor valide bestanden
-        //  false voor malafiede bestanden
-        public static bool IsValidFile(string fileName, Stream data)
+
+        /// <summary>
+        /// Statische functie om bestand te verifieren
+        /// </summary>
+        /// <param name="fileName">bestandsnaam + extensie</param>
+        /// <param name="data">Inhoud als stream</param>
+        /// <param name="permittedExtensions">Toegestane waardes uit (.gif, .png, .jpg, .jpeg)</param>
+        /// <param name="permittedFileSize">Maximaal toegestane grootte als long in bytes</param>
+        /// <returns>true voor valide bestanden, false voor malafiede bestanden</returns>
+        public static bool IsValidFile(string fileName, Stream data, string[] permittedExtensions, long permittedFileSize)
         {
             // check of het bestand inhoud heeft, niet te klein of te groot is.
-            if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0 || data.Length > _permittedFileSize) return false;
+            if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0 || data.Length > permittedFileSize) return false;
 
             // check of een bestandsextensie heeft 
             var ext = Path.GetExtension(fileName).ToLowerInvariant();
-            if (string.IsNullOrEmpty(ext) || !_permittedExtensions.Contains(ext)) return false;
+            if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext)) return false;
 
             // check de inhoud van het bestand
             data.Position = 0;

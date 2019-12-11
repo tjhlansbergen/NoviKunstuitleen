@@ -162,7 +162,8 @@ namespace NoviKunstuitleen.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(140);
 
                     b.Property<string>("Dimensions")
                         .HasColumnType("TEXT");
@@ -172,6 +173,9 @@ namespace NoviKunstuitleen.Migrations
 
                     b.Property<byte[]>("ImageContent")
                         .HasColumnType("BLOB");
+
+                    b.Property<string>("ImageType")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Lender")
                         .HasColumnType("TEXT");

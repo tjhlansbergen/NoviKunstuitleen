@@ -29,6 +29,11 @@ footer {
     padding: 20px;
 }
 
+h3 {
+    font-weight: bold;
+    color: darkslateblue;
+}
+
 /* CLASSES */
 
 @media screen and (min-width: 900px) {
@@ -60,27 +65,42 @@ footer {
         background-size: cover;
     }
 
-    .highlighted {
-        background-color: blanchedalmond;
-        max-width: 1200px;
-        max-height: 600px;
-    }
-
     .highlightedcontent {
         float: left;
         width: 50%;
-        padding-left: 40px;
-        padding-right: 10px;
-        padding-bottom: 40px;
+        padding-top: 20px;
+    }
+
+    .highlightedimage {
+        width: 50%;
+        float: right;
+        text-align: right;
+        padding-top: 20px;
     }
 
     .imagehighlight {
-        display: inline;
-        padding-left: 10px;
-        padding-right: 40px;
-        padding-bottom: 40px;
-        max-height: 500px;
-        max-width: 50%;
+        max-height: 400px;
+        max-width: 100%;
+    }
+
+    .collection {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .artpiece {
+        width: 25%;
+        height: 500px;
+        padding: 10px;
+        float: left;
+    }
+
+    .artpieceimage {
+        background-color: whitesmoke;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
@@ -118,32 +138,35 @@ footer {
         display: none;
     }
 
-    .highlighted {
-        background-color: blanchedalmond;
+    .highlightedcontent {
+        padding-top: 20px;
     }
 
-    .highlightedcontent {
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 20px;
+    .highlightedimage {
+        padding-top: 20px;
+        text-align: center;
     }
 
     .imagehighlight {
         display: inline;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 20px;
         max-width: 100%;
         max-height: 600px;
+    }
+
+    .artpiece {
+        padding: 10px;
     }
 }
 
 .create {
     padding: 20px;
+    margin: 0 auto;
 }
 
 .fullcontent {
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .box-shadow {
@@ -185,11 +208,10 @@ footer {
     text-decoration: none;
     padding-right: 6px;
     padding-left: 6px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 10px;
     display: inline-block;
-    background-color: darkslateblue;
-    border: 2px solid darkslateblue;
+    background-color: lightcoral;
+    border: 2px solid lightcoral;
 }
 
     .largelink:hover {
@@ -197,6 +219,12 @@ footer {
         text-decoration: none;
         border: 2px solid black;
     }
+
+.highlighted {
+    background-color: blanchedalmond;
+    margin: 10px;
+    padding: 20px;
+}
 
 .imagepreview {
     display: block;
@@ -208,13 +236,35 @@ footer {
     margin-top: 8px;
 }
 
-h3.highlighted {
-    font-weight: bold;
-    color: darkslateblue;
-    padding: 20px;
+.imageartpiece {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    vertical-align: middle;
 }
 
-.texthighlight {
+.artpiececontent {
+    padding: 10px;
+}
+
+.available {
     color: limegreen;
     font-weight: bold;
 }
+
+.notavailable {
+    color: orangered;
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+.sectionheader {
+    padding-left: 30px;
+    padding-top: 20px;
+}
+
+

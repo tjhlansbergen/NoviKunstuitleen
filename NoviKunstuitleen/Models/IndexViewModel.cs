@@ -8,7 +8,7 @@ namespace NoviKunstuitleen.Models
     {
         // properties
         public List<NoviArtPiece> Pieces { get; private set; }
-        public NoviArtPiece HighlightedPiece { get; private set; }
+        public NoviArtPiece HighlightedPiece { get; private set; }      // TODO van degenen die beschikbaar zijn
 
         // random voor 'uitgelicht' selectie
         static readonly Random rnd = new Random();
