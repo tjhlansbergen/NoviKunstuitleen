@@ -7,17 +7,16 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace NoviKunstuitleen.Areas.Identity
+namespace NoviKunstuitleen.Data
 {
-    public class NoviUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<NoviUser>
+    public class NoviUserClaims : UserClaimsPrincipalFactory<NoviUser>
     {
-        public NoviUserClaimsPrincipalFactory(
+        public NoviUserClaims(
         UserManager<NoviUser> userManager,
         IOptions<IdentityOptions> optionsAccessor)
         : base(userManager, optionsAccessor)
         {
         }
-
 
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(NoviUser user)
         {

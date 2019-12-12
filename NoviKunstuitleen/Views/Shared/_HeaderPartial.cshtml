@@ -14,22 +14,15 @@
 
         <div class="userinfo">
 
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <ul>
-                    <li>Gebruiker: @User.Identity.Name</li>
+                    <li>Gebruiker: <a asp-area="" asp-controller="Manage" asp-action="Manage" title="Manage">@User.FindFirst("DisplayName").Value</a></li>
                     <li>Ingelogd als: <b>@User.FindFirst("Type").Value</b></li>
                     <li><button type="submit" class="link-btn">Uitloggen</button></li>
                 </ul>
-
             </form>
-
-            <!-- MANAGE PROFILE: -->
-            <!-- <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">()</a> -->
-
         </div>
-
     </header>
-
 }
 
 

@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NoviKunstuitleen.Areas.Identity;
 using NoviKunstuitleen.Data;
-using Microsoft.AspNetCore.Identity;
 using NoviKunstuitleen.Services;
 
 namespace NoviKunstuitleen
@@ -25,16 +24,15 @@ namespace NoviKunstuitleen
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<NoviArtDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDbContext<NoviArtDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<NoviUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<NoviArtDbContext>()
-                .AddClaimsPrincipalFactory<NoviUserClaimsPrincipalFactory>();
+                .AddDefaultTokenProviders()
+                .AddClaimsPrincipalFactory<NoviUserClaims>();
+
+            // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddControllersWithViews();
 

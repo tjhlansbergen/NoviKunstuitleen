@@ -1,16 +1,15 @@
-﻿using NoviKunstuitleen.Extensions;
-using NoviKunstuitleen.Models;
-using NoviKunstuitleen.Models.AccountViewModels;
-using NoviKunstuitleen.Services;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NoviKunstuitleen.Data;
+using NoviKunstuitleen.Extensions;
+using NoviKunstuitleen.Models.AccountViewModels;
+using NoviKunstuitleen.Services;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using NoviKunstuitleen.Data;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -59,24 +58,20 @@ namespace NoviKunstuitleen.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Dit account is vergrendeld");
                     return RedirectToAction(nameof(Lockout));
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Inlogpoging mislukt");
                     return View(model);
                 }
             }
@@ -218,7 +213,7 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new NoviUser { UserName = model.Email, Email = model.Email };
+                var user = new NoviUser { UserName = model.Email, Email = model.Email, NoviNumber = model.Number, Type = model.Type, DisplayName = model.DisplayName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

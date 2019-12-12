@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NoviKunstuitleen.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,20 +9,32 @@ namespace NoviKunstuitleen.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht")]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Email adres")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Dit veld is verplicht")]
+        [StringLength(100, ErrorMessage = "Het {0} moet minstens {2} maximaal {1} tekens lang zijn.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Bevestig wachtwoord")]
+        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overeen")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Dit veld is verplicht")]
+        [Display(Name = "Weergavenaam")]
+        public string DisplayName { get; set; }
+
+        [Required(ErrorMessage = "Dit veld is verplicht")]
+        [Display(Name = "Novi student/docent nummer")]
+        public string Number { get; set; }
+
+        [Required(ErrorMessage = "Dit veld is verplicht")]
+        [Display(Name = "Ik ben een")]
+        public NoviUserType Type { get; set; }
     }
 }
