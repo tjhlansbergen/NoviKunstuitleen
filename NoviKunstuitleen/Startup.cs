@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NoviKunstuitleen.Areas.Identity;
 using NoviKunstuitleen.Data;
+using Microsoft.AspNetCore.Identity;
+using NoviKunstuitleen.Services;
 
 namespace NoviKunstuitleen
 {
@@ -28,16 +30,13 @@ namespace NoviKunstuitleen
             //        Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<NoviArtDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            
-
-            services.AddDefaultIdentity<NoviUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<NoviUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<NoviArtDbContext>()
                 .AddClaimsPrincipalFactory<NoviUserClaimsPrincipalFactory>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddControllersWithViews();
-            services.AddRazorPages();
 
             // forceer verplicht inloggen voor alle controllers
             services.AddControllers(config =>
@@ -85,7 +84,6 @@ namespace NoviKunstuitleen
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }

@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-// namespace voor statische helper-klassen
-namespace NoviKunstuitleen.StaticHelpers
+// namespace voor helper-klassen
+namespace NoviKunstuitleen.Extensions
 {
     // statisce klasse voor het verifieren van bestanden
     public static class FileHelper

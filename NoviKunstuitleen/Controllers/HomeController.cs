@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NoviKunstuitleen.Data;
 using NoviKunstuitleen.Models;
-using NoviKunstuitleen.StaticHelpers;
+using NoviKunstuitleen.Extensions;
 
 namespace NoviKunstuitleen.Controllers
 {
