@@ -13,6 +13,6 @@ namespace NoviKunstuitleen.Data
         {
         }
 
-        public DbSet<NoviArtPiece> NoviArtCollection { get; set; }
+        public DbSet<NoviArtPiece> NoviArtPieces { get; set; }
     }
 }

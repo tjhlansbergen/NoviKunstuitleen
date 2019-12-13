@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NoviKunstuitleen.Models
+namespace NoviKunstuitleen.Models.HomeViewModels
 {
     public class IndexViewModel
     {
@@ -20,7 +20,10 @@ namespace NoviKunstuitleen.Models
             Pieces = dbpieces;
 
             // willekeurig item selecteren als highlighted item
-            HighlightedPiece = Pieces[rnd.Next(Pieces.Count)];
+            if (Pieces.Count > 0)
+                HighlightedPiece = Pieces[rnd.Next(Pieces.Count)];
+            else
+                HighlightedPiece = null;
         }
     }
 }

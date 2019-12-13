@@ -1,6 +1,6 @@
 using System;
 
-namespace NoviKunstuitleen.Models
+namespace NoviKunstuitleen.Models.HomeViewModels
 {
     public class ErrorViewModel
     {

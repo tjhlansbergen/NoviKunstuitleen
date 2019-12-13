@@ -1,4 +1,4 @@
-﻿@model NoviKunstuitleen.Models.IndexViewModel
+﻿@model NoviKunstuitleen.Models.HomeViewModels.IndexViewModel
 
 @using Microsoft.AspNetCore.Identity
 @using NoviKunstuitleen.Data
@@ -17,42 +17,44 @@
         <a class="largelink" asp-area="" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
     }
 
-    <!-- UITGELICHT -->
-    <div class="highlighted">
-        <h3>Uitgelicht</h3>
-        <div class="highlightedcontent">
-            <ul>
-                <li><b>@Model.HighlightedPiece.Artist - @Model.HighlightedPiece.Title</b></li>
-                <li>Afmetingen: @Model.HighlightedPiece.Dimensions</li>
-                <li>Lijst: @Model.HighlightedPiece.Frame</li>
-                <li>&nbsp;</li>
-                <li>@Model.HighlightedPiece.Description</li>
-                <li>&nbsp;</li>
-                <li>Aangeboden door: @Model.HighlightedPiece.Lender</li>
-                <li>Prijs: @Model.HighlightedPiece.Price</li>
-                <li class="available">&check; Beschikbaar!</li>
+    @if (Model.HighlightedPiece != null)
+    {
+        <!-- UITGELICHT -->
+        <div class="highlighted">
+            <h3>Uitgelicht</h3>
+            <div class="highlightedcontent">
+                <ul>
+                    <li><b>@Model.HighlightedPiece.Artist - @Model.HighlightedPiece.Title</b></li>
+                    <li>Afmetingen: @Model.HighlightedPiece.Dimensions</li>
+                    <li>Lijst: @Model.HighlightedPiece.Frame</li>
+                    <li>&nbsp;</li>
+                    <li>@Model.HighlightedPiece.Description</li>
+                    <li>&nbsp;</li>
+                    <li>Aangeboden door: @Model.HighlightedPiece.Lender</li>
+                    <li>Prijs: @Model.HighlightedPiece.Price</li>
+                    <li class="available">&check; Beschikbaar!</li>
 
-            </ul>
+                </ul>
+            </div>
+
+            <div class="highlightedimage">
+                @if (Model.HighlightedPiece.ImageContent != null && Model.HighlightedPiece.ImageType != null)
+                {
+                    string img64 = Convert.ToBase64String(Model.HighlightedPiece.ImageContent);
+                    string img64Url = string.Format("data:image/{0};base64,{1}", Model.HighlightedPiece.ImageType, img64);
+                    <img class="imagehighlight shadow" src="@img64Url" />
+                }
+                else
+                {
+                    <img class="imagehighlight shadow" src="~/img/noimage.png" />
+                }
+
+            </div>
+            <div class="clear">
+                <!-- lege div voor clear -->
+            </div>
         </div>
-
-        <div class="highlightedimage">
-            @if (Model.HighlightedPiece.ImageContent != null && Model.HighlightedPiece.ImageType != null)
-            {
-                string img64 = Convert.ToBase64String(Model.HighlightedPiece.ImageContent);
-                string img64Url = string.Format("data:image/{0};base64,{1}", Model.HighlightedPiece.ImageType, img64);
-                <img class="imagehighlight shadow" src="@img64Url" />
-            }
-            else
-            {
-                <img class="imagehighlight shadow" src="~/img/noimage.png" />
-            }
-
-        </div>
-        <div class="clear">
-            <!-- lege div voor clear -->
-        </div>
-    </div>
-
+    }
 
 
     <!-- COLLECTIE -->

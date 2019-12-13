@@ -1,5 +1,5 @@
 ﻿using NoviKunstuitleen.Extensions;
-using NoviKunstuitleen.Models;
+using NoviKunstuitleen.Models.HomeViewModels;
 using NoviKunstuitleen.Models.ManageViewModels;
 using NoviKunstuitleen.Services;
 using Microsoft.AspNetCore.Authentication;

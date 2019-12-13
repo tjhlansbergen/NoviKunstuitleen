@@ -9,7 +9,7 @@ using NoviKunstuitleen.Data;
 namespace NoviKunstuitleen.Migrations
 {
     [DbContext(typeof(NoviArtDbContext))]
-    [Migration("20191209200157_initial")]
+    [Migration("20191213114305_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,12 +93,10 @@ namespace NoviKunstuitleen.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(128);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(128);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("TEXT");
@@ -135,12 +133,10 @@ namespace NoviKunstuitleen.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(128);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(128);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
@@ -157,10 +153,12 @@ namespace NoviKunstuitleen.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Artist")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("AvailableFrom")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -175,6 +173,9 @@ namespace NoviKunstuitleen.Migrations
                     b.Property<byte[]>("ImageContent")
                         .HasColumnType("BLOB");
 
+                    b.Property<string>("ImageType")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Lender")
                         .HasColumnType("TEXT");
 
@@ -182,12 +183,11 @@ namespace NoviKunstuitleen.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("NoviArtCollection");
+                    b.ToTable("NoviArtPieces");
                 });
 
             modelBuilder.Entity("NoviKunstuitleen.Data.NoviUser", b =>

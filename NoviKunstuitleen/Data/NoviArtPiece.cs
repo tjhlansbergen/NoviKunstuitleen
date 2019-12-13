@@ -14,43 +14,17 @@ namespace NoviKunstuitleen.Data
     /// </summary>
     public class NoviArtPiece
     {
-        // Properties die door de gebruiker in het webformulier worden gezet
-        
-        [Required]
-        [Display(Name = "Titel:")]
-        public string Title { get; set; }
-
-        [Required]
-        [Display(Name = "Kunstenaar:")]
-        public string Artist { get; set; }
-
-        [Required]
-        [Display(Name = "Prijs:")]
-        public double Price { get; set; }
-
-        [Display(Name = "Afmetingen:")]
-        public string Dimensions { get; set; }
-
-        [Display(Name = "Type lijst:")]
-        public string Frame { get; set; }
-
-        [Required]
-        [NotMapped]     // uitsluiten van ORM
-        [Display(Name = "Foto:")]
-        public IFormFile Image { get; set; }
-
-        [DataType(DataType.MultilineText)]
-        [StringLength(140, ErrorMessage = "Maximaal 140 karakters")]
-        [Display(Name = "Omschrijving:")]
-        public string Description { get; set; }
-
-
-        // Properties die vanuit de code worden gezet
         public int Id { get; set; }
-        public DateTime AvailableFrom { get; set; }
+        public string Title { get; set; }
+        public string Artist { get; set; }
+        public double Price { get; set; }
+        public string Dimensions { get; set; }
+        public string Frame { get; set; }
+        public string Description { get; set; }
         public string Lender { get; set; }
-        public byte[] ImageContent { get; set; }
         public string ImageType { get; set; }
-        
+        public byte[] ImageContent { get; set; }
+        public DateTime AvailableFrom { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

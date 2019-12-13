@@ -50,24 +50,26 @@ namespace NoviKunstuitleen.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NoviArtCollection",
+                name: "NoviArtPieces",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(nullable: false),
-                    Artist = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Artist = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
                     Dimensions = table.Column<string>(nullable: true),
                     Frame = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    AvailableFrom = table.Column<DateTime>(nullable: false),
                     Lender = table.Column<string>(nullable: true),
-                    ImageContent = table.Column<byte[]>(nullable: true)
+                    ImageType = table.Column<string>(nullable: true),
+                    ImageContent = table.Column<byte[]>(nullable: true),
+                    AvailableFrom = table.Column<DateTime>(nullable: false),
+                    CreationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NoviArtCollection", x => x.Id);
+                    table.PrimaryKey("PK_NoviArtPieces", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,8 +118,8 @@ namespace NoviKunstuitleen.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -161,8 +163,8 @@ namespace NoviKunstuitleen.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -232,7 +234,7 @@ namespace NoviKunstuitleen.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "NoviArtCollection");
+                name: "NoviArtPieces");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

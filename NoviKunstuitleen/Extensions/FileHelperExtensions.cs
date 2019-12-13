@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NoviKunstuitleen.Extensions
 {
     // statisce klasse voor het verifieren van bestanden
-    public static class FileHelper
+    public static class FileHelperExtensions
     {
         // toegestande bestandsextensies:
         private static readonly string[] _permittedExtensions = { ".gif", ".png", ".jpg", ".jpeg" };
