@@ -14,7 +14,7 @@
     <!-- NIEUW OBJECT, alleen tonen voor docenten -->
     @if (SignInManager.IsSignedIn(User) && User.FindFirst("Type").Value == "Docent")
     {
-        <a class="largelink" asp-area="" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
+        <a class="largelink" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
     }
 
     @if (Model.HighlightedPiece != null)
