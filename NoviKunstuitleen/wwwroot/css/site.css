@@ -34,8 +34,22 @@ h3 {
     color: darkslateblue;
 }
 
-/* CLASSES */
+table {
+    margin-bottom: 40px;
+    width: 100%;
+}
 
+tr:nth-child(odd) {
+    background-color: blanchedalmond;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 4px;
+}
+
+/* CLASSES */
 @media screen and (min-width: 900px) {
     /* breed */
 
@@ -158,13 +172,16 @@ h3 {
     }
 }
 
+.main {
+    padding: 20px;
+}
+
 .create {
     padding: 20px;
     margin: 0 auto;
 }
 
 .fullcontent {
-    padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }

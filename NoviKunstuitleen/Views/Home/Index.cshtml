@@ -1,7 +1,5 @@
 ﻿@model NoviKunstuitleen.Models.HomeViewModels.IndexViewModel
 
-@using Microsoft.AspNetCore.Identity
-@using NoviKunstuitleen.Data
 @inject SignInManager<NoviUser> SignInManager
 @inject UserManager<NoviUser> UserManager
 
@@ -17,31 +15,31 @@
         <a class="largelink" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
     }
 
-    @if (Model.HighlightedPiece != null)
+    @if (Model.HighlightedArtPiece != null)
     {
         <!-- UITGELICHT -->
         <div class="highlighted">
             <h3>Uitgelicht</h3>
             <div class="highlightedcontent">
                 <ul>
-                    <li><b>@Model.HighlightedPiece.Artist - @Model.HighlightedPiece.Title</b></li>
-                    <li>Afmetingen: @Model.HighlightedPiece.Dimensions</li>
-                    <li>Lijst: @Model.HighlightedPiece.Frame</li>
+                    <li><b>@Model.HighlightedArtPiece.Artist - @Model.HighlightedArtPiece.Title</b></li>
+                    <li>Afmetingen: @Model.HighlightedArtPiece.Dimensions</li>
+                    <li>Lijst: @Model.HighlightedArtPiece.Frame</li>
                     <li>&nbsp;</li>
-                    <li>@Model.HighlightedPiece.Description</li>
+                    <li>@Model.HighlightedArtPiece.Description</li>
                     <li>&nbsp;</li>
-                    <li>Aangeboden door: @Model.HighlightedPiece.Lender</li>
-                    <li>Prijs: @Model.HighlightedPiece.Price</li>
+                    <li>Aangeboden door: @Model.HighlightedArtPiece.Lender</li>
+                    <li>Prijs: @Model.HighlightedArtPiece.Price</li>
                     <li class="available">&check; Beschikbaar!</li>
 
                 </ul>
             </div>
 
             <div class="highlightedimage">
-                @if (Model.HighlightedPiece.ImageContent != null && Model.HighlightedPiece.ImageType != null)
+                @if (Model.HighlightedArtPiece.ImageContent != null && Model.HighlightedArtPiece.ImageType != null)
                 {
-                    string img64 = Convert.ToBase64String(Model.HighlightedPiece.ImageContent);
-                    string img64Url = string.Format("data:image/{0};base64,{1}", Model.HighlightedPiece.ImageType, img64);
+                    string img64 = Convert.ToBase64String(Model.HighlightedArtPiece.ImageContent);
+                    string img64Url = string.Format("data:image/{0};base64,{1}", Model.HighlightedArtPiece.ImageType, img64);
                     <img class="imagehighlight shadow" src="@img64Url" />
                 }
                 else
@@ -63,7 +61,7 @@
             <h3>Collectie</h3>
         </div>
 
-        @foreach (var artpiece in Model.Pieces)
+        @foreach (var artpiece in Model.ArtPieces)
         {
             <div class="artpiece">
                 <div class="shadow">
