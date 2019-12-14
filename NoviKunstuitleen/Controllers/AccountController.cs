@@ -205,6 +205,14 @@ namespace NoviKunstuitleen.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Policy = "AdminOnly")]
+        public IActionResult AdminRegister(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -219,13 +227,35 @@ namespace NoviKunstuitleen.Controllers
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // verwijderen? of emailsender configureren
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminRegister(RegisterViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                var user = new NoviUser { UserName = model.Email, Email = model.Email, NoviNumber = "0", Type = model.Type, DisplayName = model.DisplayName };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("An admin created a new account with password.");
+                    return RedirectToAction("Index", "Admin");
                 }
                 AddErrors(result);
             }

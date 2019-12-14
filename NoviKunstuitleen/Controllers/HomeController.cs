@@ -41,8 +41,9 @@ namespace NoviKunstuitleen.Controllers
             return View();
         }
 
+        [HttpPost]
         [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent
-        public IActionResult AddArtPiece(CreateViewModel input)
+        public IActionResult Create(CreateViewModel input)
         {
             // verwerk input vanuit webformulier
             NoviArtPiece piece = new NoviArtPiece{ Artist = input.Artist, Description = input.Description, Dimensions = input.Dimensions, Frame = input.Frame, Price = input.Price, Title = input.Title };
@@ -86,7 +87,7 @@ namespace NoviKunstuitleen.Controllers
             _logger.LogInformation("User created a new artpiece with id: {0}", piece.Id);
 
             // en keer terug naar de collectie-pagina
-            return View("Index", new IndexViewModel(_dbcontext.NoviArtPieces.ToList()));
+            return RedirectToAction("Index");
         }        
     }
 }

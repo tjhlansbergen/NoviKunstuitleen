@@ -35,7 +35,6 @@ h3 {
 }
 
 table {
-    margin-bottom: 40px;
     width: 100%;
 }
 
@@ -172,10 +171,6 @@ td, th {
     }
 }
 
-.main {
-    padding: 20px;
-}
-
 .create {
     padding: 20px;
     margin: 0 auto;
@@ -184,6 +179,7 @@ td, th {
 .fullcontent {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 20px;
 }
 
 .box-shadow {

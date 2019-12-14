@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NoviKunstuitleen.Data;
 using NoviKunstuitleen.Models.AdminViewModels;
-using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Controllers
 {
-    
+
     [Authorize(Policy = "AdminOnly")]
     public class AdminController : Controller
     {
@@ -20,10 +19,11 @@ namespace NoviKunstuitleen.Controllers
         private readonly UserManager<NoviUser> _userManager;
 
         // constructor
-        public AdminController(ILogger<AdminController> logger, NoviArtDbContext dbcontext)
+        public AdminController(ILogger<AdminController> logger, NoviArtDbContext dbcontext, UserManager<NoviUser> userManager)
         {
             _logger = logger;
             _dbcontext = dbcontext;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -37,9 +37,8 @@ namespace NoviKunstuitleen.Controllers
         /// </summary>
         public IActionResult DeleteArtPiece(int id)
         {
-
-            NoviArtPiece entity = new NoviArtPiece();
-            entity.Id = id;
+            // maak een nieuw ArtPiece instantie met alleen de primary key
+            NoviArtPiece entity = new NoviArtPiece { Id = id };
 
             // verwijder item uit database
             _dbcontext.NoviArtPieces.Remove(entity);
@@ -48,7 +47,7 @@ namespace NoviKunstuitleen.Controllers
             // TODO logging
 
             // en herlaadt pagina
-            return View("Admin", new AdminViewModel(dbusers: _dbcontext.Users.ToList<NoviUser>(), dbartpieces: _dbcontext.NoviArtPieces.ToList<NoviArtPiece>()));
+            return RedirectToAction("Index");
         }
 
 
@@ -56,16 +55,16 @@ namespace NoviKunstuitleen.Controllers
         /// Methode voor het verwijderen van de opgegeven NoviUser uit de database
         /// Method-overloading helaas onmogelijk omdat de http route (actionname) uniek moet zijn. 
         /// </summary>
-        public IActionResult DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
-            
-            // TODO remove from usermanager
-            
+            // zoek de gebruiker en verwijder deze
+            NoviUser user = await _userManager.FindByIdAsync(id);
+            if (user != null) await _userManager.DeleteAsync(user);
 
             // TODO logging
 
             // en herlaadt pagina
-            return View("Admin", new AdminViewModel(dbusers: _dbcontext.Users.ToList<NoviUser>(), dbartpieces: _dbcontext.NoviArtPieces.ToList<NoviArtPiece>()));
+            return RedirectToAction("Index");
         }
     }
 }

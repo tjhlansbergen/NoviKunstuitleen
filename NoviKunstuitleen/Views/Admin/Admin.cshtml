@@ -4,86 +4,89 @@
     ViewData["Title"] = "View";
 }
 
-<div class="fullcontent">
-    <h3>Admin Page</h3>
-    <br />
-    <h5>Users:</h5>
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Weergavenaam:</th>
-            <th>Gebruikersnaam:</th>
-            <th>Accounttype:</th>
-            <th>Account bevestigd:</th>
-            <th>&nbsp;</th>
-        </tr>
-        @foreach (var user in Model.Users.OrderBy(a => a.Type))
-        {
+    <div class="fullcontent">
+        <h3>Adminpagina</h3>
+        <br />
+        <h5>Gebruikersbeheer:</h5>
+        <table>
             <tr>
-                <td>
-                    @user.Id.ToString()
-                </td>
-                <td>
-                    @user.DisplayName.ToString()
-                </td>
-                <td>
-                    @user.UserName.ToString()
-                </td>
-                <td>
-                    @user.Type.ToString()
-                </td>
-                <td>
-                    @user.EmailConfirmed.ToString()
-                </td>
-                <td>
-                    @if (user.Type != NoviUserType.Admin)
-                    {
-                        <a asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id">delete</a>
-                    }
-                </td>
+                <th>Id:</th>
+                <th>Weergavenaam:</th>
+                <th>Gebruikersnaam:</th>
+                <th>Accounttype:</th>
+                <th>Account bevestigd:</th>
+                <th>&nbsp;</th>
             </tr>
+            @foreach (var user in Model.Users.OrderByDescending(a => a.Type))
+            {
+                <tr>
+                    <td>
+                        @user.Id.ToString()
+                    </td>
+                    <td>
+                        @user.DisplayName.ToString()
+                    </td>
+                    <td>
+                        @user.UserName.ToString()
+                    </td>
+                    <td>
+                        @user.Type.ToString()
+                    </td>
+                    <td>
+                        @user.EmailConfirmed.ToString()
+                    </td>
+                    <td>
+                        @if (user.Type != NoviUserType.Root)
+                        {
+                            <a asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id">verwijder</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        &nbsp;+ <a asp-controller="Account" asp-action="AdminRegister">gebruiker toevoegen</a>
 
-        }
-    </table>
-
-    <h5>Art Pieces:</h5>
-    <table>
-        <tr>
-            <th>Id:</th>
-            <th>Titel:</th>
-            <th>Aanbieder:</th>
-            <th>Aangemaakt op:</th>
-            <th>Beschikbaar vanaf:</th>
-            <th>Prijs:</th>
-            <th>&nbsp;</th>
-        </tr>
-        @foreach (var artpiece in Model.ArtPieces)
-        {
+        <br />
+        <br />
+        <h5>Collectiebeheer:</h5>
+        <table>
             <tr>
-                <td>
-                    @artpiece.Id.ToString()
-                </td>
-                <td>
-                    @artpiece.Title.ToString()
-                </td>
-                <td>
-                    @artpiece.Lender.ToString()
-                </td>
-                <td>
-                    @artpiece.CreationDate.ToShortDateString()
-                </td>
-                <td>
-                    @artpiece.AvailableFrom.ToShortDateString()
-                </td>
-                <td>
-                    @artpiece.Price.ToString()
-                </td>
-                <td>
-                    <a asp-controller="Admin" asp-action="DeleteArtPiece" asp-route-id="@artpiece.Id">delete</a>
-                </td>
-
+                <th>Id:</th>
+                <th>Titel:</th>
+                <th>Aanbieder:</th>
+                <th>Aangemaakt op:</th>
+                <th>Beschikbaar vanaf:</th>
+                <th>Prijs:</th>
+                <th>&nbsp;</th>
             </tr>
-        }
-    </table>
-</div>
+            @foreach (var artpiece in Model.ArtPieces)
+            {
+                <tr>
+                    <td>
+                        @artpiece.Id.ToString()
+                    </td>
+                    <td>
+                        @artpiece.Title.ToString()
+                    </td>
+                    <td>
+                        @artpiece.Lender.ToString()
+                    </td>
+                    <td>
+                        @artpiece.CreationDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @artpiece.AvailableFrom.ToShortDateString()
+                    </td>
+                    <td>
+                        @artpiece.Price.ToString()
+                    </td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="DeleteArtPiece" asp-route-id="@artpiece.Id">verwijder</a>
+                    </td>
+
+                </tr>
+            }
+        </table>
+        &nbsp;+ <a asp-controller="Home" asp-action="Create">kunstwerk toevoegen</a>
+    </div>
 
