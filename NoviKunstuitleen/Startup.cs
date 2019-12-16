@@ -27,10 +27,10 @@ namespace NoviKunstuitleen
             services.AddDbContext<NoviArtDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<NoviUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<NoviArtUser, NoviArtRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<NoviArtDbContext>()
                 .AddDefaultTokenProviders()
-                .AddClaimsPrincipalFactory<NoviUserClaims>();
+                .AddClaimsPrincipalFactory<NoviArtUserClaims>();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();

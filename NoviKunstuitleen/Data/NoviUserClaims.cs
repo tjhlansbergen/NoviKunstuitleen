@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Data
 {
-    public class NoviUserClaims : UserClaimsPrincipalFactory<NoviUser>
+    public class NoviArtUserClaims : UserClaimsPrincipalFactory<NoviArtUser>
     {
-        public NoviUserClaims(
-        UserManager<NoviUser> userManager,
+        public NoviArtUserClaims(
+        UserManager<NoviArtUser> userManager,
         IOptions<IdentityOptions> optionsAccessor)
         : base(userManager, optionsAccessor)
         {
         }
 
-        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(NoviUser user)
+        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(NoviArtUser user)
         {
             var identity = await base.GenerateClaimsAsync(user);
             identity.AddClaim(new Claim("Type", user.Type.ToString()));

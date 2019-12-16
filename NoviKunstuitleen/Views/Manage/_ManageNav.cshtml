@@ -1,5 +1,5 @@
 ﻿@using NoviKunstuitleen.Views.Manage
-@inject SignInManager<NoviUser> SignInManager
+@inject SignInManager<NoviArtUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

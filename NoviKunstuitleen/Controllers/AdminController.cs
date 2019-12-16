@@ -16,10 +16,10 @@ namespace NoviKunstuitleen.Controllers
 
         private readonly ILogger<AdminController> _logger;
         private readonly NoviArtDbContext _dbcontext;
-        private readonly UserManager<NoviUser> _userManager;
+        private readonly UserManager<NoviArtUser> _userManager;
 
         // constructor
-        public AdminController(ILogger<AdminController> logger, NoviArtDbContext dbcontext, UserManager<NoviUser> userManager)
+        public AdminController(ILogger<AdminController> logger, NoviArtDbContext dbcontext, UserManager<NoviArtUser> userManager)
         {
             _logger = logger;
             _dbcontext = dbcontext;
@@ -28,7 +28,7 @@ namespace NoviKunstuitleen.Controllers
 
         public IActionResult Index()
         {
-            return View("Admin", new AdminViewModel(dbusers: _dbcontext.Users.ToList<NoviUser>(), dbartpieces: _dbcontext.NoviArtPieces.ToList<NoviArtPiece>()));
+            return View("Admin", new AdminViewModel(dbusers: _dbcontext.Users.ToList<NoviArtUser>(), dbartpieces: _dbcontext.NoviArtPieces.ToList<NoviArtPiece>()));
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace NoviKunstuitleen.Controllers
         public async Task<IActionResult> DeleteUser(string id)
         {
             // zoek de gebruiker en verwijder deze
-            NoviUser user = await _userManager.FindByIdAsync(id);
+            NoviArtUser user = await _userManager.FindByIdAsync(id);
             if (user != null) await _userManager.DeleteAsync(user);
 
             // TODO logging

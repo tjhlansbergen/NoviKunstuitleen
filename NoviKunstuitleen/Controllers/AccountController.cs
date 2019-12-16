@@ -17,14 +17,14 @@ namespace NoviKunstuitleen.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly UserManager<NoviUser> _userManager;
-        private readonly SignInManager<NoviUser> _signInManager;
+        private readonly UserManager<NoviArtUser> _userManager;
+        private readonly SignInManager<NoviArtUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
-            UserManager<NoviUser> userManager,
-            SignInManager<NoviUser> signInManager,
+            UserManager<NoviArtUser> userManager,
+            SignInManager<NoviArtUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
@@ -221,7 +221,7 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new NoviUser { UserName = model.Email, Email = model.Email, NoviNumber = model.Number, Type = model.Type, DisplayName = model.DisplayName };
+                var user = new NoviArtUser { UserName = model.Email, Email = model.Email, NoviNumber = model.Number, Type = model.Type, DisplayName = model.DisplayName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -250,7 +250,7 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new NoviUser { UserName = model.Email, Email = model.Email, NoviNumber = "0", Type = model.Type, DisplayName = model.DisplayName };
+                var user = new NoviArtUser { UserName = model.Email, Email = model.Email, NoviNumber = "0", Type = model.Type, DisplayName = model.DisplayName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -333,7 +333,7 @@ namespace NoviKunstuitleen.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new NoviUser { UserName = model.Email, Email = model.Email };
+                var user = new NoviArtUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

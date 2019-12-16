@@ -20,8 +20,8 @@ namespace NoviKunstuitleen.Controllers
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
-        private readonly UserManager<NoviUser> _userManager;
-        private readonly SignInManager<NoviUser> _signInManager;
+        private readonly UserManager<NoviArtUser> _userManager;
+        private readonly SignInManager<NoviArtUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -30,8 +30,8 @@ namespace NoviKunstuitleen.Controllers
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
         public ManageController(
-          UserManager<NoviUser> userManager,
-          SignInManager<NoviUser> signInManager,
+          UserManager<NoviArtUser> userManager,
+          SignInManager<NoviArtUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
@@ -527,7 +527,7 @@ namespace NoviKunstuitleen.Controllers
                 unformattedKey);
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(NoviUser user, EnableAuthenticatorViewModel model)
+        private async Task LoadSharedKeyAndQrCodeUriAsync(NoviArtUser user, EnableAuthenticatorViewModel model)
         {
             var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
             if (string.IsNullOrEmpty(unformattedKey))
