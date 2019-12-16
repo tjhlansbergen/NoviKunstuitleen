@@ -16,6 +16,8 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         public string Artist { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Minimaal 1, in hele euro's")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Minimaal 1, in hele euro's")]
         [Display(Name = "Huurprijs:")]
         public int Price { get; set; }
 

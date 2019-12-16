@@ -20,11 +20,19 @@ namespace NoviKunstuitleen.Controllers
         private readonly NoviArtDbContext _dbcontext;
         private readonly UserManager<NoviArtUser> _userManager;
 
+        // constructor
         public HomeController(ILogger<HomeController> logger, NoviArtDbContext dbcontext, UserManager<NoviArtUser> userManager)
         {
             _logger = logger;
             _dbcontext = dbcontext;
             _userManager = userManager;
+
+            // TODO housekeeping
+            foreach(var artpiece in _dbcontext.NoviArtPieces.Where(a => a.AvailableFrom < DateTime.UtcNow))
+            {
+                    artpiece.Lessee = null;
+            }
+            _dbcontext.SaveChanges();
         }
 
         public IActionResult Index()

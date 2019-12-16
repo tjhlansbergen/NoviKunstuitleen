@@ -27,5 +27,6 @@ namespace NoviKunstuitleen.Data
         public byte[] ImageContent { get; set; }
         public DateTime AvailableFrom { get; set; }
         public DateTime CreationDate { get; set; }
+        public bool Available => (AvailableFrom < DateTime.UtcNow);
     }
 }

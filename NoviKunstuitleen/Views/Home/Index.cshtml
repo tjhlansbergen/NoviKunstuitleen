@@ -30,7 +30,7 @@
                     <li>&nbsp;</li>
                     <li>Aangeboden door: @Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First().DisplayName</li>
                     <li>Prijs: @Model.HighlightedArtPiece.Price</li>
-                    @if (Model.HighlightedArtPiece.AvailableFrom < DateTime.UtcNow)
+                    @if (Model.HighlightedArtPiece.Available)
                     {
                         <li class="available">&check; Beschikbaar!</li>
                     }
@@ -93,7 +93,7 @@
                             <li>Aangeboden door: @Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First().DisplayName</li>
                             <li>Prijs: @artpiece.Price</li>
                             <li>&nbsp;</li>
-                            @if (artpiece.AvailableFrom < DateTime.UtcNow)
+                            @if (artpiece.Available)
                             {
                                 <li class="available">&check; Beschikbaar!</li>
                             }
