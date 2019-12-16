@@ -14,8 +14,7 @@ namespace NoviKunstuitleen.Data
     {
         Student, Docent, Admin, Root
     };
-
-    
+   
     /// <summary>
     /// Aangepast implementatie van ASP IdentityUser met de extra velden voor het Novi nummer en gebruikerstype
     /// nb. de generieke velden zoals email en wachtwoord komen uit de superklasse IdentityUser
@@ -26,5 +25,4 @@ namespace NoviKunstuitleen.Data
         public string NoviNumber { get; set; }
         public NoviUserType Type { get; set; }
     }
-
 }

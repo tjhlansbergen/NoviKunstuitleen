@@ -16,8 +16,8 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         public string Artist { get; set; }
 
         [Required]
-        [Display(Name = "Prijs:")]
-        public double Price { get; set; }
+        [Display(Name = "Huurprijs:")]
+        public int Price { get; set; }
 
         [Display(Name = "Afmetingen:")]
         public string Dimensions { get; set; }

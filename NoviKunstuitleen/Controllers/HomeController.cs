@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using NoviKunstuitleen.Data;
 using NoviKunstuitleen.Models.HomeViewModels;
 using NoviKunstuitleen.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -17,16 +18,18 @@ namespace NoviKunstuitleen.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly NoviArtDbContext _dbcontext;
+        private readonly UserManager<NoviArtUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, NoviArtDbContext dbcontext)
+        public HomeController(ILogger<HomeController> logger, NoviArtDbContext dbcontext, UserManager<NoviArtUser> userManager)
         {
             _logger = logger;
             _dbcontext = dbcontext;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            return View(new IndexViewModel(_dbcontext.NoviArtPieces.ToList()));
+            return View(new IndexViewModel(_dbcontext.Users.ToList(), _dbcontext.NoviArtPieces.ToList()));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -43,14 +46,15 @@ namespace NoviKunstuitleen.Controllers
 
         [HttpPost]
         [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent
-        public IActionResult Create(CreateViewModel input)
+        public async Task<IActionResult> Create(CreateViewModel input)
         {
             // verwerk input vanuit webformulier
             NoviArtPiece piece = new NoviArtPiece{ Artist = input.Artist, Description = input.Description, Dimensions = input.Dimensions, Frame = input.Frame, Price = input.Price, Title = input.Title };
 
             // voeg aanmaakdatum, beschikbaarheidsinfo, en aanbieder toe aan item
             piece.CreationDate = piece.AvailableFrom = DateTime.UtcNow;
-            piece.Lender = User.FindFirst("DisplayName").Value;
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            piece.Lesser = user.Id;
 
             // upload de afbeelding
             using (var memoryStream = new MemoryStream())

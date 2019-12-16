@@ -10,7 +10,7 @@
 <div class="fullcontent">
 
     <!-- NIEUW OBJECT, alleen tonen voor docenten -->
-    @if (SignInManager.IsSignedIn(User) && (User.FindFirst("Type").Value == "Docent" || User.FindFirst("Type").Value == "Admin"))
+    @if (SignInManager.IsSignedIn(User) && new string[] { "Docent", "Admin", "Root" }.Contains(User.FindFirst("Type").Value))
     {
         <a class="largelink" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
     }
@@ -28,9 +28,16 @@
                     <li>&nbsp;</li>
                     <li>@Model.HighlightedArtPiece.Description</li>
                     <li>&nbsp;</li>
-                    <li>Aangeboden door: @Model.HighlightedArtPiece.Lender</li>
+                    <li>Aangeboden door: @Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First().DisplayName</li>
                     <li>Prijs: @Model.HighlightedArtPiece.Price</li>
-                    <li class="available">&check; Beschikbaar!</li>
+                    @if (Model.HighlightedArtPiece.AvailableFrom < DateTime.UtcNow)
+                    {
+                        <li class="available">&check; Beschikbaar!</li>
+                    }
+                    else
+                    {
+                        <li class="notavailable">Momenteel niet beschikbaar</li>
+                    }
 
                 </ul>
             </div>
@@ -83,7 +90,7 @@
                             <li>&nbsp;</li>
                             <li><b>Titel: @artpiece.Title </b></li>
                             <li>&nbsp;</li>
-                            <li>Aangeboden door: @artpiece.Lender</li>
+                            <li>Aangeboden door: @Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First().DisplayName</li>
                             <li>Prijs: @artpiece.Price</li>
                             <li>&nbsp;</li>
                             @if (artpiece.AvailableFrom < DateTime.UtcNow)
@@ -92,7 +99,7 @@
                             }
                             else
                             {
-                                <li class="notavailable">Niet beschikbaar</li>
+                                <li class="notavailable">Momenteel niet beschikbaar</li>
                             }
 
                             <li>&nbsp;</li>

@@ -17,11 +17,12 @@ namespace NoviKunstuitleen.Data
         public int Id { get; set; }
         public string Title { get; set; }
         public string Artist { get; set; }
-        public double Price { get; set; }
+        public int Price { get; set; }
         public string Dimensions { get; set; }
         public string Frame { get; set; }
         public string Description { get; set; }
-        public string Lender { get; set; }
+        public int Lesser { get; set; }
+        public int? Lessee { get; set; }
         public string ImageType { get; set; }
         public byte[] ImageContent { get; set; }
         public DateTime AvailableFrom { get; set; }

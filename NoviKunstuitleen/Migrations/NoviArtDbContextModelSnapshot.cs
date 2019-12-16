@@ -145,11 +145,14 @@ namespace NoviKunstuitleen.Migrations
                     b.Property<string>("ImageType")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Lender")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("Lessee")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("REAL");
+                    b.Property<int>("Lesser")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");

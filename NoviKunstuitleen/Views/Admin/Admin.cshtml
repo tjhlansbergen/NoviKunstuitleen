@@ -54,6 +54,7 @@
                 <th>Id:</th>
                 <th>Titel:</th>
                 <th>Aanbieder:</th>
+                <th>Huurder:</th>
                 <th>Aangemaakt op:</th>
                 <th>Beschikbaar vanaf:</th>
                 <th>Prijs:</th>
@@ -69,7 +70,10 @@
                         @artpiece.Title.ToString()
                     </td>
                     <td>
-                        @artpiece.Lender.ToString()
+                        @artpiece.Lesser
+                    </td>
+                    <td>
+                        @artpiece.Lessee
                     </td>
                     <td>
                         @artpiece.CreationDate.ToShortDateString()
