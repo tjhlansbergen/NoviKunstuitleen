@@ -21,25 +21,7 @@
         <div class="highlighted">
             <h3>Uitgelicht</h3>
             <div class="highlightedcontent">
-                <ul>
-                    <li><b>@Model.HighlightedArtPiece.Artist - @Model.HighlightedArtPiece.Title</b></li>
-                    <li>Afmetingen: @Model.HighlightedArtPiece.Dimensions</li>
-                    <li>Lijst: @Model.HighlightedArtPiece.Frame</li>
-                    <li>&nbsp;</li>
-                    <li>@Model.HighlightedArtPiece.Description</li>
-                    <li>&nbsp;</li>
-                    <li>Aangeboden door: @Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First().DisplayName</li>
-                    <li>Prijs: @Model.HighlightedArtPiece.Price</li>
-                    @if (Model.HighlightedArtPiece.Available)
-                    {
-                        <li class="available">&check; Beschikbaar!</li>
-                    }
-                    else
-                    {
-                        <li class="notavailable">Momenteel niet beschikbaar</li>
-                    }
-
-                </ul>
+                <partial name="_ItemPartial" model='new ItemViewModel(Model.HighlightedArtPiece, Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First())' />
             </div>
 
             <div class="highlightedimage">
@@ -86,24 +68,7 @@
                         }
                     </div>
                     <div class="artpiececontent">
-                        <ul>
-                            <li>&nbsp;</li>
-                            <li><b>Titel: @artpiece.Title </b></li>
-                            <li>&nbsp;</li>
-                            <li>Aangeboden door: @Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First().DisplayName</li>
-                            <li>Prijs: @artpiece.Price</li>
-                            <li>&nbsp;</li>
-                            @if (artpiece.Available)
-                            {
-                                <li class="available">&check; Beschikbaar!</li>
-                            }
-                            else
-                            {
-                                <li class="notavailable">Momenteel niet beschikbaar</li>
-                            }
-
-                            <li>&nbsp;</li>
-                        </ul>
+                        <partial name="_ItemPartial" model='new ItemViewModel(artpiece, Model.Users.Where(a => a.Id == artpiece.Lesser)?.First())' />
                     </div>
                 </div>
             </div>

@@ -100,6 +100,11 @@ namespace NoviKunstuitleen.Controllers
 
             // en keer terug naar de collectie-pagina
             return RedirectToAction("Index");
-        }        
+        }
+        
+        public IActionResult Detail(int id)
+        {
+            return View(new DetailViewModel(_dbcontext.NoviArtPieces.Where(a => a.Id == id).FirstOrDefault() , _dbcontext.Users.ToList()));
+        }
     }
 }

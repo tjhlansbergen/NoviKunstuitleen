@@ -25,7 +25,7 @@ namespace NoviKunstuitleen.Models.HomeViewModels
 
             // willekeurig item selecteren uit de beschikbare items als highlighted item
             var availableArtPieces = ArtPieces.Where(a => a.Available).ToList();
-            if (ArtPieces.Count > 0)
+            if (availableArtPieces.Count > 0)
                 HighlightedArtPiece = availableArtPieces[rnd.Next(availableArtPieces.Count)];
             else
                 HighlightedArtPiece = null;
