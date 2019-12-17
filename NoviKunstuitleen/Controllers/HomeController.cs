@@ -104,7 +104,9 @@ namespace NoviKunstuitleen.Controllers
         
         public IActionResult Detail(int id)
         {
-            return View(new DetailViewModel(_dbcontext.NoviArtPieces.Where(a => a.Id == id).FirstOrDefault() , _dbcontext.Users.ToList()));
+            var piece = _dbcontext.NoviArtPieces.Where(a => a.Id == id).FirstOrDefault();
+            var lesser = _dbcontext.Users.Where(u => u.Id == piece.Lesser).FirstOrDefault();
+            return View(new DetailViewModel(piece , lesser));
         }
     }
 }

@@ -78,6 +78,13 @@ td, th {
         background-size: cover;
     }
 
+    .headerback {
+        height: auto;
+        width: auto;
+        max-width: 400px;
+        max-height: 300px;
+    }
+
     .highlightedcontent {
         float: left;
         width: 50%;

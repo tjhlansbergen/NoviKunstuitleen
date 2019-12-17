@@ -1,13 +1,20 @@
-﻿@model NoviKunstuitleen.Models.HomeViewModels.ItemViewModel
+﻿@model NoviKunstuitleen.Models.HomeViewModels.ItemContentViewModel
 
 <ul>
-    <li>&nbsp;</li>
-    <li><b><a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.ArtPiece.Id">@Model.ArtPiece.Title</a></b></li>
+    @if (Model.ShowTitle)
+    {
+        <li><b><a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.ArtPiece.Id">@Model.ArtPiece.Title</a></b></li>
+    }
     <li>&nbsp;</li>
     <li>Kunstenaar: @Model.ArtPiece.Artist</li>
     <li>Aanbieder: @Model.Lesser.DisplayName</li>
     <li>Prijs: @Model.ArtPiece.Price per maand</li>
     <li>&nbsp;</li>
+    @if (Model.ShowDescription)
+    {
+        <li>Omschrijving: <br /> @Model.ArtPiece.Description</li>
+        <li>&nbsp;</li>
+    }
     @if (@Model.ArtPiece.Available)
     {
         <li class="available">&check; Beschikbaar!</li>

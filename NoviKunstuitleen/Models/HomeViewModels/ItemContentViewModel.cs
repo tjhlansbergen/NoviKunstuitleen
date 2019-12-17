@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Models.HomeViewModels
 {
-    public class ItemViewModel
+    public class ItemContentViewModel
     {
         public NoviArtPiece ArtPiece { get; set; }
         public NoviArtUser Lesser { get; set; }
+        public bool ShowTitle { get; set; }
+        public bool ShowDescription { get; set; }
 
-        public ItemViewModel(NoviArtPiece dbartpiece, NoviArtUser dblesser)
+        public ItemContentViewModel(NoviArtPiece dbartpiece, NoviArtUser dblesser, bool title, bool descrption)
         {
             ArtPiece = dbartpiece;
             Lesser = dblesser;
+            ShowTitle = title;
+            ShowDescription = descrption;
         }
     }
 }

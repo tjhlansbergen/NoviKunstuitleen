@@ -8,47 +8,19 @@
     <div class="highlighted">
         <h3>@Model.ArtPiece.Title</h3>
         <div class="highlightedcontent">
-            <ul>
-                <li>Kunstenaar: @Model.ArtPiece.Artist</li>
-                <li>Afmetingen: @Model.ArtPiece.Dimensions</li>
-                <li>Lijst: @Model.ArtPiece.Frame</li>
-                <li>&nbsp;</li>
-                <li>Omschrijving: <br /> @Model.ArtPiece.Description</li>
-                <li>&nbsp;</li>
-                <li>Aanbieder: @Model.Users.Where(a => a.Id == Model.ArtPiece.Lesser)?.First().DisplayName</li>
-                <li>Prijs: @Model.ArtPiece.Price per maand</li>
-                <li>&nbsp;</li>
-                @if (Model.ArtPiece.Available)
-                {
-                    <li class="available">&check; Beschikbaar!</li>
-                }
-                else
-                {
-                    <li class="notavailable">Momenteel niet beschikbaar</li>
-                }
-
-            </ul>
-
-            <div>
-                <a asp-action="Index">Terug</a>
-            </div>
+            <partial name="_ItemContentPartial" model='new ItemContentViewModel(Model.ArtPiece, Model.Lesser, title: false, descrption: true)' />
         </div>
 
         <div class="highlightedimage">
-            @if (Model.ArtPiece.ImageContent != null && Model.ArtPiece.ImageType != null)
-            {
-                string img64 = Convert.ToBase64String(Model.ArtPiece.ImageContent);
-                string img64Url = string.Format("data:image/{0};base64,{1}", Model.ArtPiece.ImageType, img64);
-                <img class="imagehighlight shadow" src="@img64Url" />
-            }
-            else
-            {
-                <img class="imagehighlight shadow" src="~/img/noimage.png" />
-            }
+            <partial name="_ItemImagePartial" model='new ItemImageViewModel(Model.ArtPiece.ImageContent, Model.ArtPiece.ImageType, highlight: true)' />
 
         </div>
+
         <div class="clear">
             <!-- lege div voor clear -->
         </div>
+    </div>
+    <div>
+        &nbsp;&nbsp;<a asp-action="Index">Terug</a>
     </div>
 </div>

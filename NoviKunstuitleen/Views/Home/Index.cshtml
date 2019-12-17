@@ -21,20 +21,11 @@
         <div class="highlighted">
             <h3>Uitgelicht</h3>
             <div class="highlightedcontent">
-                <partial name="_ItemPartial" model='new ItemViewModel(Model.HighlightedArtPiece, Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First())' />
+                <partial name="_ItemContentPartial" model='new ItemContentViewModel(Model.HighlightedArtPiece, Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First(), title: true, descrption: true)' />
             </div>
 
             <div class="highlightedimage">
-                @if (Model.HighlightedArtPiece.ImageContent != null && Model.HighlightedArtPiece.ImageType != null)
-                {
-                    string img64 = Convert.ToBase64String(Model.HighlightedArtPiece.ImageContent);
-                    string img64Url = string.Format("data:image/{0};base64,{1}", Model.HighlightedArtPiece.ImageType, img64);
-                    <img class="imagehighlight shadow" src="@img64Url" />
-                }
-                else
-                {
-                    <img class="imagehighlight shadow" src="~/img/noimage.png" />
-                }
+                <partial name="_ItemImagePartial" model='new ItemImageViewModel(Model.HighlightedArtPiece.ImageContent, Model.HighlightedArtPiece.ImageType, highlight: true)' />
 
             </div>
             <div class="clear">
@@ -55,20 +46,10 @@
             <div class="artpiece">
                 <div class="shadow">
                     <div class="artpieceimage">
-
-                        @if (artpiece.ImageContent != null && artpiece.ImageType != null)
-                        {
-                            string img64 = Convert.ToBase64String(artpiece.ImageContent);
-                            string img64Url = string.Format("data:image/{0};base64,{1}", artpiece.ImageType, img64);
-                            <img class="imageartpiece" src="@img64Url" />
-                        }
-                        else
-                        {
-                            <img class="imageartpiece" src="~/img/noimage.png" />
-                        }
+                        <partial name="_ItemImagePartial" model='new ItemImageViewModel(artpiece.ImageContent, artpiece.ImageType, highlight: false)' />
                     </div>
                     <div class="artpiececontent">
-                        <partial name="_ItemPartial" model='new ItemViewModel(artpiece, Model.Users.Where(a => a.Id == artpiece.Lesser)?.First())' />
+                        <partial name="_ItemContentPartial" model='new ItemContentViewModel(artpiece, Model.Users.Where(a => a.Id == artpiece.Lesser)?.First(), title: true, descrption: false)' />
                     </div>
                 </div>
             </div>

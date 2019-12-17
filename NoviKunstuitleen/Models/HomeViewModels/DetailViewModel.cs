@@ -9,12 +9,12 @@ namespace NoviKunstuitleen.Models.HomeViewModels
     public class DetailViewModel
     {
         public NoviArtPiece ArtPiece { get; set; }
-        public List<NoviArtUser> Users { get; set; }
+        public NoviArtUser Lesser { get; set; }
 
-        public DetailViewModel(NoviArtPiece dbartpiece, List<NoviArtUser> dbusers)
+        public DetailViewModel(NoviArtPiece dbartpiece, NoviArtUser dblesser)
         {
             ArtPiece = dbartpiece;
-            Users = dbusers;
+            Lesser = dblesser;
         }
     }
 }

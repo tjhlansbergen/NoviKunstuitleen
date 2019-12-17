@@ -1,0 +1,28 @@
+﻿@model NoviKunstuitleen.Models.HomeViewModels.ItemImageViewModel
+
+@if (Model.ImageContent != null && Model.ImageType != null)
+{
+    string img64 = Convert.ToBase64String(Model.ImageContent);
+    string img64Url = string.Format("data:image/{0};base64,{1}", Model.ImageType, img64);
+
+    if (Model.ShowHighlight)
+    {
+        <img class="imagehighlight shadow" src="@img64Url" />
+    }
+    else
+    {
+        <img class="imageartpiece" src="@img64Url" />
+    }
+}
+else
+{
+    if (Model.ShowHighlight)
+    {
+        <img class="imagehighlight shadow" src="~/img/noimage.png" />
+    }
+    else
+    {
+        <img class="imageartpiece" src="~/img/noimage.png" />
+    }
+    
+}
