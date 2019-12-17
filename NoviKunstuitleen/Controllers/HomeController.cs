@@ -11,6 +11,7 @@ using NoviKunstuitleen.Data;
 using NoviKunstuitleen.Models.HomeViewModels;
 using NoviKunstuitleen.Extensions;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -60,9 +61,9 @@ namespace NoviKunstuitleen.Controllers
             NoviArtPiece piece = new NoviArtPiece{ Artist = input.Artist, Description = input.Description, Dimensions = input.Dimensions, Frame = input.Frame, Price = input.Price, Title = input.Title };
 
             // voeg aanmaakdatum, beschikbaarheidsinfo, en aanbieder toe aan item
-            piece.CreationDate = piece.AvailableFrom = DateTime.UtcNow;
             var user = await _userManager.GetUserAsync(HttpContext.User);
             piece.Lesser = user.Id;
+            piece.CreationDate = piece.AvailableFrom = DateTime.UtcNow;
 
             // upload de afbeelding
             using (var memoryStream = new MemoryStream())
@@ -111,9 +112,17 @@ namespace NoviKunstuitleen.Controllers
 
         [HttpPost]
         [Authorize(Policy = "StudentOnly")]  // Huren kunstobjecten alleen toegestaan voor de rol student
-        public IActionResult Order(DetailViewModel input)
+        public async Task<IActionResult> Order(DetailViewModel input)
         {
-            // TODO
+            // 
+            NoviArtPiece entity = _dbcontext.NoviArtPieces.FirstOrDefault(a => a.Id == input.ArtPiece.Id);
+            if (entity != null)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                entity.Lessee = user.Id;
+                entity.AvailableFrom = DateTime.UtcNow.AddMonths(input.Months);
+                _dbcontext.SaveChanges();
+            }
 
             // en keer terug naar de collectie-pagina
             return RedirectToAction("Index");
