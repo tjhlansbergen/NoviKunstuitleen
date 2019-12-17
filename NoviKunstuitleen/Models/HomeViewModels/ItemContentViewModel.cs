@@ -12,13 +12,5 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         public NoviArtUser Lesser { get; set; }
         public bool ShowTitle { get; set; }
         public bool ShowDescription { get; set; }
-
-        public ItemContentViewModel(NoviArtPiece dbartpiece, NoviArtUser dblesser, bool title, bool descrption)
-        {
-            ArtPiece = dbartpiece;
-            Lesser = dblesser;
-            ShowTitle = title;
-            ShowDescription = descrption;
-        }
     }
 }

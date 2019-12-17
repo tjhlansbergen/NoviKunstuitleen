@@ -21,11 +21,11 @@
         <div class="highlighted">
             <h3>Uitgelicht</h3>
             <div class="highlightedcontent">
-                <partial name="_ItemContentPartial" model='new ItemContentViewModel(Model.HighlightedArtPiece, Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First(), title: true, descrption: true)' />
+                <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.HighlightedArtPiece, Lesser = Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First(), ShowTitle = true, ShowDescription = true }' />
             </div>
 
             <div class="highlightedimage">
-                <partial name="_ItemImagePartial" model='new ItemImageViewModel(Model.HighlightedArtPiece.ImageContent, Model.HighlightedArtPiece.ImageType, highlight: true)' />
+                <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = Model.HighlightedArtPiece.ImageContent, ImageType = Model.HighlightedArtPiece.ImageType, ShowHighlight = true }' />
 
             </div>
             <div class="clear">
@@ -46,10 +46,10 @@
             <div class="artpiece">
                 <div class="shadow">
                     <div class="artpieceimage">
-                        <partial name="_ItemImagePartial" model='new ItemImageViewModel(artpiece.ImageContent, artpiece.ImageType, highlight: false)' />
+                        <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = artpiece.ImageContent, ImageType = artpiece.ImageType, ShowHighlight = false }' />
                     </div>
                     <div class="artpiececontent">
-                        <partial name="_ItemContentPartial" model='new ItemContentViewModel(artpiece, Model.Users.Where(a => a.Id == artpiece.Lesser)?.First(), title: true, descrption: false)' />
+                        <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = artpiece, Lesser = Model.Users.Where(a => a.Id == artpiece.Lesser)?.First(), ShowTitle = true, ShowDescription = false}' />
                     </div>
                 </div>
             </div>

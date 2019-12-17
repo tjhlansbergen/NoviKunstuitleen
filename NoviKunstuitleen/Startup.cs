@@ -49,9 +49,9 @@ namespace NoviKunstuitleen
             services.AddAuthorization(options =>
             {
                 // voeg rol toe op basis van Claim-naam
-                // geen rol voor Student nodig omdat die niets mag wat Docent of Admin niet mogen
-                options.AddPolicy("DocentOnly", policy => policy.RequireClaim("Type", NoviUserType.Docent.ToString(), NoviUserType.Admin.ToString(), NoviUserType.Root.ToString()));
-                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Type", NoviUserType.Admin.ToString(), NoviUserType.Root.ToString()));
+                options.AddPolicy("StudentOnly", policy => policy.RequireClaim("Type", NoviUserType.Root.ToString(), NoviUserType.Admin.ToString(), NoviUserType.Student.ToString()));
+                options.AddPolicy("DocentOnly", policy => policy.RequireClaim("Type", NoviUserType.Root.ToString(), NoviUserType.Admin.ToString(), NoviUserType.Docent.ToString()));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Type", NoviUserType.Root.ToString(), NoviUserType.Admin.ToString()));
             });
         }
 

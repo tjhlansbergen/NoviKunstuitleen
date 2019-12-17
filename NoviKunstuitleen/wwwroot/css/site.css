@@ -89,6 +89,8 @@ td, th {
         float: left;
         width: 50%;
         padding-top: 20px;
+        height: 420px;
+        position: relative;
     }
 
     .highlightedimage {
@@ -96,6 +98,7 @@ td, th {
         float: right;
         text-align: right;
         padding-top: 20px;
+        padding-left: 20px;
     }
 
     .imagehighlight {
@@ -121,6 +124,12 @@ td, th {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .order {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
     }
 }
 
@@ -287,4 +296,17 @@ td, th {
     padding-top: 20px;
 }
 
+.order-left {
+    float: left;
+    width: 50%;
+}
 
+.order-right {
+    text-align: right;
+    float: right;
+    width: 50%;
+}
+
+#narrow-select{
+    width: auto;
+}

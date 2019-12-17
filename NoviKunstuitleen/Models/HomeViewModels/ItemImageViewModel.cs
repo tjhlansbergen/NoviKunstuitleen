@@ -11,11 +11,5 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         public string ImageType { get; set; }
         public bool ShowHighlight { get; set; }
 
-        public ItemImageViewModel(byte[] content, string type, bool highlight)
-        {
-            ImageContent = content;
-            ImageType = type;
-            ShowHighlight = highlight;
-        }
     }
 }

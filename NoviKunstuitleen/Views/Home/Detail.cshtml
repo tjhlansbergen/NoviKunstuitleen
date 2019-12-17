@@ -1,5 +1,8 @@
 ﻿@model NoviKunstuitleen.Models.HomeViewModels.DetailViewModel
 
+@inject SignInManager<NoviArtUser> SignInManager
+@inject UserManager<NoviArtUser> UserManager
+
 @{
     ViewData["Title"] = "Detail";
 }
@@ -8,11 +11,35 @@
     <div class="highlighted">
         <h3>@Model.ArtPiece.Title</h3>
         <div class="highlightedcontent">
-            <partial name="_ItemContentPartial" model='new ItemContentViewModel(Model.ArtPiece, Model.Lesser, title: false, descrption: true)' />
+            <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.ArtPiece, Lesser = Model.Lesser, ShowTitle = false, ShowDescription = true }' />
+
+            @if (Model.ArtPiece.Available && SignInManager.IsSignedIn(User) && new string[] { "Student", "Admin", "Root" }.Contains(User.FindFirst("Type").Value))
+            {
+
+                <form asp-action="Order" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="order">
+                        <div class="form-group order-left">
+                            <label asp-for="Months" class="control-label"></label>
+                            <select id="narrow-select" class="form-control" asp-for="Months" asp-items="@Enumerable.Range(3, 10).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() })" onchange="document.getElementById('total_price').innerHTML = this.value * @Model.ArtPiece.Price" ></select>
+                            <span asp-validation-for="Months" class="text-danger"></span>
+                        </div>
+                        <div class="form-group order-right">
+                            <b><label>Totaalbedrag:&nbsp;</label><label id="total_price">@(Model.ArtPiece.Price * 3)</label></b><br />
+                            <input type="submit" value="Deze neem ik!" class="btn btn-primary" />
+                        </div>
+                    </div>
+                    <div>
+                        <input hidden asp-for="ArtPiece.Id" />
+                        <input hidden asp-for="Lesser.Id" />
+                    </div>
+                </form>
+            }
+
         </div>
 
         <div class="highlightedimage">
-            <partial name="_ItemImagePartial" model='new ItemImageViewModel(Model.ArtPiece.ImageContent, Model.ArtPiece.ImageType, highlight: true)' />
+            <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = Model.ArtPiece.ImageContent, ImageType = Model.ArtPiece.ImageType, ShowHighlight = true }' />
 
         </div>
 

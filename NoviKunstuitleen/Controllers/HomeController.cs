@@ -106,7 +106,18 @@ namespace NoviKunstuitleen.Controllers
         {
             var piece = _dbcontext.NoviArtPieces.Where(a => a.Id == id).FirstOrDefault();
             var lesser = _dbcontext.Users.Where(u => u.Id == piece.Lesser).FirstOrDefault();
-            return View(new DetailViewModel(piece , lesser));
+            return View(new DetailViewModel { ArtPiece = piece, Lesser = lesser } );
         }
+
+        [HttpPost]
+        [Authorize(Policy = "StudentOnly")]  // Huren kunstobjecten alleen toegestaan voor de rol student
+        public IActionResult Order(DetailViewModel input)
+        {
+            // TODO
+
+            // en keer terug naar de collectie-pagina
+            return RedirectToAction("Index");
+        }
+
     }
 }
