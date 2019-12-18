@@ -34,6 +34,7 @@ namespace NoviKunstuitleen
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
 
             // forceer verplicht inloggen voor alle controllers

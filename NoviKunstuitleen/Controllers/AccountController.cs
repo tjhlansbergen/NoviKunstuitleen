@@ -9,6 +9,7 @@ using NoviKunstuitleen.Models.AccountViewModels;
 using NoviKunstuitleen.Services;
 using System;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Controllers
@@ -56,6 +57,14 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                // controleer of account bevestigd is
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var confirmed = await _userManager.IsEmailConfirmedAsync(user);
+                if (!confirmed)
+                {
+                    return View("EmailNotConfirmed");
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
@@ -134,7 +143,7 @@ namespace NoviKunstuitleen.Controllers
                 return View();
             }
         }
-        */
+        
 
         [HttpGet]
         [AllowAnonymous]
@@ -189,6 +198,7 @@ namespace NoviKunstuitleen.Controllers
                 return View();
             }
         }
+        */
 
         [HttpGet]
         [AllowAnonymous]
@@ -227,13 +237,13 @@ namespace NoviKunstuitleen.Controllers
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    // verwijderen? of emailsender configureren
+                    // verstuur verificatiemail
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    await _emailSender.SendEmailAsync(model.Email, "Bevestig uw account", $"Bevestig uw account door op de volgende link te klikken: <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>bevestig</a>");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToLocal(returnUrl);
+                    // gebruiker terugsturen naar inlogpagina
+                    return View("EmailNotConfirmed");
                 }
                 AddErrors(result);
             }
@@ -396,8 +406,7 @@ namespace NoviKunstuitleen.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailSender.SendEmailAsync(model.Email, "Reset uw wachtwoord", $"Reset uw wachtwoord door op de volgende link te klikken: <a href='{callbackUrl}'>reset</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 

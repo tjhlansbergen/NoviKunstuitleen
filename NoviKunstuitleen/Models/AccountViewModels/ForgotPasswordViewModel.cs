@@ -10,6 +10,7 @@ namespace NoviKunstuitleen.Models.AccountViewModels
     {
         [Required]
         [EmailAddress]
+        [Display(Name = "E-mail adres")]
         public string Email { get; set; }
     }
 }

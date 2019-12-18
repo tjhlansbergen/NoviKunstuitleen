@@ -11,7 +11,7 @@ namespace NoviKunstuitleen.Models.AccountViewModels
     {
         [Required(ErrorMessage = "Dit veld is verplicht")]
         [EmailAddress]
-        [Display(Name = "Email adres")]
+        [Display(Name = "E-mail adres")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Dit veld is verplicht")]
