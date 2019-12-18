@@ -56,8 +56,6 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
@@ -66,7 +64,7 @@ namespace NoviKunstuitleen.Controllers
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("Dit account is vergrendeld");
+                    _logger.LogWarning("Account locked-out");
                     return RedirectToAction(nameof(Lockout));
                 }
                 else
@@ -80,6 +78,7 @@ namespace NoviKunstuitleen.Controllers
             return View(model);
         }
 
+        /*
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
@@ -135,6 +134,7 @@ namespace NoviKunstuitleen.Controllers
                 return View();
             }
         }
+        */
 
         [HttpGet]
         [AllowAnonymous]
@@ -273,6 +273,7 @@ namespace NoviKunstuitleen.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        /*
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -351,6 +352,7 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View(nameof(ExternalLogin), model);
         }
+        */
 
         [HttpGet]
         [AllowAnonymous]

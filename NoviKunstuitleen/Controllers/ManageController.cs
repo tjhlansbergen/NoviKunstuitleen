@@ -226,6 +226,7 @@ namespace NoviKunstuitleen.Controllers
             return RedirectToAction(nameof(SetPassword));
         }
 
+        /*
         [HttpGet]
         public async Task<IActionResult> ExternalLogins()
         {
@@ -244,6 +245,7 @@ namespace NoviKunstuitleen.Controllers
 
             return View(model);
         }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -258,6 +260,7 @@ namespace NoviKunstuitleen.Controllers
             return new ChallengeResult(provider, properties);
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> LinkLoginCallback()
         {
@@ -306,6 +309,7 @@ namespace NoviKunstuitleen.Controllers
             StatusMessage = "The external login was removed.";
             return RedirectToAction(nameof(ExternalLogins));
         }
+        
 
         [HttpGet]
         public async Task<IActionResult> TwoFactorAuthentication()
@@ -414,6 +418,7 @@ namespace NoviKunstuitleen.Controllers
 
             return RedirectToAction(nameof(ShowRecoveryCodes));
         }
+        
 
         [HttpGet]
         public IActionResult ShowRecoveryCodes()
@@ -490,6 +495,7 @@ namespace NoviKunstuitleen.Controllers
 
             return View(nameof(ShowRecoveryCodes), model);
         }
+        */
 
         #region Helpers
 
@@ -501,6 +507,7 @@ namespace NoviKunstuitleen.Controllers
             }
         }
 
+        /*
         private string FormatKey(string unformattedKey)
         {
             var result = new StringBuilder();
@@ -527,6 +534,7 @@ namespace NoviKunstuitleen.Controllers
                 unformattedKey);
         }
 
+        
         private async Task LoadSharedKeyAndQrCodeUriAsync(NoviArtUser user, EnableAuthenticatorViewModel model)
         {
             var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
@@ -539,6 +547,7 @@ namespace NoviKunstuitleen.Controllers
             model.SharedKey = FormatKey(unformattedKey);
             model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
         }
+        */
 
         #endregion
     }

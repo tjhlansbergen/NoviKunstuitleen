@@ -1,8 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = "Toegang geweigerd";
 }
 
-<header>
+<div class="fullcontent">
     <h2 class="text-danger">@ViewData["Title"]</h2>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+    <p class="text-danger">U heeft helaas geen toegang tot deze pagina.</p>
+    <a asp-controller="Home" asp-action="Index">Terug</a>
+</div>
