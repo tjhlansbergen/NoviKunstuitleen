@@ -8,7 +8,6 @@ namespace NoviKunstuitleen.Models.HomeViewModels
     public class IndexViewModel
     {
         // properties
-        public List<NoviArtUser> Users { get; private set; }
         public List<NoviArtPiece> ArtPieces { get; private set; }
         public NoviArtPiece HighlightedArtPiece { get; private set; }
         
@@ -17,11 +16,10 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         static readonly Random rnd = new Random();
 
         // constructor
-        public IndexViewModel(List<NoviArtUser> dbusers, List<NoviArtPiece> dbpieces)
+        public IndexViewModel(List<NoviArtPiece> dbpieces)
         {
             // initialisatie
             ArtPieces = dbpieces;
-            Users = dbusers;
 
             // willekeurig item selecteren uit de beschikbare items als highlighted item
             var availableArtPieces = ArtPieces.Where(a => a.Available).ToList();

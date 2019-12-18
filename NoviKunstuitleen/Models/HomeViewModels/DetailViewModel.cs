@@ -11,7 +11,6 @@ namespace NoviKunstuitleen.Models.HomeViewModels
     {
         // weergave properties
         public NoviArtPiece ArtPiece { get; set; }
-        public NoviArtUser Lesser { get; set; }
 
         // formulier properties
         [Required]

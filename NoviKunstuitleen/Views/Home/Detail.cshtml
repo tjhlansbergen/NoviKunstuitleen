@@ -11,7 +11,7 @@
     <div class="highlighted">
         <h3>@Model.ArtPiece.Title</h3>
         <div class="highlightedcontent">
-            <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.ArtPiece, Lesser = Model.Lesser, ShowTitle = false, ShowDescription = true }' />
+            <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.ArtPiece, ShowTitle = false, ShowDescription = true }' />
 
             @if (Model.ArtPiece.Available && SignInManager.IsSignedIn(User) && new string[] { "Student", "Admin", "Root" }.Contains(User.FindFirst("Type").Value))
             {
@@ -31,7 +31,6 @@
                     </div>
                     <div>
                         <input hidden asp-for="ArtPiece.Id" />
-                        <input hidden asp-for="Lesser.Id" />
                     </div>
                 </form>
             }

@@ -12,6 +12,7 @@ using NoviKunstuitleen.Models.HomeViewModels;
 using NoviKunstuitleen.Extensions;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -29,7 +30,7 @@ namespace NoviKunstuitleen.Controllers
             _userManager = userManager;
 
             // TODO housekeeping
-            foreach(var artpiece in _dbcontext.NoviArtPieces.Where(a => a.AvailableFrom < DateTime.UtcNow))
+            foreach(var artpiece in _dbcontext.NoviArtPieces.Include(a => a.Lesser).Where(a => a.AvailableFrom < DateTime.UtcNow))
             {
                     artpiece.Lessee = null;
             }
@@ -38,7 +39,7 @@ namespace NoviKunstuitleen.Controllers
 
         public IActionResult Index()
         {
-            return View(new IndexViewModel(_dbcontext.Users.ToList(), _dbcontext.NoviArtPieces.ToList()));
+            return View(new IndexViewModel(_dbcontext.NoviArtPieces.ToList()));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -61,8 +62,7 @@ namespace NoviKunstuitleen.Controllers
             NoviArtPiece piece = new NoviArtPiece{ Artist = input.Artist, Description = input.Description, Dimensions = input.Dimensions, Frame = input.Frame, Price = input.Price, Title = input.Title };
 
             // voeg aanmaakdatum, beschikbaarheidsinfo, en aanbieder toe aan item
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            piece.Lesser = user.Id;
+            piece.Lesser = await _userManager.GetUserAsync(HttpContext.User);
             piece.CreationDate = piece.AvailableFrom = DateTime.UtcNow;
 
             // upload de afbeelding
@@ -105,9 +105,8 @@ namespace NoviKunstuitleen.Controllers
         
         public IActionResult Detail(int id)
         {
-            var piece = _dbcontext.NoviArtPieces.Where(a => a.Id == id).FirstOrDefault();
-            var lesser = _dbcontext.Users.Where(u => u.Id == piece.Lesser).FirstOrDefault();
-            return View(new DetailViewModel { ArtPiece = piece, Lesser = lesser } );
+            var piece = _dbcontext.NoviArtPieces.Include(a => a.Lesser).Where(a => a.Id == id).FirstOrDefault();
+            return View(new DetailViewModel { ArtPiece = piece } );
         }
 
         [HttpPost]
@@ -118,8 +117,7 @@ namespace NoviKunstuitleen.Controllers
             NoviArtPiece entity = _dbcontext.NoviArtPieces.FirstOrDefault(a => a.Id == input.ArtPiece.Id);
             if (entity != null)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                entity.Lessee = user.Id;
+                entity.Lessee = await _userManager.GetUserAsync(HttpContext.User);
                 entity.AvailableFrom = DateTime.UtcNow.AddMonths(input.Months);
                 _dbcontext.SaveChanges();
             }

@@ -21,7 +21,7 @@
         <div class="highlighted">
             <h3>Uitgelicht</h3>
             <div class="highlightedcontent">
-                <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.HighlightedArtPiece, Lesser = Model.Users.Where(a => a.Id == Model.HighlightedArtPiece.Lesser)?.First(), ShowTitle = true, ShowDescription = true }' />
+                <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.HighlightedArtPiece, ShowTitle = true, ShowDescription = true }' />
             </div>
 
             <div class="highlightedimage">
@@ -49,7 +49,7 @@
                         <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = artpiece.ImageContent, ImageType = artpiece.ImageType, ShowHighlight = false }' />
                     </div>
                     <div class="artpiececontent">
-                        <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = artpiece, Lesser = Model.Users.Where(a => a.Id == artpiece.Lesser)?.First(), ShowTitle = true, ShowDescription = false}' />
+                        <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = artpiece, ShowTitle = true, ShowDescription = false}' />
                     </div>
                 </div>
             </div>

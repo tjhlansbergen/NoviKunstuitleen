@@ -9,7 +9,6 @@ namespace NoviKunstuitleen.Models.HomeViewModels
     public class ItemContentViewModel
     {
         public NoviArtPiece ArtPiece { get; set; }
-        public NoviArtUser Lesser { get; set; }
         public bool ShowTitle { get; set; }
         public bool ShowDescription { get; set; }
     }

@@ -9,7 +9,7 @@ using NoviKunstuitleen.Data;
 namespace NoviKunstuitleen.Migrations
 {
     [DbContext(typeof(NoviArtDbContext))]
-    [Migration("20191216150253_initial")]
+    [Migration("20191218082605_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,24 +142,31 @@ namespace NoviKunstuitleen.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("ImageContent")
+                        .IsRequired()
                         .HasColumnType("BLOB");
 
                     b.Property<string>("ImageType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("Lessee")
+                    b.Property<int?>("LesseeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Lesser")
+                    b.Property<int>("LesserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LesseeId");
+
+                    b.HasIndex("LesserId");
 
                     b.ToTable("NoviArtPieces");
                 });
@@ -312,6 +319,19 @@ namespace NoviKunstuitleen.Migrations
                     b.HasOne("NoviKunstuitleen.Data.NoviArtUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NoviKunstuitleen.Data.NoviArtPiece", b =>
+                {
+                    b.HasOne("NoviKunstuitleen.Data.NoviArtUser", "Lessee")
+                        .WithMany()
+                        .HasForeignKey("LesseeId");
+
+                    b.HasOne("NoviKunstuitleen.Data.NoviArtUser", "Lesser")
+                        .WithMany()
+                        .HasForeignKey("LesserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
