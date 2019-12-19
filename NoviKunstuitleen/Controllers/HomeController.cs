@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using NoviKunstuitleen.Data;
+using NoviKunstuitleen.Extensions;
+using NoviKunstuitleen.Models.HomeViewModels;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NoviKunstuitleen.Data;
-using NoviKunstuitleen.Models.HomeViewModels;
-using NoviKunstuitleen.Extensions;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
 
 namespace NoviKunstuitleen.Controllers
 {
+    /// <summary>
+    /// Controller voor de Home pagina's
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -29,44 +29,69 @@ namespace NoviKunstuitleen.Controllers
             _dbcontext = dbcontext;
             _userManager = userManager;
 
-            // TODO housekeeping
-            foreach(var artpiece in _dbcontext.NoviArtPieces.Include(a => a.Lesser).Where(a => a.AvailableFrom < DateTime.UtcNow))
-            {
-                    artpiece.Lessee = null;
-            }
-            _dbcontext.SaveChanges();
+            // verwerk vestreken huurperiodes voor ieder sessie, op de achtergrond
+            new Action(async () => await ReleaseArtPiecesAsync())();
         }
 
+        /// <summary>
+        /// Asynchrone methode voor het verwijderen van de lener bij kunstwerken waarvan de huurperiode verstreken is
+        /// </summary>
+        public async Task ReleaseArtPiecesAsync()
+        {
+            // haal alle kunstwerken op die beschikbaar zijn maar toch nog een lener hebben
+            foreach (var artpiece in _dbcontext.NoviArtPieces.Include(a => a.Lessee).Where(a => a.AvailableFrom < DateTime.UtcNow && a.Lessee != null))
+            {
+                // verwijder de lener
+                artpiece.Lessee = null;
+
+                // logging
+                _logger.LogInformation("Lessee automatically removed for artpiece with id: {0}", artpiece.Id);
+            }
+            // en verwerk in database
+            await _dbcontext.SaveChangesAsync();
+        }
+
+
+        /// <summary>
+        /// Methode voor tonen collectiepagina, haalt kunstwerken en bijbehorende gebruikers op uit database
+        /// </summary>
         public IActionResult Index()
         {
-            return View(new IndexViewModel(_dbcontext.NoviArtPieces.ToList()));
+            return View(new IndexViewModel(_dbcontext.NoviArtPieces.Include(a => a.Lesser).Include(a => a.Lessee).ToList()));
         }
 
-        /* 
-        <summary>
-        Action voor een te tonen melding, gebruik:
-            <a asp-controller="Home" asp-action="Error">Lege error</a>
-            <a asp-controller="Home" asp-action="Error" asp-route-message="Berichttekst">Error met breichttekst</a>
-            <a asp-controller="Home" asp-action="Error" asp-route-message="Berichttekst" asp-route-returncontroller="Home" asp-route-returnaction="Create">Error met message en return route</a>
-        </summary>
-        */
+        /// <summary>
+        /// Methode voor het tonen van (fout)melding
+        /// </summary>
+        /// <param name="message">De te tonen melding</param>
+        /// <param name="returncontroller">optionele controler voor terug-link</param>
+        /// <param name="returnaction">optionele actie voor terug-link</param>
+        /// <returns></returns>
         public IActionResult Error(string message, string returncontroller, string returnaction)
         {
-            return View( new ErrorViewModel { Message = message, ReturnToController = returncontroller, ReturnToAction = returnaction } );
+            return View(new ErrorViewModel { Message = message, ReturnToController = returncontroller, ReturnToAction = returnaction });
         }
 
-        [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent
+
+        /// <summary>
+        /// Methode voor tonen aanmaakformulier kunstwerk, alleen toegestaan voor Docenten
+        /// </summary>
+        [Authorize(Policy = "DocentOnly")]
         public IActionResult Create()
         {
             return View();
         }
 
+
+        /// <summary>
+        /// Asynchrone methode voor toevoegen van kunstwerk uit webformulier, alleen toegstaan voor Docenten
+        /// </summary>
         [HttpPost]
-        [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent
+        [Authorize(Policy = "DocentOnly")]
         public async Task<IActionResult> Create(CreateViewModel input)
         {
             // verwerk input vanuit webformulier
-            NoviArtPiece piece = new NoviArtPiece{ Artist = input.Artist, Description = input.Description, Dimensions = input.Dimensions, Frame = input.Frame, Price = input.Price, Title = input.Title };
+            NoviArtPiece piece = new NoviArtPiece { Artist = input.Artist, Description = input.Description, Dimensions = input.Dimensions, Frame = input.Frame, Price = input.Price, Title = input.Title };
 
             // voeg aanmaakdatum, beschikbaarheidsinfo, en aanbieder toe aan item
             piece.Lesser = await _userManager.GetUserAsync(HttpContext.User);
@@ -109,29 +134,40 @@ namespace NoviKunstuitleen.Controllers
             // en keer terug naar de collectie-pagina
             return RedirectToAction("Index");
         }
-        
+
+
+        /// <summary>
+        /// Methode voor tonen van detailpagina voor kunstwerken, asynchroon hier niet nuttig omdat gebruiker sowieso moet wachten op resutaat.
+        /// </summary>
         public IActionResult Detail(int id)
         {
             var piece = _dbcontext.NoviArtPieces.Include(a => a.Lesser).Where(a => a.Id == id).FirstOrDefault();
-            return View(new DetailViewModel { ArtPiece = piece } );
+            return View(new DetailViewModel { ArtPiece = piece });
         }
 
+
+        /// <summary>
+        /// Asynchrone methode voor verwerken van bestelling van kunstwerk, alleen toegestaand voor Studenten
+        /// </summary>
         [HttpPost]
-        [Authorize(Policy = "StudentOnly")]  // Huren kunstobjecten alleen toegestaan voor de rol student
+        [Authorize(Policy = "StudentOnly")]
         public async Task<IActionResult> Order(DetailViewModel input)
         {
-            // 
+            // haal kunstwerk op uit database
             NoviArtPiece entity = _dbcontext.NoviArtPieces.FirstOrDefault(a => a.Id == input.ArtPiece.Id);
             if (entity != null)
             {
+                // zet huurder en beschikbaarheidsinfo in database
                 entity.Lessee = await _userManager.GetUserAsync(HttpContext.User);
                 entity.AvailableFrom = DateTime.UtcNow.AddMonths(input.Months);
                 _dbcontext.SaveChanges();
+
+                // logging
+                _logger.LogInformation("User reserved artpiece with id: {0}", entity.Id);
             }
 
             // en keer terug naar de collectie-pagina
             return RedirectToAction("Index");
         }
-
     }
 }
