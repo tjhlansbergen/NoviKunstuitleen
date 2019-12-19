@@ -1,19 +1,27 @@
 ﻿@model ErrorViewModel
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = "Melding";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
-@if (Model != null)
-{
-    if (Model.ShowRequestId)
+<div class="fullcontent">
+    <br/>
+    @if (Model != null)
     {
-        <p>
-            <strong>Request ID:</strong> <code>@Model.RequestId</code>
-        </p>
-    }
-}
+        if (Model.Message != null)
+        {
+            <p>@Model.Message</p>
+        }
+        else
+        {
+            <p>Er heeft zich een onbekende fout voorgedaan</p>
+        }
 
+        if (Model.ReturnToController != null && Model.ReturnToAction != null)
+        {
+            <div>
+                <a asp-controller="@Model.ReturnToController" asp-action="@Model.ReturnToAction">Terug</a>
+            </div>
+        }
+    }
+</div>
 

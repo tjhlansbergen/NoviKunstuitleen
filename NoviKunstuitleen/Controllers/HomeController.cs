@@ -42,10 +42,9 @@ namespace NoviKunstuitleen.Controllers
             return View(new IndexViewModel(_dbcontext.NoviArtPieces.ToList()));
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(string message, string returncontroller, string returnaction)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View( new ErrorViewModel { Message = message, ReturnToController = returncontroller, ReturnToAction = returnaction } );
         }
 
         [Authorize(Policy = "DocentOnly")]  // Toevoegen van kunstobjecten alleen toegestaan voor de rol docent

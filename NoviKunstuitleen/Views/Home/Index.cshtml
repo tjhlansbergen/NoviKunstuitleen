@@ -7,60 +7,60 @@
     ViewData["Title"] = "Collectie";
 }
 
-<div class="fullcontent">
+    <div class="fullcontent">
 
-    <!-- NIEUW OBJECT, alleen tonen voor docenten -->
-    @if (SignInManager.IsSignedIn(User) && new string[] { "Docent", "Admin", "Root" }.Contains(User.FindFirst("Type").Value))
-    {
-        <a class="largelink" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
-    }
-
-    @if (Model.HighlightedArtPiece != null)
-    {
-        <!-- UITGELICHT -->
-        <div class="highlighted">
-            <h3>Uitgelicht</h3>
-            <div class="highlightedcontent">
-                <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.HighlightedArtPiece, ShowTitle = true, ShowDescription = true }' />
-            </div>
-
-            <div class="highlightedimage">
-                <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = Model.HighlightedArtPiece.ImageContent, ImageType = Model.HighlightedArtPiece.ImageType, ShowHighlight = true }' />
-
-            </div>
-            <div class="clear">
-                <!-- lege div voor clear -->
-            </div>
-        </div>
-    }
-
-
-    <!-- COLLECTIE -->
-    <div class="collection">
-        <div class="sectionheader">
-            <h3>Collectie</h3>
-        </div>
-
-        @foreach (var artpiece in Model.ArtPieces)
+        <!-- NIEUW OBJECT, alleen tonen voor docenten -->
+        @if (SignInManager.IsSignedIn(User) && new string[] { "Docent", "Admin", "Root" }.Contains(User.FindFirst("Type").Value))
         {
-            <div class="artpiece">
-                <div class="shadow">
-                    <div class="artpieceimage">
-                        <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = artpiece.ImageContent, ImageType = artpiece.ImageType, ShowHighlight = false }' />
-                    </div>
-                    <div class="artpiececontent">
-                        <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = artpiece, ShowTitle = true, ShowDescription = false}' />
-                    </div>
+            <a class="largelink" asp-controller="Home" asp-action="Create">&#9776; Plaats nieuw kunstwerk</a>
+        }
+
+        @if (Model.HighlightedArtPiece != null)
+        {
+            <!-- UITGELICHT -->
+            <div class="highlighted">
+                <h3>Uitgelicht</h3>
+                <div class="highlightedcontent">
+                    <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.HighlightedArtPiece, ShowTitle = true, ShowDescription = true }' />
+                </div>
+
+                <div class="highlightedimage">
+                    <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = Model.HighlightedArtPiece.ImageContent, ImageType = Model.HighlightedArtPiece.ImageType, ShowHighlight = true }' />
+
+                </div>
+                <div class="clear">
+                    <!-- lege div voor clear -->
                 </div>
             </div>
         }
 
-        <div class="clear">
-            <!-- lege div voor clear -->
-        </div>
-    </div>
 
-</div>
+        <!-- COLLECTIE -->
+        <div class="collection">
+            <div class="sectionheader">
+                <h3>Collectie</h3>
+            </div>
+
+            @foreach (var artpiece in Model.ArtPieces)
+            {
+                <div class="artpiece">
+                    <div class="shadow">
+                        <div class="artpieceimage">
+                            <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = artpiece.ImageContent, ImageType = artpiece.ImageType, ShowHighlight = false }' />
+                        </div>
+                        <div class="artpiececontent">
+                            <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = artpiece, ShowTitle = true, ShowDescription = false}' />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="clear">
+                <!-- lege div voor clear -->
+            </div>
+        </div>
+
+    </div>
 
 <footer class="footer">
     &copy; 2019 - Tako Lansbergen
