@@ -42,6 +42,14 @@ namespace NoviKunstuitleen.Controllers
             return View(new IndexViewModel(_dbcontext.NoviArtPieces.ToList()));
         }
 
+        /* 
+        <summary>
+        Action voor een te tonen melding, gebruik:
+            <a asp-controller="Home" asp-action="Error">Lege error</a>
+            <a asp-controller="Home" asp-action="Error" asp-route-message="Berichttekst">Error met breichttekst</a>
+            <a asp-controller="Home" asp-action="Error" asp-route-message="Berichttekst" asp-route-returncontroller="Home" asp-route-returnaction="Create">Error met message en return route</a>
+        </summary>
+        */
         public IActionResult Error(string message, string returncontroller, string returnaction)
         {
             return View( new ErrorViewModel { Message = message, ReturnToController = returncontroller, ReturnToAction = returnaction } );

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NoviKunstuitleen.Data;
 using NoviKunstuitleen.Models.AdminViewModels;
+using NoviKunstuitleen.Models.HomeViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,21 +37,28 @@ namespace NoviKunstuitleen.Controllers
         /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database
         /// Method-overloading helaas onmogelijk omdat de http route (actionname) uniek moet zijn. 
         /// </summary>
-        public IActionResult DeleteArtPiece(int id)
+        public async Task<IActionResult> DeleteArtPiece(int id)
         {
-            // maak een nieuw ArtPiece instantie met alleen de primary key
-            NoviArtPiece entity = new NoviArtPiece { Id = id };
+            // haal object op uit database
+            NoviArtPiece entity = await _dbcontext.NoviArtPieces.Include(a => a.Lesser).Where(a => a.Id == id).FirstOrDefaultAsync();
 
-            // verwijder item uit database
-            _dbcontext.NoviArtPieces.Remove(entity);
-            _dbcontext.SaveChanges();
+            if (entity != null)
+            {
+                // controleer of het object momenteel niet verhuurd is
+                if (!entity.Available) return View("Error", new ErrorViewModel { Message = "Het kunstwerk wat u wilt verwijderen is momenteel verhuurd, u kunt deze pas verwijderen als de huurperiode verstreken is.", ReturnToController = "Admin", ReturnToAction = "Index" });
 
-            // TODO logging
+                // verwijder item uit database
+                _dbcontext.NoviArtPieces.Remove(entity);
+                await _dbcontext.SaveChangesAsync();
+
+                // TODO logging
+
+            }
+
 
             // en herlaadt pagina
             return RedirectToAction("Index");
         }
-
 
         /// <summary>
         /// Methode voor het verwijderen van de opgegeven NoviUser uit de database
@@ -57,11 +66,24 @@ namespace NoviKunstuitleen.Controllers
         /// </summary>
         public async Task<IActionResult> DeleteUser(string id)
         {
-            // zoek de gebruiker en verwijder deze
+            // zoek de gebruiker
             NoviArtUser user = await _userManager.FindByIdAsync(id);
-            if (user != null) await _userManager.DeleteAsync(user);
 
-            // TODO logging
+
+            if (user != null)
+            {
+                // controleer of user momenteel niets huurt
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lessee.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = "De gebruiker die u wilt verwijderen huurt op dit moment één of meerdere kunstwerken. U kunt deze gebruiker pas verwijderen als de huurperiode verstreken is.", ReturnToController = "Admin", ReturnToAction = "Index" });
+
+                // controleer of user momenteel niets verhuurd
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lesser.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = "De gebruiker die u wilt verwijderen biedt nog kunstwerken te leen aan. U kunt de gebruiker pas verwijderen als al zijn/haar kunstwerken verwijderd zijn.", ReturnToController = "Admin", ReturnToAction = "Index" });
+
+                // verwijder user
+                await _userManager.DeleteAsync(user);
+
+                // TODO logging
+            }
+
 
             // en herlaadt pagina
             return RedirectToAction("Index");
