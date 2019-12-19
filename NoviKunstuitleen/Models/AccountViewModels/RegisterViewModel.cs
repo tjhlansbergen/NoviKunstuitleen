@@ -26,6 +26,7 @@ namespace NoviKunstuitleen.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Dit veld is verplicht")]
+        [StringLength(25, ErrorMessage = "Maximaal 25 karakters")]
         [Display(Name = "Weergavenaam")]
         public string DisplayName { get; set; }
 
