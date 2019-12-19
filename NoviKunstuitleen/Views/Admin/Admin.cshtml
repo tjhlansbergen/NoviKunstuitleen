@@ -11,10 +11,10 @@
         <table>
             <tr>
                 <th>Id:</th>
-                <th>Weergavenaam:</th>
                 <th>Gebruikersnaam:</th>
+                <th>Weergavenaam:</th>
                 <th>Accounttype:</th>
-                <th>Account bevestigd:</th>
+                <th>Bevestigd:</th>
                 <th>&nbsp;</th>
             </tr>
             @foreach (var user in Model.Users.OrderByDescending(a => a.Type))
@@ -24,16 +24,23 @@
                         @user.Id.ToString()
                     </td>
                     <td>
-                        @user.DisplayName.ToString()
+                        @user.UserName.ToString()
                     </td>
                     <td>
-                        @user.UserName.ToString()
+                        @user.DisplayName.ToString()
                     </td>
                     <td>
                         @user.Type.ToString()
                     </td>
                     <td>
-                        @user.EmailConfirmed.ToString()
+                        @if (user.EmailConfirmed)
+                        {
+                            <text>Ja</text>
+                        }
+                        else
+                        {
+                            <a asp-controller="Admin" asp-action="ConfirmAccount" asp-route-id="@user.Id">bevestig nu</a>
+                        }
                     </td>
                     <td>
                         @if (user.Type != NoviUserType.Root)

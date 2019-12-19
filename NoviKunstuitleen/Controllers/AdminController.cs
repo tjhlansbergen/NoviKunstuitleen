@@ -9,13 +9,16 @@ using NoviKunstuitleen.Models.HomeViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace NoviKunstuitleen.Controllers
 {
 
+    /// <summary>
+    /// Controller voor de Admin pagina
+    /// </summary>
     [Authorize(Policy = "AdminOnly")]
     public class AdminController : Controller
     {
-
         private readonly ILogger<AdminController> _logger;
         private readonly NoviArtDbContext _dbcontext;
         private readonly UserManager<NoviArtUser> _userManager;
@@ -28,18 +31,21 @@ namespace NoviKunstuitleen.Controllers
             _userManager = userManager;
         }
 
+
+        /// <summary>
+        /// Toon adminpagina, haal users en artpieces op uit database bij laden
+        /// </summary>
         public IActionResult Index()
         {
             return View("Admin", new AdminViewModel(dbusers: _dbcontext.Users.ToList<NoviArtUser>(), dbartpieces: _dbcontext.NoviArtPieces.ToList<NoviArtPiece>()));
         }
 
         /// <summary>
-        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database
-        /// Method-overloading helaas onmogelijk omdat de http route (actionname) uniek moet zijn. 
+        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database 
         /// </summary>
         public async Task<IActionResult> DeleteArtPiece(int id)
         {
-            // haal object op uit database
+            // haal artpiece op uit database
             NoviArtPiece entity = await _dbcontext.NoviArtPieces.Include(a => a.Lesser).Where(a => a.Id == id).FirstOrDefaultAsync();
 
             if (entity != null)
@@ -51,10 +57,9 @@ namespace NoviKunstuitleen.Controllers
                 _dbcontext.NoviArtPieces.Remove(entity);
                 await _dbcontext.SaveChangesAsync();
 
-                // TODO logging
-
+                // logging
+                _logger.LogInformation("An admin deleted artpiece with id: {0}", id);
             }
-
 
             // en herlaadt pagina
             return RedirectToAction("Index");
@@ -62,7 +67,6 @@ namespace NoviKunstuitleen.Controllers
 
         /// <summary>
         /// Methode voor het verwijderen van de opgegeven NoviUser uit de database
-        /// Method-overloading helaas onmogelijk omdat de http route (actionname) uniek moet zijn. 
         /// </summary>
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -81,9 +85,33 @@ namespace NoviKunstuitleen.Controllers
                 // verwijder user
                 await _userManager.DeleteAsync(user);
 
-                // TODO logging
+                // logging
+                _logger.LogInformation("An admin deleted a user with id: {0}", id);
             }
 
+
+            // en herlaadt pagina
+            return RedirectToAction("Index");
+        }
+
+
+        /// <summary>
+        /// Methode voor het bevestigen van gebruikersaccounts door een admin
+        /// </summary>
+        public async Task<IActionResult> ConfirmAccount(string id)
+        {
+            // zoek de gebruiker
+            NoviArtUser user = await _userManager.FindByIdAsync(id);
+
+            if(user != null)
+            {
+                // zet bevestigd, update database
+                user.EmailConfirmed = true;
+                await _dbcontext.SaveChangesAsync();
+
+                // logging
+                _logger.LogInformation("An admin confirmed an account with id: {0}", id);
+            }
 
             // en herlaadt pagina
             return RedirectToAction("Index");

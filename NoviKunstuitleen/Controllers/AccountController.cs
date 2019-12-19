@@ -8,7 +8,6 @@ using NoviKunstuitleen.Extensions;
 using NoviKunstuitleen.Models.AccountViewModels;
 using NoviKunstuitleen.Services;
 using System;
-using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -215,13 +214,6 @@ namespace NoviKunstuitleen.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Authorize(Policy = "AdminOnly")]
-        public IActionResult AdminRegister(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -252,6 +244,14 @@ namespace NoviKunstuitleen.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize(Policy = "AdminOnly")]
+        public IActionResult AdminRegister(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
         [ValidateAntiForgeryToken]
@@ -260,17 +260,27 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                // maak gebruiker aan met data uit formulier
                 var user = new NoviArtUser { UserName = model.Email, Email = model.Email, NoviNumber = "0", Type = model.Type, DisplayName = model.DisplayName };
+
+                // zet account direct bevestigd (apart van de actie hierboven omwille van leesbaarheid)
+                user.EmailConfirmed = true;
+
+                // maak account aan
                 var result = await _userManager.CreateAsync(user, model.Password);
+                
+                // verwerk resultaat
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("An admin created a new account with password.");
                     return RedirectToAction("Index", "Admin");
                 }
+
+                // resultaat niet succesvol, 
                 AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
+            // Toon formulier opnieuw met eerdere errors
             return View(model);
         }
 

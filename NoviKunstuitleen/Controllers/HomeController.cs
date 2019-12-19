@@ -103,7 +103,7 @@ namespace NoviKunstuitleen.Controllers
             _dbcontext.Add<NoviArtPiece>(piece);
             _dbcontext.SaveChanges();
 
-            // Maak entry in log
+            // logging
             _logger.LogInformation("User created a new artpiece with id: {0}", piece.Id);
 
             // en keer terug naar de collectie-pagina
