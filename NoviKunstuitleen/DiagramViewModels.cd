@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.ForgotPasswordViewModel" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels\ForgotPasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.LoginViewModel" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.RegisterViewModel" Collapsed="true">
+    <Position X="0.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAACAAAAAAAEAAAAAAAAAAAAACAQAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels\RegisterViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.ResetPasswordViewModel" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAgAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels\ResetPasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.CreateViewModel" Collapsed="true">
+    <Position X="3.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAgAEAAAAAAAAIAAIAAABAAAAAAAAAAAAE=</HashCode>
+      <FileName>Models\HomeViewModels\CreateViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.DetailViewModel" Collapsed="true">
+    <Position X="3.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\DetailViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.ErrorViewModel" Collapsed="true">
+    <Position X="3.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAQAAAAIAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.IndexViewModel" Collapsed="true">
+    <Position X="3.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Models\HomeViewModels\IndexViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.ItemContentViewModel" Collapsed="true">
+    <Position X="3.25" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\ItemContentViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.ItemImageViewModel" Collapsed="true">
+    <Position X="3.25" Y="5.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\ItemImageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.AdminDataViewModel" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\AdminDataViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.ChangePasswordViewModel" Collapsed="true">
+    <Position X="5.75" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAIAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels\ChangePasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.DocentDataViewModel" Collapsed="true">
+    <Position X="5.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\DocentDataViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.ManageViewModel" Collapsed="true">
+    <Position X="5.75" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\ManageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.StudentDataViewModel" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\StudentDataViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Controllers.AccountController" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAABAAhIAAAACIAAAFAAAIAJACBAIAAAAEQAAAgAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Controllers.HomeController" Collapsed="true">
+    <Position X="3.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEABAAAAQAAAQAAAAEAAAAAIAAAAEAAAAEAAAAACAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Controllers.ManageController" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAQAAgAAFAABAAAAAIAEAAAAAAAAAAIAgACA=</HashCode>
+      <FileName>Controllers\ManageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
