@@ -1,0 +1,46 @@
+﻿@model NoviKunstuitleen.Models.ManageViewModels.DocentDataViewModel
+
+<h5>Kunstwerken die u verhuurt:</h5>
+@if (!Model.LettedPieces.Any())
+{
+    <text><i>geen kunstwerken</i></text>
+}
+else
+{
+    <table>
+        <tr>
+            <th>Titel:</th>
+            <th>Huurder:</th>
+            <th>Geplaatst op:</th>
+            <th>Verhuurd tot:</th>
+            <th>Prijs per maand:</th>
+            <th>&nbsp;</th>
+        </tr>
+        @foreach (var artpiece in Model.LettedPieces)
+        {
+    <tr>
+        <td>
+            @artpiece.Title
+        </td>
+        <td>
+            @artpiece.Lessee?.DisplayName
+        </td>
+        <td>
+            @artpiece.CreationDate.ToShortDateString()
+        </td>
+        <td>
+            @artpiece.AvailableFrom.ToShortDateString()
+        </td>
+        <td>
+            @artpiece.Price.ToString()
+        </td>
+        <td>
+            <a asp-controller="Manage" asp-action="DeleteArtPiece" asp-route-id="@artpiece.Id">verwijder</a>
+        </td>
+    </tr>
+        }
+    </table>
+
+}
+<br />
+

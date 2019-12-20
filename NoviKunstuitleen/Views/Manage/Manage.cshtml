@@ -1,31 +1,42 @@
-﻿@model ManageViewModel
+﻿@model NoviKunstuitleen.Models.ManageViewModels.ManageViewModel
 @{
-    ViewData["Title"] = "Profile";
-    ViewData.AddActivePage(ManageNavPages.Index);
+    ViewData["Title"] = "Uw profiel";
 }
 
-<h4>@ViewData["Title"]</h4>
+    <div class="fullcontent">
+        <div>
+            <h5>Uw gegevens:</h5>
+            <ul>
+                <li>Weergavenaam: <b>@Model.User.DisplayName</b></li>
+                <li>Gebruikersnaam: <b>@Model.User.UserName</b></li>
+                <li>Accounttype: <b>@Model.User.Type.ToString()</b></li>
+                @if (Model.User.Type == NoviUserType.Docent || Model.User.Type == NoviUserType.Student)
+                {
+                    <li>Novi-nummer: <b>@Model.User.NoviNumber</b></li>
+                }
+                <li><a asp-action="ChangePassWord">Wijzig uw wachtoord</a></li>
+                <li>&nbsp;</li>
+            </ul>
+        </div>
+        <hr/>
+        <div>
+            <!-- STUDENT -->
+            @if (Model.User.Type == NoviUserType.Student || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+            {
+                <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.ArtPieces.Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
+            }
 
-<partial name="_StatusMessage" model="Model.StatusMessage" />
-
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+            <!-- DOCENT -->
+            @if (Model.User.Type == NoviUserType.Docent || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+            {
+                <partial name="_DocentDataPartial" model='new DocentDataViewModel { LettedPieces = Model.ArtPieces.Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
+            }
+        </div>
+        <hr/>
+        <div>
+            <a asp-controller="Home" asp-action="Index">Terug</a>
+        </div>
     </div>
-</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

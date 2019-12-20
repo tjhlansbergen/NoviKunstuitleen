@@ -1,0 +1,42 @@
+﻿@model NoviKunstuitleen.Models.ManageViewModels.StudentDataViewModel
+
+<h5>Kunstwerken die u huurt:</h5>
+@if (!Model.RentedPieces.Any())
+{
+    <text><i>geen kunstwerken</i></text>
+}
+else
+{
+    <table>
+        <tr>
+            <th>Titel:</th>
+            <th>Kunstenaar:</th>
+            <th>Aanbieder:</th>
+            <th>Gehuurd tot:</th>
+            <th>Prijs per maand:</th>
+        </tr>
+        @foreach (var artpiece in Model.RentedPieces)
+        {
+            <tr>
+                <td>
+                    @artpiece.Title
+                </td>
+                <td>
+                    @artpiece.Artist
+                </td>
+                <td>
+                    @artpiece.Lesser.DisplayName
+                </td>
+                <td>
+                    @artpiece.AvailableFrom.ToShortDateString()
+                </td>
+                <td>
+                    @artpiece.Price.ToString()
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+<br />
+

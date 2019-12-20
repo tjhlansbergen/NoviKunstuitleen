@@ -1,25 +1,11 @@
-﻿using System;
+﻿using NoviKunstuitleen.Data;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Models.ManageViewModels
 {
     public class ManageViewModel
     {
-        public string Username { get; set; }
-
-        public bool IsEmailConfirmed { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
-
-        public string StatusMessage { get; set; }
+        public NoviArtUser User { get; set; }
+        public List<NoviArtPiece> ArtPieces { get; set; }
     }
 }

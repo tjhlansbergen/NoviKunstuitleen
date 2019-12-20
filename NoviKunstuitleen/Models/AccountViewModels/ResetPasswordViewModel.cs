@@ -21,7 +21,7 @@ namespace NoviKunstuitleen.Models.AccountViewModels
 
         [DataType(DataType.Password)]
         [Display(Name = "Bevestig wachtwoord")]
-        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overeen")]
+        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overeen.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

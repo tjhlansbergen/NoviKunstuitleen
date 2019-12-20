@@ -1,18 +1,14 @@
-﻿using NoviKunstuitleen.Extensions;
-using NoviKunstuitleen.Models.HomeViewModels;
-using NoviKunstuitleen.Models.ManageViewModels;
-using NoviKunstuitleen.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NoviKunstuitleen.Data;
+using NoviKunstuitleen.Models.HomeViewModels;
+using NoviKunstuitleen.Models.ManageViewModels;
 using System;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using NoviKunstuitleen.Data;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -22,25 +18,16 @@ namespace NoviKunstuitleen.Controllers
     {
         private readonly UserManager<NoviArtUser> _userManager;
         private readonly SignInManager<NoviArtUser> _signInManager;
-        private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-        private readonly UrlEncoder _urlEncoder;
+        private readonly NoviArtDbContext _dbcontext;
 
-        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-        private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
-
-        public ManageController(
-          UserManager<NoviArtUser> userManager,
-          SignInManager<NoviArtUser> signInManager,
-          IEmailSender emailSender,
-          ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+        // constructor
+        public ManageController(UserManager<NoviArtUser> userManager, SignInManager<NoviArtUser> signInManager, ILogger<ManageController> logger, NoviArtDbContext dbcontext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
             _logger = logger;
-            _urlEncoder = urlEncoder;
+            _dbcontext = dbcontext;
         }
 
         [TempData]
@@ -49,24 +36,43 @@ namespace NoviKunstuitleen.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var model = new ManageViewModel
-            {
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
-            };
-
-            return View(model);
+            return View(new ManageViewModel { User = await _userManager.GetUserAsync(User), ArtPieces = _dbcontext.NoviArtPieces.Include(u => u.Lesser).Include(u => u.Lessee).ToList<NoviArtPiece>() } );
         }
 
+        /// <summary>
+        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database, alleen toegestaan voor docenten
+        /// </summary>
+        [Authorize(Policy = "DocentOnly")]
+        public async Task<IActionResult> DeleteArtPiece(int id)
+        {
+            // haal artpiece op uit database
+            NoviArtPiece entity = await _dbcontext.NoviArtPieces.Include(a => a.Lesser).Where(a => a.Id == id).FirstOrDefaultAsync();
+            NoviArtUser user = await _userManager.GetUserAsync(User);
+
+            if (entity != null)
+            {
+                // controleer of gebruiker het object mag verwijderen
+                if (user.Type != NoviUserType.Admin && user.Type != NoviUserType.Root && entity.Lesser.Id != user.Id)
+                {
+                    return View("Error", new ErrorViewModel { Message = "U bent niet gemachtigd dit object te verwijderen.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+                }
+
+                // controleer of het object momenteel niet verhuurd is
+                if (!entity.Available) return View("Error", new ErrorViewModel { Message = "Het kunstwerk wat u wilt verwijderen is momenteel verhuurd, u kunt deze pas verwijderen als de huurperiode verstreken is.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+
+                // verwijder item uit database
+                _dbcontext.NoviArtPieces.Remove(entity);
+                await _dbcontext.SaveChangesAsync();
+
+                // logging
+                _logger.LogInformation("A user deleted artpiece with id: {0}", id);
+            }
+
+            // en herlaadt pagina
+            return RedirectToAction("Manage");
+        }
+
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Manage(ManageViewModel model)
@@ -82,6 +88,7 @@ namespace NoviKunstuitleen.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            
             var email = user.Email;
             if (model.Email != email)
             {
@@ -91,11 +98,13 @@ namespace NoviKunstuitleen.Controllers
                     throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                 }
             }
+            
 
-            var phoneNumber = user.PhoneNumber;
-            if (model.PhoneNumber != phoneNumber)
+            var displayName = user.DisplayName;
+            if (model.DisplayName != displayName)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+                _userManager.
+                var result = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
@@ -104,7 +113,10 @@ namespace NoviKunstuitleen.Controllers
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
+
+            
         }
+        */
 
         /*
         [HttpPost]
@@ -141,12 +153,6 @@ namespace NoviKunstuitleen.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var hasPassword = await _userManager.HasPasswordAsync(user);
-            if (!hasPassword)
-            {
-                return RedirectToAction(nameof(SetPassword));
-            }
-
             var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
             return View(model);
         }
@@ -175,11 +181,12 @@ namespace NoviKunstuitleen.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "Uw wachtwoord is gewijzigd";
 
             return RedirectToAction(nameof(ChangePassword));
         }
 
+        /*
         [HttpGet]
         public async Task<IActionResult> SetPassword()
         {
@@ -228,7 +235,7 @@ namespace NoviKunstuitleen.Controllers
             return RedirectToAction(nameof(SetPassword));
         }
 
-        /*
+        
         [HttpGet]
         public async Task<IActionResult> ExternalLogins()
         {
