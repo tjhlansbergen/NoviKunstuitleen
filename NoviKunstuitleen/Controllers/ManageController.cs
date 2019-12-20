@@ -33,10 +33,13 @@ namespace NoviKunstuitleen.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
+        /// <summary>
+        /// Toon profielpagina, haal users en artpieces op uit database bij laden
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(new ManageViewModel { User = await _userManager.GetUserAsync(User), ArtPieces = _dbcontext.NoviArtPieces.Include(u => u.Lesser).Include(u => u.Lessee).ToList<NoviArtPiece>() } );
+            return View(new ManageViewModel { User = await _userManager.GetUserAsync(User), DBContext = _dbcontext } );
         }
 
         /// <summary>
@@ -66,6 +69,56 @@ namespace NoviKunstuitleen.Controllers
 
                 // logging
                 _logger.LogInformation("A user deleted artpiece with id: {0}", id);
+            }
+
+            // en herlaadt pagina
+            return RedirectToAction("Manage");
+        }
+        
+        /// <summary>
+        /// Methode voor het verwijderen van de opgegeven NoviUser uit de database
+        /// </summary>
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            // zoek de gebruiker
+            NoviArtUser user = await _userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                // controleer of user momenteel niets huurt
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lessee.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = "De gebruiker die u wilt verwijderen huurt op dit moment één of meerdere kunstwerken. U kunt deze gebruiker pas verwijderen als de huurperiode verstreken is.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+
+                // controleer of user momenteel niets verhuurd
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lesser.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = "De gebruiker die u wilt verwijderen biedt nog kunstwerken te leen aan. U kunt de gebruiker pas verwijderen als al zijn/haar kunstwerken verwijderd zijn.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+
+                // verwijder user
+                await _userManager.DeleteAsync(user);
+
+                // logging
+                _logger.LogInformation("An admin deleted a user with id: {0}", id);
+            }
+
+
+            // en herlaadt pagina
+            return RedirectToAction("Manage");
+        }
+
+        /// <summary>
+        /// Methode voor het bevestigen van gebruikersaccounts door een admin
+        /// </summary>
+        public async Task<IActionResult> ConfirmAccount(string id)
+        {
+            // zoek de gebruiker
+            NoviArtUser user = await _userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                // zet bevestigd, update database
+                user.EmailConfirmed = true;
+                await _dbcontext.SaveChangesAsync();
+
+                // logging
+                _logger.LogInformation("An admin confirmed an account with id: {0}", id);
             }
 
             // en herlaadt pagina

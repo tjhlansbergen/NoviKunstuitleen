@@ -4,6 +4,7 @@
 @if (!Model.LettedPieces.Any())
 {
     <text><i>geen kunstwerken</i></text>
+    <br />
 }
 else
 {
@@ -18,29 +19,29 @@ else
         </tr>
         @foreach (var artpiece in Model.LettedPieces)
         {
-    <tr>
-        <td>
-            @artpiece.Title
-        </td>
-        <td>
-            @artpiece.Lessee?.DisplayName
-        </td>
-        <td>
-            @artpiece.CreationDate.ToShortDateString()
-        </td>
-        <td>
-            @artpiece.AvailableFrom.ToShortDateString()
-        </td>
-        <td>
-            @artpiece.Price.ToString()
-        </td>
-        <td>
-            <a asp-controller="Manage" asp-action="DeleteArtPiece" asp-route-id="@artpiece.Id">verwijder</a>
-        </td>
-    </tr>
+            <tr>
+                <td>
+                    @artpiece.Title
+                </td>
+                <td>
+                    @artpiece.Lessee?.DisplayName
+                </td>
+                <td>
+                    @artpiece.CreationDate.ToShortDateString()
+                </td>
+                <td>
+                    @artpiece.AvailableFrom.ToShortDateString()
+                </td>
+                <td>
+                    @artpiece.Price.ToString()
+                </td>
+                <td>
+                    <a asp-controller="Manage" asp-action="DeleteArtPiece" asp-route-id="@artpiece.Id">verwijder</a>
+                </td>
+            </tr>
         }
     </table>
-
 }
+&nbsp;+ <a asp-controller="Home" asp-action="Create">kunstwerk toevoegen</a>
 <br />
 

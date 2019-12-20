@@ -14,22 +14,28 @@
                 {
                     <li>Novi-nummer: <b>@Model.User.NoviNumber</b></li>
                 }
-                <li><a asp-action="ChangePassWord">Wijzig uw wachtoord</a></li>
+                <li><a asp-action="ChangePassWord">Wijzig uw wachtwoord</a></li>
                 <li>&nbsp;</li>
             </ul>
         </div>
         <hr/>
         <div>
-            <!-- STUDENT -->
-            @if (Model.User.Type == NoviUserType.Student || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+            <!-- ADMIN/ROOT -->
+            @if (Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
             {
-                <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.ArtPieces.Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
+                <partial name="_AdminDataPartial" model='new AdminDataViewModel { Users = Model.DBContext.Users.ToList<NoviArtUser>(), ArtPieces = Model.DBContext.NoviArtPieces.ToList<NoviArtPiece>() }' />
             }
-
+            <br />
             <!-- DOCENT -->
             @if (Model.User.Type == NoviUserType.Docent || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
             {
-                <partial name="_DocentDataPartial" model='new DocentDataViewModel { LettedPieces = Model.ArtPieces.Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
+                <partial name="_DocentDataPartial" model='new DocentDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
+            }
+            <br />
+            <!-- STUDENT -->
+            @if (Model.User.Type == NoviUserType.Student || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+            {
+                <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lessee).ToList().Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
             }
         </div>
         <hr/>
