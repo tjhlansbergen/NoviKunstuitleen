@@ -74,9 +74,9 @@ namespace NoviKunstuitleen.Controllers
 
 
         /// <summary>
-        /// Methode voor tonen aanmaakformulier kunstwerk, alleen toegestaan voor Docenten
+        /// Methode voor tonen aanmaakformulier kunstwerk, alleen toegestaan voor Medewerkers
         /// </summary>
-        [Authorize(Policy = "DocentOnly")]
+        [Authorize(Policy = "MedewerkerOnly")]
         public IActionResult Create()
         {
             return View();
@@ -84,10 +84,10 @@ namespace NoviKunstuitleen.Controllers
 
 
         /// <summary>
-        /// Asynchrone methode voor toevoegen van kunstwerk uit webformulier, alleen toegstaan voor Docenten
+        /// Asynchrone methode voor toevoegen van kunstwerk uit webformulier, alleen toegstaan voor Medewerkers
         /// </summary>
         [HttpPost]
-        [Authorize(Policy = "DocentOnly")]
+        [Authorize(Policy = "MedewerkerOnly")]
         public async Task<IActionResult> Create(CreateViewModel input)
         {
             // verwerk input vanuit webformulier

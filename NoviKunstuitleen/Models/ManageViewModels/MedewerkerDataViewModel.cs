@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NoviKunstuitleen.Models.ManageViewModels
 {
-    public class DocentDataViewModel
+    public class MedewerkerDataViewModel
     {
         public List<NoviArtPiece> LettedPieces { get; set; }
 

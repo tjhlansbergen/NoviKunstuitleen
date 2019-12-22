@@ -31,7 +31,7 @@ namespace NoviKunstuitleen.Models.AccountViewModels
         public string DisplayName { get; set; }
 
         [Required(ErrorMessage = "Dit veld is verplicht")]
-        [Display(Name = "Novi student/docent nummer")]
+        [Display(Name = "Novi student/Medewerker nummer")]
         public string Number { get; set; }
 
         [Required(ErrorMessage = "Dit veld is verplicht")]

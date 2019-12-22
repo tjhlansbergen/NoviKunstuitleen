@@ -10,7 +10,7 @@
                 <li>Weergavenaam: <b>@Model.User.DisplayName</b></li>
                 <li>Gebruikersnaam: <b>@Model.User.UserName</b></li>
                 <li>Accounttype: <b>@Model.User.Type.ToString()</b></li>
-                @if (Model.User.Type == NoviUserType.Docent || Model.User.Type == NoviUserType.Student)
+                @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Student)
                 {
                     <li>Novi-nummer: <b>@Model.User.NoviNumber</b></li>
                 }
@@ -26,10 +26,10 @@
                 <partial name="_AdminDataPartial" model='new AdminDataViewModel { Users = Model.DBContext.Users.ToList<NoviArtUser>(), ArtPieces = Model.DBContext.NoviArtPieces.ToList<NoviArtPiece>() }' />
             }
             <br />
-            <!-- DOCENT -->
-            @if (Model.User.Type == NoviUserType.Docent || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+            <!-- Medewerker -->
+            @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
             {
-                <partial name="_DocentDataPartial" model='new DocentDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
+                <partial name="_MedewerkerDataPartial" model='new MedewerkerDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
             }
             <br />
             <!-- STUDENT -->

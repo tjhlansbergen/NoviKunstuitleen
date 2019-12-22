@@ -12,7 +12,7 @@ namespace NoviKunstuitleen.Data
     /// </summary>
     public enum NoviUserType
     {
-        Student, Docent, Admin, Root
+        Student, Medewerker, Admin, Root
     };
    
     /// <summary>

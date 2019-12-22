@@ -43,9 +43,9 @@ namespace NoviKunstuitleen.Controllers
         }
 
         /// <summary>
-        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database, alleen toegestaan voor docenten
+        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database, alleen toegestaan voor Medewerkeren
         /// </summary>
-        [Authorize(Policy = "DocentOnly")]
+        [Authorize(Policy = "MedewerkerOnly")]
         public async Task<IActionResult> DeleteArtPiece(int id)
         {
             // haal artpiece op uit database

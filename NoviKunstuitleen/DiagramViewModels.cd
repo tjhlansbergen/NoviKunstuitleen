@@ -71,7 +71,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="NoviKunstuitleen.Models.ManageViewModels.AdminDataViewModel" Collapsed="true">
-    <Position X="5.75" Y="1.5" Width="1.75" />
+    <Position X="5.75" Y="1.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\ManageViewModels\AdminDataViewModel.cs</FileName>
@@ -84,11 +84,11 @@
       <FileName>Models\ManageViewModels\ChangePasswordViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="NoviKunstuitleen.Models.ManageViewModels.DocentDataViewModel" Collapsed="true">
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.MedewerkerDataViewModel" Collapsed="true">
     <Position X="5.75" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\ManageViewModels\DocentDataViewModel.cs</FileName>
+      <FileName>Models\ManageViewModels\MedewerkerDataViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NoviKunstuitleen.Models.ManageViewModels.ManageViewModel" Collapsed="true">
