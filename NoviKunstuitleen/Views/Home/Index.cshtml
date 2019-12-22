@@ -49,7 +49,7 @@
                             <partial name="_ItemImagePartial" model='new ItemImageViewModel { ImageContent = artpiece.ImageContent, ImageType = artpiece.ImageType, ShowHighlight = false }' />
                         </div>
                         <div class="artpiececontent">
-                            <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = artpiece, ShowTitle = true, ShowDescription = false}' />
+                            <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = artpiece, ShowTitle = true, ShowDescription = false }' />
                         </div>
                     </div>
                 </div>
@@ -62,6 +62,6 @@
 
     </div>
 
-<footer class="footer">
-    &copy; 2019 - Tako Lansbergen
-</footer>
+    <footer class="footer">
+        &copy; 2019 - Tako Lansbergen - build @Model.Build
+    </footer>

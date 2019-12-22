@@ -115,7 +115,7 @@
   <Enum Name="NoviKunstuitleen.Data.NoviUserType">
     <Position X="0.75" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAQAAAACAAAAAAAQAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <HashCode>AAAAAAAAQACAACAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\NoviArtUser.cs</FileName>
     </TypeIdentifier>
   </Enum>

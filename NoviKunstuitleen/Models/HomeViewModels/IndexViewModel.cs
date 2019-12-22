@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace NoviKunstuitleen.Models.HomeViewModels
 {
@@ -10,7 +11,8 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         // properties
         public List<NoviArtPiece> ArtPieces { get; private set; }
         public NoviArtPiece HighlightedArtPiece { get; private set; }
-        
+
+        public readonly string Build = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version.Split('.').Last();
 
         // random voor 'uitgelicht' selectie
         static readonly Random rnd = new Random();
