@@ -1,41 +1,37 @@
 ﻿using NoviKunstuitleen.Data;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "Dit veld is verplicht")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
         [EmailAddress]
-        [Display(Name = "E-mail adres")]
+        [Display(Name = Localization.FLD_USER_EMAIL)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Dit veld is verplicht")]
-        [StringLength(100, ErrorMessage = "Het {0} moet minstens {2} maximaal {1} tekens lang zijn.", MinimumLength = 6)]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [StringLength(100, ErrorMessage = Localization.VLD_USER_PASSWORD_LENGTH_6, MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Wachtwoord")]
+        [Display(Name = Localization.FLD_USER_PASSWORD)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bevestig wachtwoord")]
-        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overeen")]
+        [Display(Name = Localization.FLD_USER_PASSWORD_CONFIRM)]
+        [Compare("Password", ErrorMessage = Localization.VLD_USER_PASSWORD_NOMATCH)]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Dit veld is verplicht")]
-        [StringLength(25, ErrorMessage = "Maximaal 25 karakters")]
-        [Display(Name = "Weergavenaam")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [StringLength(25, ErrorMessage = Localization.VLD_MAX_CHARS_25)]
+        [Display(Name = Localization.FLD_USER_DISPLAYNAME)]
         public string DisplayName { get; set; }
 
-        [Required(ErrorMessage = "Dit veld is verplicht")]
-        [Display(Name = "Novi student/Medewerker nummer")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Display(Name = Localization.FLD_USER_NUMBER)]
         public string Number { get; set; }
 
-        [Required(ErrorMessage = "Dit veld is verplicht")]
-        [Display(Name = "Ik ben een")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Display(Name = Localization.FLD_USER_TYPE)]
         public NoviUserType Type { get; set; }
     }
 }

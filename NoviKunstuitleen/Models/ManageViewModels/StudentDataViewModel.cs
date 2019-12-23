@@ -6,6 +6,5 @@ namespace NoviKunstuitleen.Models.ManageViewModels
     public class StudentDataViewModel
     {
         public List<NoviArtPiece> RentedPieces { get; set; }
-        
     }
 }

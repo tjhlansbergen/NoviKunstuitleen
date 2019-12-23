@@ -7,33 +7,33 @@ namespace NoviKunstuitleen.Models.HomeViewModels
     {
         // Properties die door de gebruiker in het webformulier worden gezet
 
-        [Required]
-        [Display(Name = "Titel:")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Display(Name = Localization.FLD_ARTPIECE_TITLE)]
         public string Title { get; set; }
 
-        [Required]
-        [Display(Name = "Kunstenaar:")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Display(Name = Localization.FLD_ARTPIECE_ARTIST)]
         public string Artist { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Minimaal 1, in hele euro's")]
-        [RegularExpression("([0-9]+)", ErrorMessage = "Minimaal 1, in hele euro's")]
-        [Display(Name = "Huurprijs:")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Range(1, int.MaxValue, ErrorMessage = Localization.FLD_ARTPIECE_PRICE_FORMAT)]
+        [RegularExpression("([0-9]+)", ErrorMessage = Localization.FLD_ARTPIECE_PRICE_FORMAT)]
+        [Display(Name = Localization.FLD_ARTPIECE_PRICE)]
         public int Price { get; set; }
 
-        [Display(Name = "Afmetingen:")]
+        [Display(Name = Localization.FLD_ARTPIECE_MEASUREMENTS)]
         public string Dimensions { get; set; }
 
-        [Display(Name = "Type lijst:")]
+        [Display(Name = Localization.FLD_ARTPIECE_FRAME)]
         public string Frame { get; set; }
 
-        [Required]
-        [Display(Name = "Foto:")]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Display(Name = Localization.FLD_ARTPIECE_IMAGE)]
         public IFormFile Image { get; set; }
 
         [DataType(DataType.MultilineText)]
-        [StringLength(140, ErrorMessage = "Maximaal 140 karakters")]
-        [Display(Name = "Omschrijving:")]
+        [StringLength(140, ErrorMessage = Localization.VLD_MAX_CHARS_140)]
+        [Display(Name = Localization.FLD_ARTPIECE_DESCRIPTION)]
         public string Description { get; set; }
 
     }

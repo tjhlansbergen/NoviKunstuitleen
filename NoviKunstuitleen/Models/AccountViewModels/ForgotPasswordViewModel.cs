@@ -8,9 +8,9 @@ namespace NoviKunstuitleen.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
         [EmailAddress]
-        [Display(Name = "E-mail adres")]
+        [Display(Name = Localization.FLD_USER_EMAIL)]
         public string Email { get; set; }
     }
 }

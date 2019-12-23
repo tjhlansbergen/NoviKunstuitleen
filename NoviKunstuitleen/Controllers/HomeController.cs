@@ -107,7 +107,7 @@ namespace NoviKunstuitleen.Controllers
                 if (!FileHelperExtensions.IsValidFile(input.Image.FileName, memoryStream, new string[] { ".gif", ".png", ".jpg", ".jpeg" }, 2097152))
                 {
                     // Toon foutmelding indien afbeelding niet valide
-                    ModelState.AddModelError("Image", "Ongeldige foto, het bestand mag maximaal 2mb groot zijn, en moet van het type 'gif', 'png' of 'jpg' zijn!");
+                    ModelState.AddModelError("Image", Localization.MSG_IMAGE_FORMAT);
                 }
 
                 // controleer of er zich geen problemen hebben voorgedaan, 

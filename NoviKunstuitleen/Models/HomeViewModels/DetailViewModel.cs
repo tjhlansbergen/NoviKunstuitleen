@@ -1,9 +1,6 @@
 ﻿using NoviKunstuitleen.Data;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Models.HomeViewModels
 {
@@ -14,8 +11,8 @@ namespace NoviKunstuitleen.Models.HomeViewModels
 
         // formulier properties
         [Required]
-        [Range(1, 12, ErrorMessage = "Minimaal 3, maximaal 12 maanden")]
-        [Display(Name = "Aantal maanden:")]
+        [Range(1, 12, ErrorMessage = Localization.VLD_MIN_MAX_MONTHS_3_12)]
+        [Display(Name = Localization.FLD_ORDER_MONTHS)]
         public int Months { get; set; } = 3;
     }
 }

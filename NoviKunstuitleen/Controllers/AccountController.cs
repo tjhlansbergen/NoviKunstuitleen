@@ -60,7 +60,7 @@ namespace NoviKunstuitleen.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, Localization.Strings["MSG_LOGIN_FAILED"]);
+                    ModelState.AddModelError(string.Empty, Localization.MSG_LOGIN_FAILED);
                     return View(model);
                 }
 
@@ -83,7 +83,7 @@ namespace NoviKunstuitleen.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, Localization.Strings["MSG_LOGIN_FAILED"]);
+                    ModelState.AddModelError(string.Empty, Localization.MSG_LOGIN_FAILED);
                     return View(model);
                 }
             }
@@ -238,7 +238,7 @@ namespace NoviKunstuitleen.Controllers
                     // verstuur verificatiemail
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
-                    await _emailSender.SendEmailAsync(model.Email, "Bevestig uw account", $"Bevestig uw account door op de volgende link te klikken: <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>bevestig</a>");
+                    await _emailSender.SendEmailAsync(model.Email, Localization.EML_CONFIRM_ACCOUNT, Localization.EML_CONFIRM_CLICK + $"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>" + Localization.EML_CONFIRM + "</a>");
 
                     // gebruiker terugsturen naar inlogpagina
                     return View("EmailNotConfirmed");

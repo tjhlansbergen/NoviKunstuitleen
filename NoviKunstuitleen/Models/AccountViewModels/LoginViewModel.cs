@@ -8,14 +8,14 @@ namespace NoviKunstuitleen.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
         [EmailAddress]
-        [Display(Name = "Email adres")]
+        [Display(Name = Localization.FLD_USER_EMAIL)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = Localization.VLD_REQUIRED)]
         [DataType(DataType.Password)]
-        [Display(Name = "Wachtwoord")]
+        [Display(Name = Localization.FLD_USER_PASSWORD)]
         public string Password { get; set; }
     }
 }

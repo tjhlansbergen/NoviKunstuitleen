@@ -57,11 +57,11 @@ namespace NoviKunstuitleen.Controllers
                 // controleer of gebruiker het object mag verwijderen
                 if (user.Type != NoviUserType.Admin && user.Type != NoviUserType.Root && entity.Lesser.Id != user.Id)
                 {
-                    return View("Error", new ErrorViewModel { Message = "U bent niet gemachtigd dit object te verwijderen.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+                    return View("Error", new ErrorViewModel { Message = Localization.MSG_UNAUTHORIZED_REMOVAL, ReturnToController = "Manage", ReturnToAction = "Manage" });
                 }
 
                 // controleer of het object momenteel niet verhuurd is
-                if (!entity.Available) return View("Error", new ErrorViewModel { Message = "Het kunstwerk wat u wilt verwijderen is momenteel verhuurd, u kunt deze pas verwijderen als de huurperiode verstreken is.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+                if (!entity.Available) return View("Error", new ErrorViewModel { Message = Localization.MSG_ARTPIECE_LOCKED, ReturnToController = "Manage", ReturnToAction = "Manage" });
 
                 // verwijder item uit database
                 _dbcontext.NoviArtPieces.Remove(entity);
@@ -86,10 +86,10 @@ namespace NoviKunstuitleen.Controllers
             if (user != null)
             {
                 // controleer of user momenteel niets huurt
-                if (await _dbcontext.NoviArtPieces.Where(a => a.Lessee.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = "De gebruiker die u wilt verwijderen huurt op dit moment één of meerdere kunstwerken. U kunt deze gebruiker pas verwijderen als de huurperiode verstreken is.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lessee.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = Localization.MSG_LESSEE_LOCKED, ReturnToController = "Manage", ReturnToAction = "Manage" });
 
                 // controleer of user momenteel niets verhuurd
-                if (await _dbcontext.NoviArtPieces.Where(a => a.Lesser.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = "De gebruiker die u wilt verwijderen biedt nog kunstwerken te leen aan. U kunt de gebruiker pas verwijderen als al zijn/haar kunstwerken verwijderd zijn.", ReturnToController = "Manage", ReturnToAction = "Manage" });
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lesser.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = Localization.MSG_LESSER_LOCKED, ReturnToController = "Manage", ReturnToAction = "Manage" });
 
                 // verwijder user
                 await _userManager.DeleteAsync(user);
@@ -234,7 +234,7 @@ namespace NoviKunstuitleen.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Uw wachtwoord is gewijzigd";
+            StatusMessage = Localization.MSG_PASSWORD_CHANGED;
 
             return RedirectToAction(nameof(ChangePassword));
         }
