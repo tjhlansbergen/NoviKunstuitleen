@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.ForgotPasswordViewModel">
+    <Position X="0.5" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels\ForgotPasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.LoginViewModel">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.RegisterViewModel">
+    <Position X="0.5" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAACAAAAAAAEAAAAAAAAAAAAACAQAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels\RegisterViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.AccountViewModels.ResetPasswordViewModel">
+    <Position X="0.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAgAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels\ResetPasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.CreateViewModel">
+    <Position X="3.25" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAgAEAAAAAAAAIAAIAAABAAAAAAAAAAAAE=</HashCode>
+      <FileName>Models\HomeViewModels\CreateViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.DetailViewModel">
+    <Position X="3.25" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\DetailViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.ErrorViewModel">
+    <Position X="3.25" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAQAAAAIAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.IndexViewModel">
+    <Position X="3.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAQAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Models\HomeViewModels\IndexViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.ItemContentViewModel">
+    <Position X="3.25" Y="8.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\ItemContentViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.HomeViewModels.ItemImageViewModel">
+    <Position X="3.25" Y="10.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\HomeViewModels\ItemImageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.AdminDataViewModel">
+    <Position X="6" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\AdminDataViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.ChangePasswordViewModel">
+    <Position X="6" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAIAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels\ChangePasswordViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.MedewerkerDataViewModel">
+    <Position X="6" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\MedewerkerDataViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.ManageViewModel">
+    <Position X="6" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\ManageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NoviKunstuitleen.Models.ManageViewModels.StudentDataViewModel">
+    <Position X="6" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Models\ManageViewModels\StudentDataViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

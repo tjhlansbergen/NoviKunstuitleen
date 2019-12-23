@@ -4,8 +4,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>aspnet-NoviKunstuitleen-6CF1AF3B-9888-4FB8-B6B3-73733157B6DF</UserSecretsId>
     <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.0.5</AssemblyVersion>
+    <FileVersion>1.0.0.5</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

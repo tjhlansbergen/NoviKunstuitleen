@@ -58,6 +58,12 @@ namespace NoviKunstuitleen.Controllers
             {
                 // controleer of account bevestigd is
                 var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, Localization.Strings["MSG_LOGIN_FAILED"]);
+                    return View(model);
+                }
+
                 var confirmed = await _userManager.IsEmailConfirmedAsync(user);
                 if (!confirmed)
                 {
@@ -77,7 +83,7 @@ namespace NoviKunstuitleen.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Inlogpoging mislukt");
+                    ModelState.AddModelError(string.Empty, Localization.Strings["MSG_LOGIN_FAILED"]);
                     return View(model);
                 }
             }
@@ -268,7 +274,7 @@ namespace NoviKunstuitleen.Controllers
 
                 // maak account aan
                 var result = await _userManager.CreateAsync(user, model.Password);
-                
+
                 // verwerk resultaat
                 if (result.Succeeded)
                 {
