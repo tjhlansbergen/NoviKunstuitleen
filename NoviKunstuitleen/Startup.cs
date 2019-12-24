@@ -27,34 +27,39 @@ namespace NoviKunstuitleen
     /// </summary>
     public class Startup
     {
+        // properties
+        public IConfiguration Configuration { get; }
+
         // constructor
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // toevoegen van services aan de servicecontainer, deze methode wordt aangeroepen door de runtime
         public void ConfigureServices(IServiceCollection services)
         {
+            // database context toevoegen
             services.AddDbContext<NoviArtDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            // ASP Identity toevoegen
             services.AddIdentity<NoviArtUser, NoviArtRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<NoviArtDbContext>()
                 .AddDefaultTokenProviders()
                 .AddClaimsPrincipalFactory<NoviArtUserClaims>();
 
-            // Add application services.
+            // Mail service toevoegen
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            // controllers toevoegen
             services.AddControllersWithViews();
 
             // cookie configuratie
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                // maak cookie consent verplicht
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -78,7 +83,7 @@ namespace NoviKunstuitleen
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // HTTP Request pipeline configureren, deze methode wordt aangeroepen door de runtime
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -89,18 +94,17 @@ namespace NoviKunstuitleen
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // endpoints configureren
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
