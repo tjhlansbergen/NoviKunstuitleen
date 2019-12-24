@@ -1,15 +1,18 @@
+/*
+    ErrorViewModel.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
 using System;
 
 namespace NoviKunstuitleen.Models.HomeViewModels
 {
-    /* 
-    <summary>
-    Action voor een te tonen melding, gebruik:
-        <a asp-controller="Home" asp-action="Error">Lege error</a>
-        <a asp-controller="Home" asp-action="Error" asp-route-message="Berichttekst">Error met breichttekst</a>
-        <a asp-controller="Home" asp-action="Error" asp-route-message="Berichttekst" asp-route-returncontroller="Home" asp-route-returnaction="Create">Error met message en return route</a>
-    </summary>
-    */
+    /// <summary>
+    /// MVC Model voor bijbehorende view
+    /// </summary>
     public class ErrorViewModel
     {
         public string Message { get; set; }

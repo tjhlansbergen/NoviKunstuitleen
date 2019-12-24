@@ -1,4 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*
+    HomeController.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +22,9 @@ using System.Threading.Tasks;
 namespace NoviKunstuitleen.Controllers
 {
     /// <summary>
-    /// Controller voor de Home pagina's
+    /// MVC Controller klasse voor de Home pagina's,  alleen beschikbaar voor ingelogde gebruikers
     /// </summary>
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

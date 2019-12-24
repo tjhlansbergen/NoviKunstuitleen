@@ -1,4 +1,12 @@
-﻿using NoviKunstuitleen.Data;
+﻿/*
+    IndexViewModel.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using NoviKunstuitleen.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +14,9 @@ using System.Reflection;
 
 namespace NoviKunstuitleen.Models.HomeViewModels
 {
+    /// <summary>
+    /// MVC Model voor bijbehorende view
+    /// </summary>
     public class IndexViewModel
     {
         // properties

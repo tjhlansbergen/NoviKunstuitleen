@@ -1,8 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/*
+    CreateViewModel.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace NoviKunstuitleen.Models.HomeViewModels
 {
+    /// <summary>
+    /// MVC Model voor bijbehorende view
+    /// </summary>
     public class CreateViewModel
     {
         // Properties die door de gebruiker in het webformulier worden gezet

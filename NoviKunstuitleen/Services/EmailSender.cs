@@ -1,4 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿/*
+    EmailSender.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -6,12 +14,13 @@ using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Services
 {
-    // This class is used by the application to send email for account confirmation and password reset.
-    // For more details see https://go.microsoft.com/fwlink/?LinkID=532713
-
+    /// <summary>
+    /// Klasse voor verzenden van mail ten behoeve an accountbevestiging, password reset etc.
+    /// Op basis van Microsoft template, zie https://go.microsoft.com/fwlink/?LinkID=532713
+    /// </summary>
     public class EmailSender : IEmailSender
     {
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        public AuthMessageSenderOptions Options { get; }
         private IConfiguration _configuration { get; set; }
 
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor, IConfiguration configuration)
@@ -36,9 +45,6 @@ namespace NoviKunstuitleen.Services
                 HtmlContent = message
             };
             msg.AddTo(new EmailAddress(email));
-
-            // Disable click tracking.
-            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
             msg.SetClickTracking(false, false);
 
             return client.SendEmailAsync(msg);

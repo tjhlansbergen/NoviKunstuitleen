@@ -1,4 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*
+    ManageController.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +20,10 @@ using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Controllers
 {
+
+    /// <summary>
+    /// MVC Controller klasse voor gebruikers profiel pagina's, alleen beschikbaar voor ingelogde gebruikers
+    /// </summary>
     [Authorize]
     [Route("[controller]/[action]")]
     public class ManageController : Controller

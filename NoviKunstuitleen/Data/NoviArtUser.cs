@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*
+    NoviArtUser.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using Microsoft.AspNetCore.Identity;
 
 namespace NoviKunstuitleen.Data
 {
-
     /// <summary>
     /// Enumeratie voor de verschillende typen gebruiker
     /// </summary>
@@ -16,7 +19,7 @@ namespace NoviKunstuitleen.Data
     };
    
     /// <summary>
-    /// Aangepast implementatie van ASP IdentityUser met de extra velden voor het Novi nummer en gebruikerstype
+    /// Aangepast implementatie van ASP IdentityUser met de extra velden voor het Novi nummer en gebruikerstype en int's ipv guid's
     /// nb. de generieke velden zoals email en wachtwoord komen uit de superklasse IdentityUser
     /// </summary>
     public class NoviArtUser : IdentityUser<int>

@@ -1,13 +1,22 @@
-﻿using System;
+﻿/*
+    FileHelperExtensions.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 // namespace voor helper-klassen
 namespace NoviKunstuitleen.Extensions
 {
-    // statisce klasse voor het verifieren van bestanden
+    /// <summary>
+    /// statisce klasse voor het verifieren van bestanden
+    /// </summary>
     public static class FileHelperExtensions
     {
         // toegestande bestandsextensies:

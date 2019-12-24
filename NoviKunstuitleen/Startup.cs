@@ -1,3 +1,11 @@
+/*
+    Startup.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,8 +20,13 @@ using NoviKunstuitleen.Services;
 
 namespace NoviKunstuitleen
 {
+
+    /// <summary>
+    /// Klasse voor configuratie van de applicatie tijdens starten
+    /// </summary>
     public class Startup
     {
+        // constructor
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

@@ -1,4 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿/*
+    AccountController.cs
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*/
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +19,13 @@ using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
+
 namespace NoviKunstuitleen.Controllers
 {
+
+    /// <summary>
+    /// MVC Controller klasse voor gebruikersbeheer, alleen voor ingelogde gebruikers muv. de methode met AllowAnonymous-annotation
+    /// </summary>
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
