@@ -1,4 +1,12 @@
-﻿@model NoviKunstuitleen.Models.HomeViewModels.DetailViewModel
+﻿@*
+    Detail.cshtml
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*@
+
+@model NoviKunstuitleen.Models.HomeViewModels.DetailViewModel
 
 @inject SignInManager<NoviArtUser> SignInManager
 @inject UserManager<NoviArtUser> UserManager
@@ -21,7 +29,7 @@
                     <div class="order">
                         <div class="form-group order-left">
                             <label asp-for="Months" class="control-label"></label>
-                            <select id="narrow-select" class="form-control" asp-for="Months" asp-items="@Enumerable.Range(3, 10).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() })" onchange="document.getElementById('total_price').innerHTML = this.value * @Model.ArtPiece.Price" ></select>
+                            <select id="narrow-select" class="form-control" asp-for="Months" asp-items="@Enumerable.Range(3, 10).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() })" onchange="document.getElementById('total_price').innerHTML = this.value * @Model.ArtPiece.Price"></select>
                             <span asp-validation-for="Months" class="text-danger"></span>
                         </div>
                         <div class="form-group order-right">

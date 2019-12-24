@@ -1,48 +1,56 @@
-﻿@model NoviKunstuitleen.Models.ManageViewModels.ManageViewModel
+﻿@*
+    Manage.cshtml
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*@
+
+@model NoviKunstuitleen.Models.ManageViewModels.ManageViewModel
 @{
     ViewData["Title"] = "Uw profiel";
 }
 
-    <div class="fullcontent">
-        <div>
-            <h5>Uw gegevens:</h5>
-            <ul>
-                <li>Weergavenaam: <b>@Model.User.DisplayName</b></li>
-                <li>Gebruikersnaam: <b>@Model.User.UserName</b></li>
-                <li>Accounttype: <b>@Model.User.Type.ToString()</b></li>
-                @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Student)
-                {
-                    <li>Novi-nummer: <b>@Model.User.NoviNumber</b></li>
-                }
-                <li><a asp-action="ChangePassWord">Wijzig uw wachtwoord</a></li>
-                <li>&nbsp;</li>
-            </ul>
-        </div>
-        <hr/>
-        <div>
-            <!-- ADMIN/ROOT -->
-            @if (Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+<div class="fullcontent">
+    <div>
+        <h5>Uw gegevens:</h5>
+        <ul>
+            <li>Weergavenaam: <b>@Model.User.DisplayName</b></li>
+            <li>Gebruikersnaam: <b>@Model.User.UserName</b></li>
+            <li>Accounttype: <b>@Model.User.Type.ToString()</b></li>
+            @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Student)
             {
-                <partial name="_AdminDataPartial" model='new AdminDataViewModel { Users = Model.DBContext.Users.ToList<NoviArtUser>(), ArtPieces = Model.DBContext.NoviArtPieces.ToList<NoviArtPiece>() }' />
+                <li>Novi-nummer: <b>@Model.User.NoviNumber</b></li>
             }
-            <br />
-            <!-- Medewerker -->
-            @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
-            {
-                <partial name="_MedewerkerDataPartial" model='new MedewerkerDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
-            }
-            <br />
-            <!-- STUDENT -->
-            @if (Model.User.Type == NoviUserType.Student || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
-            {
-                <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lessee).ToList().Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
-            }
-        </div>
-        <hr/>
-        <div>
-            <a asp-controller="Home" asp-action="Index">Terug</a>
-        </div>
+            <li><a asp-action="ChangePassWord">Wijzig uw wachtwoord</a></li>
+            <li>&nbsp;</li>
+        </ul>
     </div>
+    <hr />
+    <div>
+        <!-- ADMIN/ROOT -->
+        @if (Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+        {
+            <partial name="_AdminDataPartial" model='new AdminDataViewModel { Users = Model.DBContext.Users.ToList<NoviArtUser>(), ArtPieces = Model.DBContext.NoviArtPieces.ToList<NoviArtPiece>() }' />
+        }
+        <br />
+        <!-- Medewerker -->
+        @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+        {
+            <partial name="_MedewerkerDataPartial" model='new MedewerkerDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
+        }
+        <br />
+        <!-- STUDENT -->
+        @if (Model.User.Type == NoviUserType.Student || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+        {
+            <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lessee).ToList().Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
+        }
+    </div>
+    <hr />
+    <div>
+        <a asp-controller="Home" asp-action="Index">Terug</a>
+    </div>
+</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

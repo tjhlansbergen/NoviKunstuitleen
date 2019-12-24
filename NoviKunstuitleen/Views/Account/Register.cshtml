@@ -1,60 +1,68 @@
-﻿@model RegisterViewModel
+﻿@*
+    Register.cshtml
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*@
+
+@model RegisterViewModel
 @{
     ViewData["Title"] = "Registreer";
 }
 
-    <div class="semipaint">
-        <!-- lege div met achtergrond -->
-    </div>
+<div class="semipaint">
+    <!-- lege div met achtergrond -->
+</div>
 
-    <div class="semicontent">
-        <div class="form">
-            <a asp-area="" asp-controller="Home" asp-action="Index"><img class="headerback" src="~/img/header.png" alt="Novi Kunstuitleen"></a>
-            <br /><br />
-            <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-                <h4>Maak een nieuw account:</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="DisplayName"></label>
-                    <input asp-for="DisplayName" class="form-control" placeholder="Zichtbaar voor andere ingelogde bezoekers" />
-                    <span asp-validation-for="DisplayName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Number"></label>
-                    <input asp-for="Number" class="form-control" />
-                    <span asp-validation-for="Number" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Type"></label>
-                    <br />
-                    &nbsp;&nbsp;
-                    <input asp-for="Type" type="radio" value="@NoviUserType.Student" /> Novi Student
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input asp-for="Type" type="radio" value="@NoviUserType.Medewerker" /> Novi Medewerker
-                    <span asp-validation-for="Type" class="text-danger"></span>
-                </div>
-                <h4>Inloggegevens:</h4>
-                <hr />
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConfirmPassword"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-primary">Registreer</button>
-            </form>
-        </div>
+<div class="semicontent">
+    <div class="form">
+        <a asp-area="" asp-controller="Home" asp-action="Index"><img class="headerback" src="~/img/header.png" alt="Novi Kunstuitleen"></a>
+        <br /><br />
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+            <h4>Maak een nieuw account:</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DisplayName"></label>
+                <input asp-for="DisplayName" class="form-control" placeholder="Zichtbaar voor andere ingelogde bezoekers" />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Number"></label>
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type"></label>
+                <br />
+                &nbsp;&nbsp;
+                <input asp-for="Type" type="radio" value="@NoviUserType.Student" /> Novi Student
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input asp-for="Type" type="radio" value="@NoviUserType.Medewerker" /> Novi Medewerker
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <h4>Inloggegevens:</h4>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Registreer</button>
+        </form>
     </div>
+</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

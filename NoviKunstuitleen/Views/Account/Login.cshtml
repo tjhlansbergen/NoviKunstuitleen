@@ -1,4 +1,12 @@
-﻿@using System.Collections.Generic
+﻿@*
+    Login.cshtml
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*@
+
+@using System.Collections.Generic
 @using System.Linq
 @using Microsoft.AspNetCore.Http
 @model LoginViewModel
@@ -8,42 +16,42 @@
     ViewData["Title"] = "Log in";
 }
 
-    <div class="semipaint">
-        <!-- lege div met achtergrond -->
-    </div>
+<div class="semipaint">
+    <!-- lege div met achtergrond -->
+</div>
 
-    <div class="semicontent">
-        <div class="form">
-            <img class="headerback" src="~/img/header.png" alt="Novi Kunstuitleen">
-            <br /><br />
-            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                <h4>Log in met uw gegevens:</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a asp-action="ForgotPassword">Wachtwoord vergeten?</a>
-                    </p>
-                    <p>
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Registreer als nieuwe gebruiker</a>
-                    </p>
-                </div>
-            </form>
-        </div>
+<div class="semicontent">
+    <div class="form">
+        <img class="headerback" src="~/img/header.png" alt="Novi Kunstuitleen">
+        <br /><br />
+        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <h4>Log in met uw gegevens:</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </div>
+            <div class="form-group">
+                <p>
+                    <a asp-action="ForgotPassword">Wachtwoord vergeten?</a>
+                </p>
+                <p>
+                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Registreer als nieuwe gebruiker</a>
+                </p>
+            </div>
+        </form>
     </div>
+</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

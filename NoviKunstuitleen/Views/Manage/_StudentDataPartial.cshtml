@@ -1,9 +1,18 @@
-﻿@model NoviKunstuitleen.Models.ManageViewModels.StudentDataViewModel
+﻿@*
+    _StudentDataPartial.cshtml
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*@
+
+@model NoviKunstuitleen.Models.ManageViewModels.StudentDataViewModel
 
 <h5>Kunstwerken die u huurt:</h5>
 @if (!Model.RentedPieces.Any())
 {
-    <text><i>geen kunstwerken</i></text><br />
+    <text><i>geen kunstwerken</i></text>
+    <br />
 }
 else
 {

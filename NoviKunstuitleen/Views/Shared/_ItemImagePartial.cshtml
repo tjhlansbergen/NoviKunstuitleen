@@ -1,4 +1,12 @@
-﻿@model NoviKunstuitleen.Models.HomeViewModels.ItemImageViewModel
+﻿@*
+    _ItemImagePartial.cshtml
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 24 dec 2019
+*@
+
+@model NoviKunstuitleen.Models.HomeViewModels.ItemImageViewModel
 
 @if (Model.ImageContent != null && Model.ImageType != null)
 {
@@ -24,5 +32,5 @@ else
     {
         <img class="imageartpiece" src="~/img/noimage.png" />
     }
-    
+
 }
