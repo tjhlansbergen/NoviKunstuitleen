@@ -46,7 +46,7 @@ namespace NoviKunstuitleen.Controllers
         public string StatusMessage { get; set; }
 
         /// <summary>
-        /// Toon profielpagina, haal users en artpieces op uit database bij laden
+        /// Toon profielpagina, haal users en artpieces op uit database bij laden, asynv vanwege database call
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Manage()
@@ -55,7 +55,7 @@ namespace NoviKunstuitleen.Controllers
         }
 
         /// <summary>
-        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database, alleen toegestaan voor Medewerkeren
+        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database, alleen toegestaan voor Medewerkeren, async vanwege database calls
         /// </summary>
         [Authorize(Policy = "MedewerkerOnly")]
         public async Task<IActionResult> DeleteArtPiece(int id)
@@ -88,7 +88,7 @@ namespace NoviKunstuitleen.Controllers
         }
         
         /// <summary>
-        /// Methode voor het verwijderen van de opgegeven NoviUser uit de database
+        /// Methode voor het verwijderen van de opgegeven NoviUser uit de database, async vanwege database calls
         /// </summary>
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -116,7 +116,7 @@ namespace NoviKunstuitleen.Controllers
         }
 
         /// <summary>
-        /// Methode voor het bevestigen van gebruikersaccounts door een admin
+        /// Methode voor het bevestigen van gebruikersaccounts door een admin, async vanwege database calls
         /// </summary>
         public async Task<IActionResult> ConfirmAccount(string id)
         {
@@ -137,51 +137,163 @@ namespace NoviKunstuitleen.Controllers
             return RedirectToAction("Manage");
         }
 
-        /*
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Manage(ManageViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
 
+        /// <summary>
+        /// Toon wachtwoord wijzigen pagina, async vanwege async usermanager call
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            
-            var email = user.Email;
-            if (model.Email != email)
-            {
-                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-                }
-            }
-            
+            var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
+            return View(model);
+        }
 
-            var displayName = user.DisplayName;
-            if (model.DisplayName != displayName)
+
+        /// <summary>
+        /// Verwerk wachtwoord wijziging, async vanwege database call
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                _userManager.
-                var result = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
-                }
+                return View(model);
             }
 
-            StatusMessage = "Your profile has been updated";
-            return RedirectToAction(nameof(Index));
+            // user ophalen
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
 
-            
+            // wachtwoord wijzigen
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                AddErrors(changePasswordResult);
+                return View(model);
+            }
+
+            // en opnieuw inloggen
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            _logger.LogInformation("User changed their password successfully.");
+            StatusMessage = Localization.MSG_PASSWORD_CHANGED;
+
+            return RedirectToAction(nameof(ChangePassword));
+        }
+
+        #region Helpers
+
+
+        /// <summary>
+        /// Helper voor het toevoegen van error aan errorstate van de pagina
+        /// </summary>
+        /// <param name="result"></param>
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        #endregion
+
+        /*
+        private string FormatKey(string unformattedKey)
+        {
+            var result = new StringBuilder();
+            int currentPosition = 0;
+            while (currentPosition + 4 < unformattedKey.Length)
+            {
+                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+                currentPosition += 4;
+            }
+            if (currentPosition < unformattedKey.Length)
+            {
+                result.Append(unformattedKey.Substring(currentPosition));
+            }
+
+            return result.ToString().ToLowerInvariant();
+        }
+
+        private string GenerateQrCodeUri(string email, string unformattedKey)
+        {
+            return string.Format(
+                AuthenticatorUriFormat,
+                _urlEncoder.Encode("NoviKunstuitleen"),
+                _urlEncoder.Encode(email),
+                unformattedKey);
+        }
+
+        
+        private async Task LoadSharedKeyAndQrCodeUriAsync(NoviArtUser user, EnableAuthenticatorViewModel model)
+        {
+            var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
+            if (string.IsNullOrEmpty(unformattedKey))
+            {
+                await _userManager.ResetAuthenticatorKeyAsync(user);
+                unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
+            }
+
+            model.SharedKey = FormatKey(unformattedKey);
+            model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
         }
         */
+
+        /*
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Manage(ManageViewModel model)
+{
+    if (!ModelState.IsValid)
+    {
+        return View(model);
+    }
+
+    var user = await _userManager.GetUserAsync(User);
+    if (user == null)
+    {
+        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+    }
+
+
+    var email = user.Email;
+    if (model.Email != email)
+    {
+        var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+        if (!setEmailResult.Succeeded)
+        {
+            throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+        }
+    }
+
+
+    var displayName = user.DisplayName;
+    if (model.DisplayName != displayName)
+    {
+        _userManager.
+        var result = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+        if (!setPhoneResult.Succeeded)
+        {
+            throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+        }
+    }
+
+    StatusMessage = "Your profile has been updated";
+    return RedirectToAction(nameof(Index));
+
+
+}
+*/
 
         /*
         [HttpPost]
@@ -209,47 +321,6 @@ namespace NoviKunstuitleen.Controllers
         }
         */
 
-        [HttpGet]
-        public async Task<IActionResult> ChangePassword()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (!changePasswordResult.Succeeded)
-            {
-                AddErrors(changePasswordResult);
-                return View(model);
-            }
-
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = Localization.MSG_PASSWORD_CHANGED;
-
-            return RedirectToAction(nameof(ChangePassword));
-        }
 
         /*
         [HttpGet]
@@ -571,58 +642,6 @@ namespace NoviKunstuitleen.Controllers
         }
         */
 
-        #region Helpers
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        /*
-        private string FormatKey(string unformattedKey)
-        {
-            var result = new StringBuilder();
-            int currentPosition = 0;
-            while (currentPosition + 4 < unformattedKey.Length)
-            {
-                result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
-                currentPosition += 4;
-            }
-            if (currentPosition < unformattedKey.Length)
-            {
-                result.Append(unformattedKey.Substring(currentPosition));
-            }
-
-            return result.ToString().ToLowerInvariant();
-        }
-
-        private string GenerateQrCodeUri(string email, string unformattedKey)
-        {
-            return string.Format(
-                AuthenticatorUriFormat,
-                _urlEncoder.Encode("NoviKunstuitleen"),
-                _urlEncoder.Encode(email),
-                unformattedKey);
-        }
-
-        
-        private async Task LoadSharedKeyAndQrCodeUriAsync(NoviArtUser user, EnableAuthenticatorViewModel model)
-        {
-            var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
-            if (string.IsNullOrEmpty(unformattedKey))
-            {
-                await _userManager.ResetAuthenticatorKeyAsync(user);
-                unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
-            }
-
-            model.SharedKey = FormatKey(unformattedKey);
-            model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
-        }
-        */
-
-        #endregion
     }
 }

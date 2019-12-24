@@ -93,7 +93,7 @@ namespace NoviKunstuitleen.Controllers
 
 
         /// <summary>
-        /// Asynchrone methode voor toevoegen van kunstwerk uit webformulier, alleen toegstaan voor Medewerkers
+        /// Asynchrone methode voor toevoegen van kunstwerk uit webformulier, alleen toegstaan voor Medewerkers, asynv vanwege database calls
         /// </summary>
         [HttpPost]
         [Authorize(Policy = "MedewerkerOnly")]
@@ -156,7 +156,7 @@ namespace NoviKunstuitleen.Controllers
 
 
         /// <summary>
-        /// Asynchrone methode voor verwerken van bestelling van kunstwerk, alleen toegestaand voor Studenten
+        /// Asynchrone methode voor verwerken van bestelling van kunstwerk, alleen toegestaand voor Studenten, asynv vanwege database calls
         /// </summary>
         [HttpPost]
         [Authorize(Policy = "StudentOnly")]
