@@ -35,11 +35,8 @@ namespace NoviKunstuitleen.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
-        public AccountController(
-            UserManager<NoviArtUser> userManager,
-            SignInManager<NoviArtUser> signInManager,
-            IEmailSender emailSender,
-            ILogger<AccountController> logger)
+        // constructor
+        public AccountController(UserManager<NoviArtUser> userManager, SignInManager<NoviArtUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -47,9 +44,13 @@ namespace NoviKunstuitleen.Controllers
             _logger = logger;
         }
 
-        [TempData]
-        public string ErrorMessage { get; set; }
+        //[TempData]
+        //public string ErrorMessage { get; set; }
 
+
+        /// <summary>
+        /// Toon login pagina (na eerst geforceerd uit te loggen), async vanwege async uitloggen
+        /// </summary>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -61,6 +62,10 @@ namespace NoviKunstuitleen.Controllers
             return View();
         }
 
+
+        /// <summary>
+        /// Verwerk inlog actie van gebruiker, async vanwege database calls
+        /// </summary>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -69,20 +74,24 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // controleer of account bevestigd is
+                // haal gebruiker op uit database
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
+                    _logger.LogInformation("Login attempt for non existing user");
                     ModelState.AddModelError(string.Empty, Localization.MSG_LOGIN_FAILED);
                     return View(model);
                 }
 
+                // controleer of account bevestigd is
                 var confirmed = await _userManager.IsEmailConfirmedAsync(user);
                 if (!confirmed)
                 {
+                    _logger.LogInformation("Login attempt for unconfirmed user");
                     return View("EmailNotConfirmed");
                 }
 
+                // log de gebruiker in
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
@@ -96,128 +105,20 @@ namespace NoviKunstuitleen.Controllers
                 }
                 else
                 {
+                    _logger.LogWarning("Unsuccesful login attempt");
                     ModelState.AddModelError(string.Empty, Localization.MSG_LOGIN_FAILED);
                     return View(model);
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // Toon pagina opnieuw bij eerdere foutmeldingen
             return View(model);
         }
 
-        /*
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
-        {
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            var model = new LoginWith2faViewModel { RememberMe = rememberMe };
-            ViewData["ReturnUrl"] = returnUrl;
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
-
-            var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, model.RememberMachine);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
-                return RedirectToLocal(returnUrl);
-            }
-            else if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
-                return RedirectToAction(nameof(Lockout));
-            }
-            else
-            {
-                _logger.LogWarning("Invalid authenticator code entered for user with ID {UserId}.", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
-                return View();
-            }
-        }
-        
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
-        {
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecoveryCodeViewModel model, string returnUrl = null)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
-            }
-
-            var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
-
-            var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID {UserId} logged in with a recovery code.", user.Id);
-                return RedirectToLocal(returnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
-                return RedirectToAction(nameof(Lockout));
-            }
-            else
-            {
-                _logger.LogWarning("Invalid recovery code entered for user with ID {UserId}", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
-                return View();
-            }
-        }
-        */
-
+        /// <summary>
+        /// Toon locked-out melding
+        /// </summary>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Lockout()
@@ -225,6 +126,9 @@ namespace NoviKunstuitleen.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Toon registratiepagina voor nieuwe gebruiker
+        /// </summary>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -234,6 +138,9 @@ namespace NoviKunstuitleen.Controllers
         }
 
 
+        /// <summary>
+        /// Verwerk registratie door nieuwe gebruiker, async vanwege database calls
+        /// </summary>        
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -242,8 +149,11 @@ namespace NoviKunstuitleen.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                // maak user aan met formulier data
                 var user = new NoviArtUser { UserName = model.Email, Email = model.Email, NoviNumber = model.Number, Type = model.Type, DisplayName = model.DisplayName };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
+                // controleer resultaat
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -259,10 +169,14 @@ namespace NoviKunstuitleen.Controllers
                 AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
+            // pagina opnieuw laden bij eerdere errors
             return View(model);
         }
 
+
+        /// <summary>
+        /// Toon registratie pagina voor nieuwe gebruikers voor Admins
+        /// </summary>
         [HttpGet]
         [Authorize(Policy = "AdminOnly")]
         public IActionResult AdminRegister(string returnUrl = null)
@@ -271,6 +185,9 @@ namespace NoviKunstuitleen.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Verwerk registratie pagina voor nieuwe gebruikers voor Admins, async vanwege database calls
+        /// </summary>
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
         [ValidateAntiForgeryToken]
@@ -303,14 +220,301 @@ namespace NoviKunstuitleen.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Gebruiker uitloggen
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            // uitloggen
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
+            // stuur gebruiker terug naar inlog pagina
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+        /// <summary>
+        /// Gebruiker bevestigen, asynv vanwege database calls
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            // controleer input
+            if (userId == null || code == null)
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            // haal user op
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            // bevestig user en toon resultaat
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        /// <summary>
+        /// Toon wacthwoord vergeten formulier
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Verwerk wacthwoord vergeten formulier, asynv vanwege database calls
+        /// </summary>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // haal user op
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    // Gebruiker NIET tonen dat sdeze niet bestaat omwille van security!
+                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                }
+
+                // reset mail sturen
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
+                await _emailSender.SendEmailAsync(model.Email, "Reset uw wachtwoord", $"Reset uw wachtwoord door op de volgende link te klikken: <a href='{callbackUrl}'>reset</a>");
+
+                // resultaat tonen
+                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            }
+
+            // Toon formulier opnieuw met eerdere errors
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// Toon reset wachtwoord bevestiging
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Toon reset wachtwoord formulier
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null)
+            {
+                throw new ApplicationException("A code must be supplied for password reset.");
+            }
+            var model = new ResetPasswordViewModel { Code = code };
+            return View(model);
+        }
+
+        /// <summary>
+        /// Verwerk reset wachtwoord formulier, async vanwege database calls
+        /// </summary>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // user ophaken
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Gebruiker NIET tonen dat sdeze niet bestaat omwille van security!
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
+            }
+
+            // password resetten
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(ResetPasswordConfirmation));
+            }
+            AddErrors(result);
+
+            // en resultaat tonen
+            return View();
+        }
+
+        /// <summary>
+        /// Toon reset wachtwoord bevestiging
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Toon toegang geweigerd pagina
+        /// </summary>
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        #region Helpers
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+        }
+
+        #endregion
+
+        /*
+[HttpGet]
+[AllowAnonymous]
+public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
+{
+    // Ensure the user has gone through the username & password screen first
+    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+
+    if (user == null)
+    {
+        throw new ApplicationException($"Unable to load two-factor authentication user.");
+    }
+
+    var model = new LoginWith2faViewModel { RememberMe = rememberMe };
+    ViewData["ReturnUrl"] = returnUrl;
+
+    return View(model);
+}
+
+[HttpPost]
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
+{
+    if (!ModelState.IsValid)
+    {
+        return View(model);
+    }
+
+    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+    if (user == null)
+    {
+        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+    }
+
+    var authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+    var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, model.RememberMachine);
+
+    if (result.Succeeded)
+    {
+        _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
+        return RedirectToLocal(returnUrl);
+    }
+    else if (result.IsLockedOut)
+    {
+        _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
+        return RedirectToAction(nameof(Lockout));
+    }
+    else
+    {
+        _logger.LogWarning("Invalid authenticator code entered for user with ID {UserId}.", user.Id);
+        ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+        return View();
+    }
+}
+
+
+[HttpGet]
+[AllowAnonymous]
+public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
+{
+    // Ensure the user has gone through the username & password screen first
+    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+    if (user == null)
+    {
+        throw new ApplicationException($"Unable to load two-factor authentication user.");
+    }
+
+    ViewData["ReturnUrl"] = returnUrl;
+
+    return View();
+}
+
+[HttpPost]
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecoveryCodeViewModel model, string returnUrl = null)
+{
+    if (!ModelState.IsValid)
+    {
+        return View(model);
+    }
+
+    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+    if (user == null)
+    {
+        throw new ApplicationException($"Unable to load two-factor authentication user.");
+    }
+
+    var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
+
+    var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
+
+    if (result.Succeeded)
+    {
+        _logger.LogInformation("User with ID {UserId} logged in with a recovery code.", user.Id);
+        return RedirectToLocal(returnUrl);
+    }
+    if (result.IsLockedOut)
+    {
+        _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
+        return RedirectToAction(nameof(Lockout));
+    }
+    else
+    {
+        _logger.LogWarning("Invalid recovery code entered for user with ID {UserId}", user.Id);
+        ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+        return View();
+    }
+}
+*/
 
         /*
         [HttpPost]
@@ -392,136 +596,5 @@ namespace NoviKunstuitleen.Controllers
             return View(nameof(ExternalLogin), model);
         }
         */
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-            }
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
-                }
-
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset uw wachtwoord", $"Reset uw wachtwoord door op de volgende link te klikken: <a href='{callbackUrl}'>reset</a>");
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
-        {
-            if (code == null)
-            {
-                throw new ApplicationException("A code must be supplied for password reset.");
-            }
-            var model = new ResetPasswordViewModel { Code = code };
-            return View(model);
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
-            }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
-            }
-            AddErrors(result);
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
-
-
-        [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
-
-        #region Helpers
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-        }
-
-        #endregion
     }
 }
