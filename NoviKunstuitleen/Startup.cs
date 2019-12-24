@@ -9,6 +9,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,14 @@ namespace NoviKunstuitleen
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
 
+            // cookie configuratie
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             // forceer verplicht inloggen voor alle controllers
             services.AddControllers(config =>
             {
@@ -85,6 +94,7 @@ namespace NoviKunstuitleen
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
