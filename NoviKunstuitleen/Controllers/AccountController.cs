@@ -209,7 +209,7 @@ namespace NoviKunstuitleen.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("An admin created a new account with password.");
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Manage", "Manage");
                 }
 
                 // resultaat niet succesvol, 

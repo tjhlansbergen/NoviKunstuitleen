@@ -88,7 +88,7 @@ namespace NoviKunstuitleen.Controllers
         }
         
         /// <summary>
-        /// Methode voor het verwijderen van de opgegeven NoviUser uit de database, async vanwege database calls
+        /// Methode voor het verwijderen van de NoviUser door een admin, async vanwege database calls
         /// </summary>
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -102,6 +102,9 @@ namespace NoviKunstuitleen.Controllers
 
                 // controleer of user momenteel niets verhuurd
                 if (await _dbcontext.NoviArtPieces.Where(a => a.Lesser.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = Localization.MSG_LESSER_LOCKED, ReturnToController = "Manage", ReturnToAction = "Manage" });
+
+                // log gebruiker eerst uit
+                await _signInManager.SignOutAsync();
 
                 // verwijder user
                 await _userManager.DeleteAsync(user);
@@ -188,6 +191,33 @@ namespace NoviKunstuitleen.Controllers
             StatusMessage = Localization.MSG_PASSWORD_CHANGED;
 
             return RedirectToAction(nameof(ChangePassword));
+        }
+
+        /// <summary>
+        /// Methode voor het verwijderen van de NoviUser door zichzelf, async vanwege database calls
+        /// </summary>
+        public async Task<IActionResult> DeleteSelf()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                // controleer of user momenteel niets huurt
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lessee.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = Localization.MSG_LESSEE_LOCKED, ReturnToController = "Manage", ReturnToAction = "Manage" });
+
+                // controleer of user momenteel niets verhuurd
+                if (await _dbcontext.NoviArtPieces.Where(a => a.Lesser.Id == user.Id).AnyAsync()) return View("Error", new ErrorViewModel { Message = Localization.MSG_LESSER_LOCKED, ReturnToController = "Manage", ReturnToAction = "Manage" });
+
+                // gebruiker uitloggen
+                await _signInManager.SignOutAsync();
+
+                // verwijder user
+                await _userManager.DeleteAsync(user);
+
+                // logging
+                _logger.LogInformation("A user deleted itself");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         #region Helpers
@@ -434,26 +464,7 @@ public async Task<IActionResult> Manage(ManageViewModel model)
             return RedirectToAction(nameof(ExternalLogins));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel model)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
 
-            var result = await _userManager.RemoveLoginAsync(user, model.LoginProvider, model.ProviderKey);
-            if (!result.Succeeded)
-            {
-                throw new ApplicationException($"Unexpected error occurred removing external login for user with ID '{user.Id}'.");
-            }
-
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            StatusMessage = "The external login was removed.";
-            return RedirectToAction(nameof(ExternalLogins));
-        }
         
 
         [HttpGet]

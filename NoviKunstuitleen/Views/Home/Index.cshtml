@@ -44,12 +44,18 @@
 
 
     <!-- COLLECTIE -->
-    <div class="collection">
-        <div class="sectionheader">
-            <h3>Collectie</h3>
-        </div>
+<div class="collection">
+    <div class="sectionheader">
+        <h3>Collectie</h3>
+    </div>
 
-        @foreach (var artpiece in Model.ArtPieces)
+    @if (!Model.ArtPieces.Any())
+    {
+        <div><i>Geen kunstwerken</i></div>
+    }
+    else
+    {
+        foreach (var artpiece in Model.ArtPieces)
         {
             <div class="artpiece">
                 <div class="shadow">
@@ -62,11 +68,12 @@
                 </div>
             </div>
         }
+    }
 
-        <div class="clear">
-            <!-- lege div voor clear -->
-        </div>
+    <div class="clear">
+        <!-- lege div voor clear -->
     </div>
+</div>
 
 </div>
 

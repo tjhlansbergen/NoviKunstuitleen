@@ -3,7 +3,7 @@
   <Class Name="NoviKunstuitleen.Controllers.AccountController">
     <Position X="8.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAABAAhIAAAACIAAAFAAAIAJACBAIAAAAEQAAAgAAA=</HashCode>
+      <HashCode>AAAABAAhIAAAACIAAAFAAAIAJACBAIAAAAEQAAAgAAA=</HashCode>
       <FileName>Controllers\AccountController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -43,10 +43,10 @@
     </TypeIdentifier>
   </Class>
   <Class Name="NoviKunstuitleen.Data.NoviArtUserClaims">
-    <Position X="0.75" Y="6" Width="1.5" />
+    <Position X="2.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\NoviUserClaims.cs</FileName>
+      <FileName>Data\NoviArtUserClaims.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NoviKunstuitleen.Extensions.FileHelperExtensions">
@@ -86,7 +86,7 @@
   <Class Name="NoviKunstuitleen.Services.EmailSender" BaseTypeListCollapsed="true">
     <Position X="12" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAQBAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQBAAAA=</HashCode>
       <FileName>Services\EmailSender.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -113,7 +113,7 @@
     </TypeIdentifier>
   </Interface>
   <Enum Name="NoviKunstuitleen.Data.NoviUserType">
-    <Position X="2.5" Y="6" Width="1.5" />
+    <Position X="0.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQACAACAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\NoviArtUser.cs</FileName>

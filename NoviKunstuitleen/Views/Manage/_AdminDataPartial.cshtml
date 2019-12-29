@@ -44,7 +44,7 @@
                 }
             </td>
             <td>
-                @if (user.Type != NoviUserType.Root)
+                @if (user.Type != NoviUserType.Root && user.UserName != User.Identity.Name)
                 {
                     <a asp-controller="Manage" asp-action="DeleteUser" asp-route-id="@user.Id">verwijder</a>
                 }

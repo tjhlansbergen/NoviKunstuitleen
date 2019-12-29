@@ -23,6 +23,7 @@
                 <li>Novi-nummer: <b>@Model.User.NoviNumber</b></li>
             }
             <li><a asp-action="ChangePassWord">Wijzig uw wachtwoord</a></li>
+            <li><a asp-action="DeleteSelf">Verwijder uw account</a></li>
             <li>&nbsp;</li>
         </ul>
     </div>
@@ -37,13 +38,13 @@
         <!-- Medewerker -->
         @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
         {
-            <partial name="_MedewerkerDataPartial" model='new MedewerkerDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
+            <partial name="_MedewerkerDataPartial" model='new MedewerkerDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Include(n => n.Lessee).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
         }
         <br />
         <!-- STUDENT -->
         @if (Model.User.Type == NoviUserType.Student || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
         {
-            <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lessee).ToList().Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
+            <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Include(n => n.Lessee).ToList().Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
         }
     </div>
     <hr />
