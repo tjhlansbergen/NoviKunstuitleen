@@ -3,7 +3,7 @@
     Auteur: Tako Lansbergen, Novi Hogeschool
     Studentnr.: 800009968
     Leerlijn: Praktijk 2
-    Datum: 24 dec 2019
+    Datum: 24 jan 2020
 */
 
 using Microsoft.AspNetCore.Authorization;
@@ -49,9 +49,12 @@ namespace NoviKunstuitleen
                 .AddDefaultTokenProviders()
                 .AddClaimsPrincipalFactory<NoviArtUserClaims>();
 
-            // Mail service toevoegen
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
+            // mail service toevoegen
+            services.AddTransient<IEmailService, SendgridEmailService>();
+            services.Configure<EmailServiceOptions>(Configuration);
+
+            // payment service toevoegen
+            services.AddTransient<IPaymentService, EthereumPaymentService>();
 
             // controllers toevoegen
             services.AddControllersWithViews();

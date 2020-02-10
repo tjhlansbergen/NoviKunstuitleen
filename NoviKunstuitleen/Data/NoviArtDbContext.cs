@@ -3,7 +3,7 @@
     Auteur: Tako Lansbergen, Novi Hogeschool
     Studentnr.: 800009968
     Leerlijn: Praktijk 2
-    Datum: 24 dec 2019
+    Datum: 10 feb 2020
 */
 
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +29,8 @@ namespace NoviKunstuitleen.Data
         {
         }
 
-        // properties
+        // DB-sets
         public DbSet<NoviArtPiece> NoviArtPieces { get; set; }
+        public DbSet<NoviArtWallet> NoviArtWallets { get; set; }
     }
 }

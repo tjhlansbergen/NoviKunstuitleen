@@ -32,11 +32,11 @@ namespace NoviKunstuitleen.Controllers
     {
         private readonly UserManager<NoviArtUser> _userManager;
         private readonly SignInManager<NoviArtUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailSender;
         private readonly ILogger _logger;
 
         // constructor
-        public AccountController(UserManager<NoviArtUser> userManager, SignInManager<NoviArtUser> signInManager, IEmailSender emailSender, ILogger<AccountController> logger)
+        public AccountController(UserManager<NoviArtUser> userManager, SignInManager<NoviArtUser> signInManager, IEmailService emailSender, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;

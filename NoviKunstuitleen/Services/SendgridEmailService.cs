@@ -1,9 +1,9 @@
 ﻿/*
-    EmailSender.cs
+    EmailService.cs
     Auteur: Tako Lansbergen, Novi Hogeschool
     Studentnr.: 800009968
     Leerlijn: Praktijk 2
-    Datum: 24 dec 2019
+    Datum: 10 feb 2020
 */
 
 using Microsoft.Extensions.Configuration;
@@ -15,18 +15,27 @@ using System.Threading.Tasks;
 namespace NoviKunstuitleen.Services
 {
     /// <summary>
+    /// Gegevensklasse voor SendGrid API Credentials
+    /// </summary>
+    public class EmailServiceOptions
+    {
+        public string SendGridUser { get; set; }
+        public string SendGridKey { get; set; }
+    }
+
+    /// <summary>
     /// Klasse voor verzenden van mail ten behoeve an accountbevestiging, password reset etc.
     /// Implementeert IEmailSender
     /// Op basis van Microsoft template, zie https://go.microsoft.com/fwlink/?LinkID=532713
     /// </summary>
-    public class EmailSender : IEmailSender
+    public class SendgridEmailService : IEmailService
     {
         // properties
-        public AuthMessageSenderOptions Options { get; }
+        public EmailServiceOptions Options { get; }
         private IConfiguration _configuration { get; set; }
 
         // constructor
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor, IConfiguration configuration)
+        public SendgridEmailService(IOptions<EmailServiceOptions> optionsAccessor, IConfiguration configuration)
         {
             Options = optionsAccessor.Value;
             _configuration = configuration;

@@ -14,7 +14,7 @@ namespace NoviKunstuitleen.Services
     /// <summary>
     /// Interface voor functionaliteit tbv verzenden email
     /// </summary>
-    public interface IEmailSender
+    public interface IEmailService
     {
         Task SendEmailAsync(string email, string subject, string message);
     }
