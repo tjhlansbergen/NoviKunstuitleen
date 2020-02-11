@@ -18,9 +18,9 @@ namespace NoviKunstuitleen.Services
     /// </summary>
     interface IPaymentService
     {
-        public decimal GetBalance(int userid);
+        public Task<decimal> GetBalance(int userid);
         public string GetAddress(int userid);
-        public void SendFunds(decimal amount, int userid);
-        public void SendFunds(decimal amount, string address);
+        public Task<bool> SendFunds(int userid, decimal amount, int recipientid);
+        public Task<bool> SendFunds(int userid, decimal amount, string address);
     }
 }

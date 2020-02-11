@@ -270,24 +270,6 @@ namespace NoviKunstuitleen.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("NoviKunstuitleen.Data.NoviArtWallet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NoviArtWallets");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("NoviKunstuitleen.Data.NoviArtRole", null)

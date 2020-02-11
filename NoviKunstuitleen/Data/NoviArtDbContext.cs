@@ -31,6 +31,6 @@ namespace NoviKunstuitleen.Data
 
         // DB-sets
         public DbSet<NoviArtPiece> NoviArtPieces { get; set; }
-        public DbSet<NoviArtWallet> NoviArtWallets { get; set; }
+
     }
 }
