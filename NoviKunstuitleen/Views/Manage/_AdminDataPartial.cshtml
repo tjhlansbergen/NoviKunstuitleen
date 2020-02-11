@@ -6,6 +6,7 @@
     Datum: 24 dec 2019
 *@
 
+@using System.Globalization
 @model NoviKunstuitleen.Models.ManageViewModels.AdminDataViewModel
 
 <h5>Gebruikersbeheer:</h5>
@@ -18,7 +19,7 @@
         <th>Bevestigd:</th>
         <th>&nbsp;</th>
     </tr>
-    @foreach (var user in Model.Users.OrderByDescending(a => a.Type))
+    @foreach (var user in Model.Users.OrderBy(a => a.Id))
     {
         <tr>
             <td>
@@ -53,6 +54,36 @@
     }
 </table>
         &nbsp;+ <a asp-controller="Account" asp-action="AdminRegister">gebruiker toevoegen</a>
+
+<br />
+<br />
+<h5>Walletbeheer:</h5>
+<table>
+    <tr>
+        <th>Id:</th>
+        <th>Gebruikersnaam:</th>
+        <th>Wallet adres:</th>
+        <th>Saldo:</th>
+    </tr>
+    @foreach (var wallet in Model.Wallets.OrderBy(a => a.UserID))
+    {
+        <tr>
+            <td>
+                @wallet.UserID.ToString()
+            </td>
+            <td>
+                @wallet.UserName
+
+            </td>
+            <td>
+                @wallet.Address
+            </td>
+            <td>
+                @wallet.Balance.ToString()
+            </td>
+        </tr>
+    }
+</table>
 
 <br />
 <br />

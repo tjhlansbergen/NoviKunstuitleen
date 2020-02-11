@@ -1,0 +1,46 @@
+﻿@*
+    _WalletPartial.cshtml
+    Auteur: Tako Lansbergen, Novi Hogeschool
+    Studentnr.: 800009968
+    Leerlijn: Praktijk 2
+    Datum: 11 feb 2020
+*@
+
+@model NoviKunstuitleen.Models.ManageViewModels.WalletViewModel
+
+<br />
+<h5>Uw  wallet:</h5>
+<table>
+    <tr>
+        <td><b>Wallet adres:</b></td>
+    </tr>
+    <tr>
+        <td>@Model.Address</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td><b>Saldo (ETH):</b></td>
+    </tr>
+    <tr>
+        <td>@Model.Balance</td>
+    </tr>
+</table>
+<br />
+<table>
+    <tr>
+        <td><b>Inleggen:</b></td>
+    </tr>
+    <tr>
+        <td>Maak ethereum over naar adres: @Model.Address</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td><b>Opnemen:</b></td>
+    </tr>
+    <tr>
+        <td>TODO</td>
+    </tr>
+    
+</table>

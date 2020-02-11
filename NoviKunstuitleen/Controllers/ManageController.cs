@@ -15,8 +15,10 @@ using NoviKunstuitleen.Data;
 using NoviKunstuitleen.Models.HomeViewModels;
 using NoviKunstuitleen.Models.ManageViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NoviKunstuitleen.Services;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -32,30 +34,48 @@ namespace NoviKunstuitleen.Controllers
         private readonly SignInManager<NoviArtUser> _signInManager;
         private readonly ILogger _logger;
         private readonly NoviArtDbContext _dbcontext;
+        private readonly IPaymentService _paymentservice;
 
         // constructor
-        public ManageController(UserManager<NoviArtUser> userManager, SignInManager<NoviArtUser> signInManager, ILogger<ManageController> logger, NoviArtDbContext dbcontext)
+        public ManageController(UserManager<NoviArtUser> userManager, SignInManager<NoviArtUser> signInManager, ILogger<ManageController> logger, NoviArtDbContext dbcontext, IPaymentService paymentservice)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _dbcontext = dbcontext;
+            _paymentservice = paymentservice;
         }
 
         [TempData]
         public string StatusMessage { get; set; }
 
         /// <summary>
-        /// Toon profielpagina, haal users en artpieces op uit database bij laden, asynv vanwege database call
+        /// Toon profielpagina, haal users en artpieces op uit database bij laden, async vanwege database call
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(new ManageViewModel { User = await _userManager.GetUserAsync(User), DBContext = _dbcontext } );
+            NoviArtUser user = await _userManager.GetUserAsync(User);
+            var wallets = new List<NoviArtWallet>();
+
+            if (user.Type == NoviUserType.Admin || user.Type == NoviUserType.Root)
+            {
+                // load all wallets
+                foreach (var noviuser in _dbcontext.Users.ToList<NoviArtUser>())
+                {
+                    wallets.Add(new NoviArtWallet { UserID = noviuser.Id, UserName = noviuser.DisplayName, Address = _paymentservice.GetAddress(noviuser.Id), Balance = await _paymentservice.GetBalance(noviuser.Id) });
+                }
+            }
+            else
+            {
+                wallets.Add(new NoviArtWallet { UserID = user.Id, UserName = user.DisplayName, Address = _paymentservice.GetAddress(user.Id), Balance = await _paymentservice.GetBalance(user.Id) });
+            }
+
+            return View(new ManageViewModel { User = await _userManager.GetUserAsync(User), DBContext = _dbcontext, Wallets = wallets} );
         }
 
         /// <summary>
-        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database, alleen toegestaan voor Medewerkeren, async vanwege database calls
+        /// Methode voor het verwijderen van de opgegeven NoviArtPiece uit de database, alleen toegestaan voor Medewerkers, async vanwege database calls
         /// </summary>
         [Authorize(Policy = "MedewerkerOnly")]
         public async Task<IActionResult> DeleteArtPiece(int id)

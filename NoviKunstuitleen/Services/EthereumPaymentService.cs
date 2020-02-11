@@ -3,7 +3,7 @@
     Auteur: Tako Lansbergen, Novi Hogeschool
     Studentnr.: 800009968
     Leerlijn: Praktijk 2
-    Datum: 10 feb 2020
+    Datum: 11 feb 2020
 */
 
 using System;
@@ -15,7 +15,9 @@ using Nethereum.Util;
 using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.HdWallet;
 using Nethereum.Hex.HexTypes;
+using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
+using Transaction = NBitcoin.Transaction;
 
 namespace NoviKunstuitleen.Services
 {
@@ -68,44 +70,32 @@ namespace NoviKunstuitleen.Services
         /// Maak ethereum over naar een gebruiker binnen NoviKunstuitleen
         /// </summary>
         /// <returns>False indien er onvoldoende saldo was, anders True</returns>
-        public async Task<bool> SendFunds(int userid, decimal amount, int recipientid)
+        public async Task<TransactionReceipt> SendFunds(int userid, decimal amount, int recipientid)
         {
-            var account = _wallet.GetAccount(userid);
-            var recipient = _wallet.GetAccount(recipientid);
-            var web3 = new Web3(_apiURL);
-            var balance = await web3.Eth.GetBalance.SendRequestAsync(account.Address);
-
-            if (Web3.Convert.FromWei(balance.Value) >= amount)
-            {
-
-                var transaction = await web3.Eth.GetEtherTransferService()
-                    .TransferEtherAndWaitForReceiptAsync(recipient.Address, amount);
-                return true;
-            }
-
-            // onvoldoende saldo
-            return false;
+            return await SendFunds(userid, amount, GetAddress(recipientid));
         }
 
         /// <summary>
         /// Maak ethereum over naar een adres buiten NoviKunstuitleen
         /// </summary>
         /// <returns>False indien er onvoldoende saldo was, anders True</returns>
-        public async Task<bool> SendFunds(int userid, decimal amount, string address)
+        public async Task<TransactionReceipt> SendFunds(int userid, decimal amount, string address)
         {
             var account = _wallet.GetAccount(userid);
-            var web3 = new Web3(_apiURL);
+            var web3 = new Web3(account, _apiURL);
             var balance = await web3.Eth.GetBalance.SendRequestAsync(account.Address);
 
-            if (Web3.Convert.FromWei(balance.Value) >= amount)
+            if (Web3.Convert.FromWei(balance.Value) > amount * 1.0005m)     // houd rekening met transaction fee
             {
-                var transaction = await web3.Eth.GetEtherTransferService()
+                return await web3.Eth.GetEtherTransferService()
                     .TransferEtherAndWaitForReceiptAsync(address, amount);
-                return true;
+
+                // TransactioReceipt.Status = 0 : Failure
+                // TransactioReceipt.Status = 1 : Succes
             }
 
             // onvoldoende saldo
-            return false;
+            return null;
         }
     }
 }

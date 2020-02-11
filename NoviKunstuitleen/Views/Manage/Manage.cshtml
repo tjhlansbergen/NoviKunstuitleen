@@ -23,7 +23,10 @@
                 <li>Novi-nummer: <b>@Model.User.NoviNumber</b></li>
             }
             <li><a asp-action="ChangePassWord">Wijzig uw wachtwoord</a></li>
-            <li><a asp-action="DeleteSelf">Verwijder uw account</a></li>
+            @if (Model.User.Type != NoviUserType.Root)
+            {
+                <li><a asp-action="DeleteSelf">Verwijder uw account</a></li>
+            }
             <li>&nbsp;</li>
         </ul>
     </div>
@@ -32,20 +35,25 @@
         <!-- ADMIN/ROOT -->
         @if (Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
         {
-            <partial name="_AdminDataPartial" model='new AdminDataViewModel { Users = Model.DBContext.Users.ToList<NoviArtUser>(), ArtPieces = Model.DBContext.NoviArtPieces.ToList<NoviArtPiece>() }' />
+            <partial name="_AdminDataPartial" model='new AdminDataViewModel { Users = Model.DBContext.Users.ToList<NoviArtUser>(), ArtPieces = Model.DBContext.NoviArtPieces.ToList<NoviArtPiece>(), Wallets = Model.Wallets }' />
         }
         <br />
-        <!-- Medewerker -->
-        @if (Model.User.Type == NoviUserType.Medewerker || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+        <!-- MEDEWERKER -->
+        @if (Model.User.Type == NoviUserType.Medewerker)
         {
             <partial name="_MedewerkerDataPartial" model='new MedewerkerDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Include(n => n.Lessee).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
+            <hr />
+            <partial name="_WalletPartial" model='new WalletViewModel { Address = Model.Wallets[0]?.Address, Balance = Model.Wallets[0].Balance }' />
         }
         <br />
         <!-- STUDENT -->
-        @if (Model.User.Type == NoviUserType.Student || Model.User.Type == NoviUserType.Admin || Model.User.Type == NoviUserType.Root)
+        @if (Model.User.Type == NoviUserType.Student)
         {
             <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Include(n => n.Lessee).ToList().Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
+            <hr />
+            <partial name="_WalletPartial" model='new WalletViewModel { Address = Model.Wallets[0]?.Address, Balance = Model.Wallets[0].Balance }' />
         }
+
     </div>
     <hr />
     <div>
