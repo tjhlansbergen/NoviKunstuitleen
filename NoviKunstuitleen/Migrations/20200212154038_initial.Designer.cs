@@ -9,7 +9,7 @@ using NoviKunstuitleen.Data;
 namespace NoviKunstuitleen.Migrations
 {
     [DbContext(typeof(NoviArtDbContext))]
-    [Migration("20191218082605_initial")]
+    [Migration("20200212154038_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,8 +155,8 @@ namespace NoviKunstuitleen.Migrations
                     b.Property<int>("LesserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("INTEGER");
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Title")
                         .IsRequired()

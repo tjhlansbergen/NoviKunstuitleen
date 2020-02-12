@@ -240,14 +240,29 @@ namespace NoviKunstuitleen.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Verwerk wachtwoord wijziging, async vanwege database call
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Withdraw(WalletViewModel input)
+        {
+            // TODO check address (isAddress?)
+
+            // TODO
+
+            // en herlaadt pagina
+            return RedirectToAction("Manage");
+        }
+
         #region Helpers
 
 
-        /// <summary>
-        /// Helper voor het toevoegen van error aan errorstate van de pagina
-        /// </summary>
-        /// <param name="result"></param>
-        private void AddErrors(IdentityResult result)
+            /// <summary>
+            /// Helper voor het toevoegen van error aan errorstate van de pagina
+            /// </summary>
+            /// <param name="result"></param>
+            private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
             {

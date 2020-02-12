@@ -34,6 +34,7 @@ namespace NoviKunstuitleen
         public const string VLD_USER_PASSWORD_LENGTH_6 = "Het wachtwoord moet minstens 6 tekens lang zijn.";
         public const string VLD_USER_PASSWORD_NOMATCH = "De wachtwoorden komen niet overeen";
         public const string VLD_MIN_MAX_MONTHS_3_12 = "Minimaal 3, maximaal 12 maanden";
+        public const string VLD_ETH_ADDRESS_LENGTH = "Ongeldig adres.";
 
         public const string FLD_USER_EMAIL = "E-mail adres";
         public const string FLD_USER_DISPLAYNAME = "Weergavenaam";
@@ -47,11 +48,14 @@ namespace NoviKunstuitleen
         public const string FLD_ARTPIECE_TITLE = "Titel";
         public const string FLD_ARTPIECE_ARTIST = "Kunstenaar";
         public const string FLD_ARTPIECE_PRICE = "Huurprijs";
-        public const string FLD_ARTPIECE_PRICE_FORMAT = "Minimaal 1, in hele euro's";
+        public const string FLD_ARTPIECE_PRICE_FORMAT = "Bedrag in ethereum, gescheiden door een komma";
         public const string FLD_ARTPIECE_MEASUREMENTS = "Afmetingen";
         public const string FLD_ARTPIECE_FRAME = "Type lijst";
         public const string FLD_ARTPIECE_IMAGE = "Foto";
         public const string FLD_ARTPIECE_DESCRIPTION = "Omschrijving";
+
+        public const string FLD_WITHDRAWAL_AMOUNT = "Bedrag:";
+        public const string FLD_WITHDRAWAL_ADDRESS = "Ontvanger:";
 
         public const string FLD_ORDER_MONTHS = "Aantal maanden";
     }

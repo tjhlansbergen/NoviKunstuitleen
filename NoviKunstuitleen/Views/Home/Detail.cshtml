@@ -21,7 +21,7 @@
         <div class="highlightedcontent">
             <partial name="_ItemContentPartial" model='new ItemContentViewModel { ArtPiece = Model.ArtPiece, ShowTitle = false, ShowDescription = true }' />
 
-            @if (Model.ArtPiece.Available && SignInManager.IsSignedIn(User) && new string[] { "Student", "Admin", "Root" }.Contains(User.FindFirst("Type").Value))
+            @if (Model.ArtPiece.Available && SignInManager.IsSignedIn(User) && User.FindFirst("Type").Value == "Student")
             {
 
                 <form asp-action="Order" method="post" enctype="multipart/form-data">

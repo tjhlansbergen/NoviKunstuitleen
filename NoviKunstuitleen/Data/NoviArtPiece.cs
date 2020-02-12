@@ -23,7 +23,7 @@ namespace NoviKunstuitleen.Data
         public string Title { get; set; }
         public string Artist { get; set; }
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string Dimensions { get; set; }
         public string Frame { get; set; }
         public string Description { get; set; }

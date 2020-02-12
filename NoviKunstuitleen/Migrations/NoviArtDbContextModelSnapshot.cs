@@ -153,8 +153,8 @@ namespace NoviKunstuitleen.Migrations
                     b.Property<int>("LesserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("INTEGER");
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Title")
                         .IsRequired()

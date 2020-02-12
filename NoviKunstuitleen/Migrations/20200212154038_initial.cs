@@ -165,7 +165,7 @@ namespace NoviKunstuitleen.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: false),
                     Artist = table.Column<string>(nullable: true),
-                    Price = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
                     Dimensions = table.Column<string>(nullable: true),
                     Frame = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),

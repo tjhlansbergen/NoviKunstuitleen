@@ -43,7 +43,7 @@
         {
             <partial name="_MedewerkerDataPartial" model='new MedewerkerDataViewModel { LettedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Include(n => n.Lessee).Where(a => a.Lesser.Id == Model.User.Id).ToList() }' />
             <hr />
-            <partial name="_WalletPartial" model='new WalletViewModel { Address = Model.Wallets[0]?.Address, Balance = Model.Wallets[0].Balance }' />
+            <partial name="_WalletPartial" model='new WalletViewModel { Address = Model.Wallets.SingleOrDefault(w => w.UserID == Model.User.Id)?.Address, Balance = Model.Wallets.SingleOrDefault(w => w.UserID == Model.User.Id)?.Balance ?? 0m }' />
         }
         <br />
         <!-- STUDENT -->
@@ -51,7 +51,7 @@
         {
             <partial name="_StudentDataPartial" model='new StudentDataViewModel { RentedPieces = Model.DBContext.NoviArtPieces.Include(n => n.Lesser).Include(n => n.Lessee).ToList().Where(a => a.Lessee?.Id == Model.User.Id).ToList() }' />
             <hr />
-            <partial name="_WalletPartial" model='new WalletViewModel { Address = Model.Wallets[0]?.Address, Balance = Model.Wallets[0].Balance }' />
+            <partial name="_WalletPartial" model='new WalletViewModel { Address = Model.Wallets.SingleOrDefault(w => w.UserID == Model.User.Id)?.Address, Balance = Model.Wallets.SingleOrDefault(w => w.UserID == Model.User.Id)?.Balance ?? 0m }' />
         }
 
     </div>

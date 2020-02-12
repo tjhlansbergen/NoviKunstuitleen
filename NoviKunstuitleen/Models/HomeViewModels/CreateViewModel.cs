@@ -27,10 +27,8 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         public string Artist { get; set; }
 
         [Required(ErrorMessage = Localization.VLD_REQUIRED)]
-        [Range(1, int.MaxValue, ErrorMessage = Localization.FLD_ARTPIECE_PRICE_FORMAT)]
-        [RegularExpression("([0-9]+)", ErrorMessage = Localization.FLD_ARTPIECE_PRICE_FORMAT)]
         [Display(Name = Localization.FLD_ARTPIECE_PRICE)]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         [Display(Name = Localization.FLD_ARTPIECE_MEASUREMENTS)]
         public string Dimensions { get; set; }

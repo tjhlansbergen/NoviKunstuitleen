@@ -8,13 +8,6 @@
     <FileVersion>1.0.0.31</FileVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Migrations\20191218082228_initial.cs" />
-    <Compile Remove="Migrations\20191218082228_initial.Designer.cs" />
-    <Compile Remove="Migrations\20200210200434_wallet-tabe.cs" />
-    <Compile Remove="Migrations\20200210200434_wallet-tabe.Designer.cs" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />
