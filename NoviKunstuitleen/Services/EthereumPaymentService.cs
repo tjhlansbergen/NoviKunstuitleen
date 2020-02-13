@@ -6,18 +6,13 @@
     Datum: 11 feb 2020
 */
 
-using System;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
-using NBitcoin;
-using Nethereum.Web3.Accounts;
-using Nethereum.Util;
-using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.HdWallet;
-using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
-using Transaction = NBitcoin.Transaction;
+using Nethereum.Util;
+using System.Threading.Tasks;
 
 namespace NoviKunstuitleen.Services
 {
@@ -96,6 +91,20 @@ namespace NoviKunstuitleen.Services
 
             // onvoldoende saldo
             return null;
+        }
+
+        public static bool IsValidAddress(string address)
+        {
+            Regex r = new Regex("^(0x){1}[0-9a-fA-F]{40}$");
+            // lengte en prefix
+            if (!r.IsMatch(address))
+                return false;
+            // casing
+            else if (address == address.ToLower())
+                return true;
+            // checksum
+            else
+                return new AddressUtil().IsChecksumAddress(address);
         }
     }
 }

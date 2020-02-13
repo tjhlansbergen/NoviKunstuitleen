@@ -23,6 +23,11 @@ namespace NoviKunstuitleen
         public const string MSG_LESSEE_LOCKED = "De gebruiker die u wilt verwijderen huurt op dit moment één of meerdere kunstwerken. U kunt deze gebruiker pas verwijderen als de huurperiode verstreken is.";
         public const string MSG_LESSER_LOCKED = "De gebruiker die u wilt verwijderen biedt nog kunstwerken te leen aan. U kunt de gebruiker pas verwijderen als al zijn/haar kunstwerken verwijderd zijn.";
         public const string MSG_PASSWORD_CHANGED = "Uw wachtwoord is gewijzigd";
+        public const string MSG_ETHADDRESS_NOT_VALID = "U heeft een ongeldig ethereum adres opgegeven, probeer het opnieuw met een geldig adres.";
+        public const string MSG_ETHAMOUNT_NOT_VALID = "U heeft een ongeldig bedrag opgegeven, probeer het opnieuw met een geldig bedrag met punt als scheidingsteken.";
+        public const string MSG_INSUFFICIENT_ETH = "Uw heeft onvoldoende saldo voor deze transactie. Let op, voor iedere transactie worden transactiekosten berekent.";
+        public const string MSG_PAYMENT_SUCCEEDED = "Uw transactie is succesvol verwerkt.";
+        public const string MSG_PAYMENT_FAILED = "Uw is NIET geslaagd, ga terug om het opnieuw te proberen.";
 
         public const string EML_CONFIRM_ACCOUNT = "Bevestig uw account";
         public const string EML_CONFIRM_CLICK = "Bevestig uw account door op de volgende link te klikken: ";
@@ -48,7 +53,7 @@ namespace NoviKunstuitleen
         public const string FLD_ARTPIECE_TITLE = "Titel";
         public const string FLD_ARTPIECE_ARTIST = "Kunstenaar";
         public const string FLD_ARTPIECE_PRICE = "Huurprijs";
-        public const string FLD_ARTPIECE_PRICE_FORMAT = "Bedrag in ethereum, gescheiden door een komma";
+        public const string FLD_ARTPIECE_PRICE_FORMAT = "Bedrag in ethereum, gescheiden door een punt";
         public const string FLD_ARTPIECE_MEASUREMENTS = "Afmetingen";
         public const string FLD_ARTPIECE_FRAME = "Type lijst";
         public const string FLD_ARTPIECE_IMAGE = "Foto";

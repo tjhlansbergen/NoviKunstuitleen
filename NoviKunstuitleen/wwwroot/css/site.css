@@ -232,6 +232,11 @@ td, th {
     padding: 10%;
 }
 
+.wallet {
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
 .largelink {
     font-size: 1.50rem;
     color: white;

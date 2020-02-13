@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Nethereum.RPC.Eth.DTOs;
 using NoviKunstuitleen.Services;
 
 namespace NoviKunstuitleen.Controllers
@@ -60,8 +61,8 @@ namespace NoviKunstuitleen.Controllers
 
             if (user.Type == NoviUserType.Admin || user.Type == NoviUserType.Root)
             {
-                // load all wallets
-                foreach (var noviuser in _dbcontext.Users.ToList<NoviArtUser>())
+                // laad alle wallets (voor studenten en medewerkers, admin hebben geen zichtbare wallet)
+                foreach (var noviuser in _dbcontext.Users.ToList<NoviArtUser>().Where(u => u.Type == NoviUserType.Medewerker || u.Type == NoviUserType.Student))
                 {
                     wallets.Add(new NoviArtWallet { UserID = noviuser.Id, UserName = noviuser.DisplayName, Address = _paymentservice.GetAddress(noviuser.Id), Balance = await _paymentservice.GetBalance(noviuser.Id) });
                 }
@@ -247,12 +248,35 @@ namespace NoviKunstuitleen.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Withdraw(WalletViewModel input)
         {
-            // TODO check address (isAddress?)
+            // adres controleren
+            if(!EthereumPaymentService.IsValidAddress(input.WithdrawAddress)) return View("Error", new ErrorViewModel { Message = Localization.MSG_ETHADDRESS_NOT_VALID, ReturnToController = "Manage", ReturnToAction = "Manage" });
 
-            // TODO
+            // bedrag controleren
+            decimal amount;
+            try
+            {
+                amount = Convert.ToDecimal(input.WithdrawAmount);
+            }
+            catch
+            {
+                return View("Error", new ErrorViewModel { Message = Localization.MSG_ETHAMOUNT_NOT_VALID, ReturnToController = "Manage", ReturnToAction = "Manage" });
+            }
 
-            // en herlaadt pagina
-            return RedirectToAction("Manage");
+            // user ophalen
+            NoviArtUser user = await _userManager.GetUserAsync(User);
+
+            // voer betaling uit
+            var result = _paymentservice.SendFunds(user.Id, amount, input.WithdrawAddress).Result;
+
+            // onvoldoende saldo
+            if (result == null) return View("Error", new ErrorViewModel { Message = Localization.MSG_INSUFFICIENT_ETH, ReturnToController = "Manage", ReturnToAction = "Manage" });
+
+            // betaling gelukt
+            if (result.Succeeded()) return View("Error", new ErrorViewModel { Message = Localization.MSG_PAYMENT_SUCCEEDED, ReturnToController = "Manage", ReturnToAction = "Manage" });
+            
+            // betaling mislukt om onbekende reden
+            return View("Error", new ErrorViewModel { Message = Localization.MSG_PAYMENT_FAILED, ReturnToController = "Manage", ReturnToAction = "Manage" });
+            
         }
 
         #region Helpers

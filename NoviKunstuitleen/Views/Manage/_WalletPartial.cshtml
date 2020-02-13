@@ -15,15 +15,15 @@
         <td><b>Wallet adres:</b></td>
     </tr>
     <tr>
-        <td>@Model.Address</td>
+        <td class="wallet">@Model.Address</td>
     </tr>
 </table>
 <table>
     <tr>
-        <td><b>Saldo (ETH):</b></td>
+        <td><b>Saldo (ethereum):</b></td>
     </tr>
     <tr>
-        <td>@Model.Balance</td>
+        <td class="wallet">ETH @Model.Balance</td>
     </tr>
 </table>
 <br />
@@ -32,7 +32,7 @@
         <td><b>Inleggen:</b></td>
     </tr>
     <tr>
-        <td>Maak ethereum over naar adres: @Model.Address</td>
+        <td class="wallet">Maak ethereum over naar uw wallet adres (hierboven getoond)</td>
     </tr>
 </table>
 <table>
@@ -40,7 +40,7 @@
         <td><b>Overschrijven / opnemen:</b></td>
     </tr>
     <tr>
-        <td>
+        <td class="wallet">
             <form asp-action="Withdraw" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div>
