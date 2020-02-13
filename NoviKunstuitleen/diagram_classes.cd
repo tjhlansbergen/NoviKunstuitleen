@@ -17,7 +17,7 @@
   <Class Name="NoviKunstuitleen.Controllers.ManageController">
     <Position X="6.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAQAAgAAFAABAAAAAIAEAAAAAAAAAAIAgACA=</HashCode>
+      <HashCode>AAAABAAAAQAAgAAFAABAAABEIAEAAAAAAAAAAMAgACA=</HashCode>
       <FileName>Controllers\ManageController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -76,18 +76,11 @@
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="NoviKunstuitleen.Services.AuthMessageSenderOptions">
-    <Position X="12" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Services\AuthMessageSenderOptions.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="NoviKunstuitleen.Services.EmailSender" BaseTypeListCollapsed="true">
+  <Class Name="NoviKunstuitleen.Services.SendgridEmailService" BaseTypeListCollapsed="true">
     <Position X="12" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAQBAAAA=</HashCode>
-      <FileName>Services\EmailSender.cs</FileName>
+      <FileName>Services\SendgridEmailService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -105,11 +98,33 @@
       <FileName>Startup.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="NoviKunstuitleen.Services.IEmailSender">
+  <Class Name="NoviKunstuitleen.Services.EthereumPaymentService">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABQAAAAABEAAAAAAAAAAAAAAAAAICAAEAAAAAAAA=</HashCode>
+      <FileName>Services\EthereumPaymentService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NoviKunstuitleen.Data.NoviArtWallet">
+    <Position X="4.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAgAAAAAAAACAQAAAAAAAAA=</HashCode>
+      <FileName>Data\NoviArtWallet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="NoviKunstuitleen.Services.IEmailService">
     <Position X="12" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
-      <FileName>Services\IEmailSender.cs</FileName>
+      <FileName>Services\IEmailService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NoviKunstuitleen.Services.IPaymentService">
+    <Position X="13.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAICAAAAAAAAAAA=</HashCode>
+      <FileName>Services\IPaymentService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="NoviKunstuitleen.Data.NoviUserType">
