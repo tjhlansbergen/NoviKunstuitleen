@@ -12,7 +12,7 @@
 @inject UserManager<NoviArtUser> UserManager
 
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = "Details";
 }
 
 <div class="fullcontent">
@@ -33,7 +33,7 @@
                             <span asp-validation-for="Months" class="text-danger"></span>
                         </div>
                         <div class="form-group order-right">
-                            <b><label>Totaalbedrag:&nbsp;</label><label id="total_price">@(Model.ArtPiece.Price * 3)</label></b><br />
+                            <b><label>Totaalbedrag: ETH &nbsp;</label><label id="total_price">@(Model.ArtPiece.Price * 3)</label></b><br />
                             <input type="submit" value="Deze neem ik!" class="btn btn-primary" />
                         </div>
                     </div>

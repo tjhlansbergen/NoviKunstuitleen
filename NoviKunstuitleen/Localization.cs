@@ -28,6 +28,7 @@ namespace NoviKunstuitleen
         public const string MSG_INSUFFICIENT_ETH = "Uw heeft onvoldoende saldo voor deze transactie. Let op, voor iedere transactie worden transactiekosten berekent.";
         public const string MSG_PAYMENT_SUCCEEDED = "Uw transactie is succesvol verwerkt.";
         public const string MSG_PAYMENT_FAILED = "Uw is NIET geslaagd, ga terug om het opnieuw te proberen.";
+        public const string MSG_ORDER_SUCCEEDED = "Uw transactie is succesvol verwerkt. U kunt contact opnemen met de aanbieder van het kunstobject via onderstaand emailadres voor het maken van een afspraak voor de overdracht.";
 
         public const string EML_CONFIRM_ACCOUNT = "Bevestig uw account";
         public const string EML_CONFIRM_CLICK = "Bevestig uw account door op de volgende link te klikken: ";

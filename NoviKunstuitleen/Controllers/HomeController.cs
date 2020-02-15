@@ -3,7 +3,7 @@
     Auteur: Tako Lansbergen, Novi Hogeschool
     Studentnr.: 800009968
     Leerlijn: Praktijk 2
-    Datum: 24 dec 2019
+    Datum: 15 feb 2020
 */
 
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +18,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Nethereum.RPC.Eth.DTOs;
+using NoviKunstuitleen.Services;
 
 namespace NoviKunstuitleen.Controllers
 {
@@ -30,13 +32,15 @@ namespace NoviKunstuitleen.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly NoviArtDbContext _dbcontext;
         private readonly UserManager<NoviArtUser> _userManager;
+        private readonly IPaymentService _paymentService;
 
         // constructor
-        public HomeController(ILogger<HomeController> logger, NoviArtDbContext dbcontext, UserManager<NoviArtUser> userManager)
+        public HomeController(ILogger<HomeController> logger, NoviArtDbContext dbcontext, UserManager<NoviArtUser> userManager, IPaymentService paymentservice)
         {
             _logger = logger;
             _dbcontext = dbcontext;
             _userManager = userManager;
+            _paymentService = paymentservice;
 
             // verwerk vestreken huurperiodes voor ieder sessie, op de achtergrond
             new Action(async () => await ReleaseArtPiecesAsync())();
@@ -68,19 +72,6 @@ namespace NoviKunstuitleen.Controllers
         {
             return View(new IndexViewModel(_dbcontext.NoviArtPieces.Include(a => a.Lesser).Include(a => a.Lessee).ToList()));
         }
-
-        /// <summary>
-        /// Methode voor het tonen van (fout)melding
-        /// </summary>
-        /// <param name="message">De te tonen melding</param>
-        /// <param name="returncontroller">optionele controler voor terug-link</param>
-        /// <param name="returnaction">optionele actie voor terug-link</param>
-        /// <returns></returns>
-        public IActionResult Error(string message, string returncontroller, string returnaction)
-        {
-            return View(new ErrorViewModel { Message = message, ReturnToController = returncontroller, ReturnToAction = returnaction });
-        }
-
 
         /// <summary>
         /// Methode voor tonen aanmaakformulier kunstwerk, alleen toegestaan voor Medewerkers
@@ -156,26 +147,43 @@ namespace NoviKunstuitleen.Controllers
 
 
         /// <summary>
-        /// Asynchrone methode voor verwerken van bestelling van kunstwerk, alleen toegestaand voor Studenten, asynv vanwege database calls
+        /// Asynchrone methode voor verwerken van bestelling van kunstwerk, alleen toegestaand voor Studenten, async vanwege database calls
         /// </summary>
         [HttpPost]
         [Authorize(Policy = "StudentOnly")]
         public async Task<IActionResult> Order(DetailViewModel input)
         {
-            // haal kunstwerk op uit database
-            NoviArtPiece entity = _dbcontext.NoviArtPieces.FirstOrDefault(a => a.Id == input.ArtPiece.Id);
-            if (entity != null)
+            // haal en kunstwerk user op
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var artpiece = _dbcontext.NoviArtPieces.Include(a => a.Lesser).FirstOrDefault(a => a.Id == input.ArtPiece.Id);
+
+            if (artpiece != null && user != null)
             {
+                // bereken totaalprijs in decimal
+                decimal amount = Convert.ToDecimal(input.Months * artpiece.Price);
+                
+                // probeer betaling
+                var receipt = _paymentService.SendFunds(user.Id, amount, artpiece.Lesser.Id).Result;
+
+                // onvoldoende saldo
+                if (receipt == null) return View("Message", new MessageViewModel { Message = Localization.MSG_INSUFFICIENT_ETH, ReturnToController = "Home", ReturnToAction = "Index" });
+
+                // betaling mislukt
+                if (!receipt.Succeeded()) return View("Message", new MessageViewModel { Message = Localization.MSG_PAYMENT_FAILED, ReturnToController = "Home", ReturnToAction = "Index" });
+
                 // zet huurder en beschikbaarheidsinfo in database
-                entity.Lessee = await _userManager.GetUserAsync(HttpContext.User);
-                entity.AvailableFrom = DateTime.UtcNow.AddMonths(input.Months);
+                artpiece.Lessee = user;
+                artpiece.AvailableFrom = DateTime.UtcNow.AddMonths(input.Months);
                 _dbcontext.SaveChanges();
 
                 // logging
-                _logger.LogInformation("User reserved artpiece with id: {0}", entity.Id);
+                _logger.LogInformation("User reserved artpiece with id: {0}", artpiece.Id);
+
+                // toon bestellingsinfo
+                return View("Message", new MessageViewModel { Messages = new string[] { Localization.MSG_ORDER_SUCCEEDED, $"Email verhuurder: {artpiece.Lesser.Email}" , $"Kunstwerk: {artpiece.Title}", $"Huur eindigd op: {artpiece.AvailableFrom.ToLongDateString()}", $"Overeengekomen prijs: ETH: {amount}" }, ReturnToController = "Home", ReturnToAction = "Index" });
             }
 
-            // en keer terug naar de collectie-pagina
+            // val terug op de collectie-pagina
             return RedirectToAction("Index");
         }
     }

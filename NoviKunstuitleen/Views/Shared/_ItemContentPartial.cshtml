@@ -16,7 +16,7 @@
     <li>&nbsp;</li>
     <li>Kunstenaar: @Model.ArtPiece.Artist</li>
     <li>Aanbieder: @Model.ArtPiece.Lesser.DisplayName</li>
-    <li>Prijs: @Model.ArtPiece.Price per maand</li>
+    <li>Prijs: ETH @Model.ArtPiece.Price.ToString("F5") per maand</li>
     <li>&nbsp;</li>
     @if (Model.ShowDescription)
     {

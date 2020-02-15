@@ -52,7 +52,6 @@ namespace NoviKunstuitleen
 
             // mail service toevoegen
             services.AddTransient<IEmailService, SendgridEmailService>();
-            services.Configure<EmailServiceOptions>(Configuration);
 
             // payment service toevoegen
             services.AddTransient<IPaymentService, EthereumPaymentService>();

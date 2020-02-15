@@ -15,15 +15,6 @@ using System.Threading.Tasks;
 namespace NoviKunstuitleen.Services
 {
     /// <summary>
-    /// Gegevensklasse voor SendGrid API Credentials
-    /// </summary>
-    public class EmailServiceOptions
-    {
-        public string SendGridUser { get; set; }
-        public string SendGridKey { get; set; }
-    }
-
-    /// <summary>
     /// Klasse voor verzenden van mail ten behoeve an accountbevestiging, password reset etc.
     /// Implementeert IEmailSender
     /// Op basis van Microsoft template, zie https://go.microsoft.com/fwlink/?LinkID=532713
@@ -31,25 +22,21 @@ namespace NoviKunstuitleen.Services
     public class SendgridEmailService : IEmailService
     {
         // properties
-        public EmailServiceOptions Options { get; }
         private IConfiguration _configuration { get; set; }
 
         // constructor
-        public SendgridEmailService(IOptions<EmailServiceOptions> optionsAccessor, IConfiguration configuration)
+        public SendgridEmailService(IConfiguration configuration)
         {
-            Options = optionsAccessor.Value;
             _configuration = configuration;
         }
-
 
         /// <summary>
         /// Implementatie van SendEmailAsync, roept execute methode aan
         /// </summary>
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return SendWithSendGrid(Options.SendGridKey, subject, message, email);
+            return SendWithSendGrid(_configuration.GetValue<string>("SendGrid:SendGridKey"), subject, message, email);
         }
-
 
         /// <summary>
         /// Methode voor verzenden van mail via SendGrid API
@@ -62,7 +49,7 @@ namespace NoviKunstuitleen.Services
             // maak nieuw bericht
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress(_configuration["MailSenderFrom"]),
+                From = new EmailAddress(_configuration.GetValue<string>("SendGrid:MailSenderFrom")),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

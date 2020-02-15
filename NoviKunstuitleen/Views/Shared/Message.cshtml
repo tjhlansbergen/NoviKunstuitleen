@@ -1,12 +1,12 @@
 ﻿@*
-    Error.cshtml
+    Message.cshtml
     Auteur: Tako Lansbergen, Novi Hogeschool
     Studentnr.: 800009968
     Leerlijn: Praktijk 2
-    Datum: 24 dec 2019
+    Datum: 15 feb 2020
 *@
 
-@model ErrorViewModel
+@model MessageViewModel
 @{
     ViewData["Title"] = "Melding";
 }
@@ -18,6 +18,13 @@
         if (Model.Message != null)
         {
             <p>@Model.Message</p>
+        }
+        else if (Model.Messages != null)
+        {
+            foreach (var message in Model.Messages)
+            {
+                <p>@message</p>
+            }
         }
         else
         {
