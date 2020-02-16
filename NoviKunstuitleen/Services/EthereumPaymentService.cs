@@ -84,9 +84,6 @@ namespace NoviKunstuitleen.Services
             {
                 return await web3.Eth.GetEtherTransferService()
                     .TransferEtherAndWaitForReceiptAsync(address, amount);
-
-                // TransactioReceipt.Status = 0 : Failure
-                // TransactioReceipt.Status = 1 : Succes
             }
 
             // onvoldoende saldo
