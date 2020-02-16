@@ -24,7 +24,14 @@
                 <ul>
                     <li>Gebruiker: <a asp-area="" asp-controller="Manage" asp-action="Manage" title="Manage">@User.FindFirst("DisplayName").Value</a></li>
                     <li>Ingelogd als: <b>@User.FindFirst("Type").Value</b></li>
-                    <li><a asp-area="" asp-controller="Manage" asp-action="Manage" title="Manage">Wallet</a> | <button type="submit" class="link-btn">Uitloggen</button></li>
+                    <li>
+                        @if (@User.FindFirst("Type").Value == "Student" || @User.FindFirst("Type").Value == "Medewerker")
+                        {
+
+                            <a asp-area="" asp-controller="Manage" asp-action="Manage" title="Manage">Wallet</a><text> | </text>
+                        }
+                        <button type="submit" class="link-btn">Uitloggen</button>
+                    </li>
                 </ul>
             </form>
         </div>
