@@ -12,8 +12,9 @@ namespace NoviKunstuitleen.Models.ManageViewModels
         public decimal Balance { get; set; }
 
         [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = Localization.VLD_ARTPIECE_PRICE_FORMAT)]
         [Display(Name = Localization.FLD_WITHDRAWAL_AMOUNT)]
-        public double WithdrawAmount { get; set; }
+        public double? WithdrawAmount { get; set; }
 
         [Required(ErrorMessage = Localization.VLD_REQUIRED)]
         [StringLength(42, ErrorMessage = Localization.VLD_ETH_ADDRESS_LENGTH, MinimumLength = 42)]

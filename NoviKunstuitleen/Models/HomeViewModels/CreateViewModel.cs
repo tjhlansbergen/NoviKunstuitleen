@@ -6,6 +6,7 @@
     Datum: 24 dec 2019
 */
 
+using System;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,6 +28,7 @@ namespace NoviKunstuitleen.Models.HomeViewModels
         public string Artist { get; set; }
 
         [Required(ErrorMessage = Localization.VLD_REQUIRED)]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = Localization.VLD_ARTPIECE_PRICE_FORMAT)]
         [Display(Name = Localization.FLD_ARTPIECE_PRICE)]
         public double Price { get; set; }
 
