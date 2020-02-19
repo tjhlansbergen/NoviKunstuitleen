@@ -30,6 +30,11 @@
 
                             <a asp-area="" asp-controller="Manage" asp-action="Manage" title="Manage">Wallet</a><text> | </text>
                         }
+                        @if (@User.FindFirst("Type").Value == "Admin" || @User.FindFirst("Type").Value == "Root")
+                        {
+
+                            <a asp-area="" asp-controller="Manage" asp-action="Manage" title="Manage">Beheer</a><text> | </text>
+                        }
                         <button type="submit" class="link-btn">Uitloggen</button>
                     </li>
                 </ul>

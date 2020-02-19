@@ -35,10 +35,10 @@ else
                     @artpiece.Lessee?.DisplayName
                 </td>
                 <td>
-                    @artpiece.CreationDate.ToShortDateString()
+                    @artpiece.CreationDate.ToString("dd-MM-yyyy")
                 </td>
                 <td>
-                    @artpiece.AvailableFrom.ToShortDateString()
+                    @artpiece.AvailableFrom.ToString("dd-MM-yyyy")
                 </td>
                 <td>
                     @artpiece.Price.ToString()

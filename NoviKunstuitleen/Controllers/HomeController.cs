@@ -180,7 +180,7 @@ namespace NoviKunstuitleen.Controllers
                 _logger.LogInformation("User reserved artpiece with id: {0}", artpiece.Id);
 
                 // toon bestellingsinfo
-                return View("Message", new MessageViewModel { Messages = new string[] { Localization.MSG_ORDER_SUCCEEDED, $"Email verhuurder: {artpiece.Lesser.Email}" , $"Kunstwerk: {artpiece.Title}", $"Huur eindigd op: {artpiece.AvailableFrom.ToLongDateString()}", $"Overeengekomen prijs: ETH: {amount}" }, ReturnToController = "Home", ReturnToAction = "Index" });
+                return View("Message", new MessageViewModel { Messages = new string[] { Localization.MSG_ORDER_SUCCEEDED, $"Email verhuurder: {artpiece.Lesser.Email}" , $"Kunstwerk: {artpiece.Title}", $"Huur eindigd op: {artpiece.AvailableFrom.ToString("dd-MM-yyyy")}", $"Overeengekomen prijs: ETH: {amount}" }, ReturnToController = "Home", ReturnToAction = "Index" });
             }
 
             // val terug op de collectie-pagina
